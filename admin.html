@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Satria Batara</title>
+    
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ecf0f1; margin: 0; padding: 0; }
+        
+        /* LOGIN ADMIN */
+        #login-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #1B5E20; }
+        .login-box { background: white; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); width: 300px; }
+        .login-box h2 { margin-top: 0; color: #2E7D32; font-size: 26px; }
+        .login-box input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; text-align: center; font-weight: bold; letter-spacing: 2px; }
+        .login-box input:focus { border-color: #2E7D32; outline: none; }
+        .login-box button { width: 100%; padding: 15px; background: #2E7D32; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.2s; }
+        .login-box button:active { transform: scale(0.98); }
+        
+        /* DASHBOARD ADMIN */
+        .header { background-color: #2E7D32; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .header h2 { margin: 0; display: flex; align-items: center; gap: 10px; }
+        
+        .tab-menu { display: flex; background: #1B5E20; padding: 10px 20px; gap: 10px; flex-wrap: wrap; }
+        .tab-btn { background: none; border: none; color: white; padding: 12px 20px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 5px; opacity: 0.6; transition: 0.3s; flex: 1; min-width: 150px; }
+        .tab-btn.active { background: white; color: #1B5E20; opacity: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+        .container { padding: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        /* KOTAK STATISTIK RINGKAS */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-box { background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-bottom: 5px solid #ddd; }
+        .stat-box.green { border-color: #27ae60; }
+        .stat-box.blue { border-color: #3498db; }
+        .stat-box.gold { border-color: #f1c40f; background: linear-gradient(135deg, #fffcf0, #fff); }
+        .stat-angka { font-size: 32px; font-weight: bold; color: #2c3e50; margin-top: 5px; }
+        .stat-label { font-size: 12px; color: #7f8c8d; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
+
+        /* SEARCH BAR & EXPORT BUTTON */
+        .search-bar { width: 100%; padding: 15px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box; margin-bottom: 20px; font-weight: bold; }
+        .search-bar:focus { border-color: #2E7D32; outline: none; }
+        .btn-excel { background-color: #1d6f42; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-excel:hover { background-color: #155530; }
+
+        /* GRID KARTU */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 5px solid #ddd; position: relative; }
+        .card.pending { border-color: #f39c12; }
+        .card.aktif { border-color: #27ae60; }
+        .card.suspend { border-color: #e74c3c; }
+        
+        .card-title { font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; }
+        .bg-pending { background: #f39c12; } .bg-aktif { background: #27ae60; } .bg-suspend { background: #e74c3c; }
+        
+        .card-detail { font-size: 14px; color: #555; margin-bottom: 5px; line-height: 1.4; }
+        .saldo-text { font-size: 20px; font-weight: bold; color: #2E7D32; margin: 10px 0; }
+
+        /* FORM TOP-UP */
+        .topup-box { background: #e8f5e9; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px dashed #2E7D32; }
+        .topup-box input { width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-weight: bold; }
+        .btn-topup { width: 100%; background: #2E7D32; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        /* TOMBOL AKSI */
+        .action-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-setuju { flex: 1; background: #3498db; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-suspend { flex: 1; background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-hapus { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="login-box">
+        <h2>Admin Satria Batara</h2>
+        <p style="color:#7f8c8d; font-size:14px;">Lebetkeun PIN Rahasia (Admin)</p>
+        <input type="password" id="adminPin" placeholder="******">
+        <button onclick="loginAdmin()">LEBET (LOGIN)</button>
+    </div>
+</div>
+
+<div id="dashboard-admin" class="hidden">
+    <div class="header">
+        <h2>⚙️ Panel Admin - Satria Batara</h2>
+        <button onclick="keluarAdmin()" style="background:#e74c3c; color:white; border:none; padding:10px 20px; font-weight:bold; border-radius:8px; cursor:pointer;">Kaluar</button>
+    </div>
+
+    <div class="tab-menu">
+        <button class="tab-btn active" id="btn-tab-driver" onclick="bukaTab('driver')">👥 Data Mitra Driver</button>
+        <button class="tab-btn" id="btn-tab-order" onclick="bukaTab('order')">📦 Pantauan Pesenan Warga</button>
+    </div>
+
+    <div class="container">
+        
+        <div class="stats-grid">
+            <div class="stat-box green">
+                <div class="stat-label">Total Pesenan Rengsé</div>
+                <div class="stat-angka" id="adminStatOrder">0</div>
+            </div>
+            <div class="stat-box blue">
+                <div class="stat-label">Total Mitra Aktif</div>
+                <div class="stat-angka" id="adminStatDriver">0</div>
+            </div>
+            <div class="stat-box gold">
+                <div class="stat-label">Total Saldo Koin Mitra</div>
+                <div class="stat-angka" id="adminStatSaldo">Rp 0</div>
+            </div>
+        </div>
+
+        <div id="tab-driver">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0; color: #2c3e50;">Daptar Mitra Driver</h3>
+            </div>
+            <input type="text" id="searchDriver" class="search-bar" placeholder="🔍 Pilari Nami atanapi Nomer WA Mitra..." onkeyup="renderDrivers()">
+            
+            <div class="grid-container" id="listDrivers"></div>
+        </div>
+
+        <div id="tab-order" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                <h3 style="margin: 0; color: #2c3e50;">Sajarah Pesenan (Real-time)</h3>
+                <button class="btn-excel" onclick="exportToCSV()">📥 Download Laporan Excel (.csv)</button>
+            </div>
+            <div class="grid-container" id="listOrders"></div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+    // ✅ KONFIGURASI FIREBASE SATRIA BATARA YANG BARU ✅
+    const firebaseConfig = {
+        apiKey: "AIzaSyCpuh2KBc_eBMY9uvpLF3NM4q4NjLXpLWQ",
+        authDomain: "satria-batara.firebaseapp.com",
+        databaseURL: "https://satria-batara-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "satria-batara",
+        storageBucket: "satria-batara.firebasestorage.app",
+        messagingSenderId: "907483766943",
+        appId: "1:907483766943:web:eec4cc45323300d87e42aa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // VARIABEL GLOBAL UNTUK PENCARIAN & EXPORT
+    let allDriversData = [];
+    let allOrdersData = [];
+
+    // LOGIKA LOGIN (Silakan ganti PIN sesuai keinginan Anda)
+    const PIN_ADMIN = "satriabatara"; 
+
+    window.loginAdmin = function() {
+        const pin = document.getElementById('adminPin').value;
+        if(pin === PIN_ADMIN) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard-admin').classList.remove('hidden');
+            muatDataDriver();
+            muatDataOrder();
+        } else {
+            alert("PIN Lepat! Mangga cobi deui.");
+        }
+    }
+
+    window.keluarAdmin = function() {
+        document.getElementById('dashboard-admin').classList.add('hidden');
+        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('adminPin').value = "";
+    }
+
+    // LOGIKA PINDAH TAB
+    window.bukaTab = function(namaTab) {
+        document.getElementById('btn-tab-driver').classList.remove('active');
+        document.getElementById('btn-tab-order').classList.remove('active');
+        document.getElementById('tab-driver').classList.add('hidden');
+        document.getElementById('tab-order').classList.add('hidden');
+
+        document.getElementById(`btn-tab-${namaTab}`).classList.add('active');
+        document.getElementById(`tab-${namaTab}`).classList.remove('hidden');
+    }
+
+    // ==========================================
+    // BAGIAN 1: MANAJEMEN DRIVER
+    // ==========================================
+    function muatDataDriver() {
+        const driversRef = ref(database, 'drivers');
+        onValue(driversRef, (snapshot) => {
+            allDriversData = [];
+            let totalAktif = 0;
+            let totalSaldoSistem = 0;
+
+            if(snapshot.exists()) {
+                snapshot.forEach((child) => { 
+                    const data = child.val();
+                    data.wa = child.key; 
+                    allDriversData.push(data); 
+
+                    if(data.status === 'aktif') totalAktif++;
+                    totalSaldoSistem += (data.saldo || 0);
+                });
+            }
+            
+            document.getElementById('adminStatDriver').innerText = totalAktif;
+            document.getElementById('adminStatSaldo').innerText = "Rp " + totalSaldoSistem.toLocaleString('id-ID');
+
+            renderDrivers(); 
+        });
+    }
+
+    window.renderDrivers = function() {
+        const listDiv = document.getElementById('listDrivers');
+        listDiv.innerHTML = "";
+        
+        const keyword = document.getElementById('searchDriver').value.toLowerCase();
+
+        const filteredDrivers = allDriversData.filter(d => 
+            d.nama.toLowerCase().includes(keyword) || 
+            d.wa.includes(keyword)
+        );
+
+        if(filteredDrivers.length === 0) {
+            listDiv.innerHTML = "<p style='color:#7f8c8d; font-style:italic;'>Teu aya data mitra anu dipilari.</p>"; return;
+        }
+
+        filteredDrivers.forEach((data) => {
+            const wa = data.wa;
+            let badgeClass = data.status === 'aktif' ? 'bg-aktif' : data.status === 'suspend' ? 'bg-suspend' : 'bg-pending';
+            let saldoText = (data.saldo || 0).toLocaleString('id-ID');
+
+            let tombolAksi = "";
+            if(data.status === 'pending') {
+                tombolAksi = `<button class="btn-setuju" onclick="ubahStatusDriver('${wa}', 'aktif')">✅ Setujui (Aktifkeun)</button>`;
+            } else if(data.status === 'aktif') {
+                tombolAksi = `<button class="btn-suspend" onclick="ubahStatusDriver('${wa}', 'suspend')">⛔ Suspend Akun</button>`;
+            } else if(data.status === 'suspend') {
+                tombolAksi = `<button class="btn-setuju" onclick="ubahStatusDriver('${wa}', 'aktif')">✅ Buka Suspend</button>`;
+            }
+
+            let formTopUp = "";
+            if(data.status !== 'pending') {
+                formTopUp = `
+                    <div class="topup-box">
+                        <div style="font-size:12px; margin-bottom:5px; font-weight:bold; color:#1B5E20;">Isi Saldo Mitra:</div>
+                        <input type="number" id="topup-${wa}" placeholder="Ketik nominal (Cth: 10000)">
+                        <button class="btn-topup" onclick="isiSaldo('${wa}', ${data.saldo || 0})">💰 Tambih Saldo</button>
+                    </div>
+                `;
+            }
+
+            const card = document.createElement('div');
+            card.className = `card ${data.status}`;
+            card.innerHTML = `
+                <div class="card-title">
+                    <span>${data.nama}</span>
+                    <span class="badge ${badgeClass}">${data.status.toUpperCase()}</span>
+                </div>
+                <div class="card-detail">📱 WA: <b><a href="https://wa.me/62${wa.substring(1)}" target="_blank" style="color:#2E7D32;">${wa}</a></b></div>
+                <div class="card-detail">📅 Daptar: ${data.tanggal_daftar}</div>
+                <div class="saldo-text">Saldo: Rp ${saldoText}</div>
+                
+                ${formTopUp}
+
+                <div class="action-btns">
+                    ${tombolAksi}
+                </div>
+            `;
+            listDiv.appendChild(card);
+        });
+    }
+
+    window.ubahStatusDriver = function(wa, statusBaru) {
+        if(confirm(`Yakin badé ngarobih status mitra ieu janten ${statusBaru.toUpperCase()}?`)) {
+            update(ref(database, `drivers/${wa}`), { status: statusBaru })
+                .then(() => alert("Status suksés dirobih!"))
+                .catch(e => alert("Gagal: " + e));
+        }
+    }
+
+    window.isiSaldo = function(wa, saldoSaatIni) {
+        const inputNominal = document.getElementById(`topup-${wa}`).value;
+        const nominal = parseInt(inputNominal);
+
+        if(!nominal || nominal <= 0) {
+            alert("Lebetkeun angka nominal anu leres!"); return;
+        }
+
+        if(confirm(`Yakin badé nambihan Rp ${nominal.toLocaleString('id-ID')} ka akun ieu?`)) {
+            const saldoBaru = saldoSaatIni + nominal;
+            update(ref(database, `drivers/${wa}`), { saldo: saldoBaru })
+                .then(() => {
+                    alert("Suksés! Saldo mitra otomatis katambih.");
+                    document.getElementById(`topup-${wa}`).value = ""; 
+                })
+                .catch(e => alert("Gagal ngeusian saldo: " + e));
+        }
+    }
+
+    // ==========================================
+    // BAGIAN 2: PANTAU ORDERAN & EXPORT EXCEL
+    // ==========================================
+    function muatDataOrder() {
+        const ordersRef = ref(database, 'orders');
+        onValue(ordersRef, (snapshot) => {
+            const listDiv = document.getElementById('listOrders');
+            listDiv.innerHTML = "";
+            allOrdersData = [];
+            let totalOrderSelesai = 0;
+            
+            if(snapshot.exists()) {
+                snapshot.forEach((child) => { 
+                    const data = child.val();
+                    data.id = child.key;
+                    allOrdersData.push(data); 
+
+                    if(data.status === 'selesai') totalOrderSelesai++;
+                });
+            }
+
+            document.getElementById('adminStatOrder').innerText = totalOrderSelesai;
+
+            allOrdersData.reverse(); 
+            if(allOrdersData.length === 0) {
+                listDiv.innerHTML = "<p style='color:#7f8c8d; font-style:italic;'>Database pesenan masih kosong.</p>"; return;
+            }
+
+            allOrdersData.forEach((data) => {
+                let statusColor = data.status === 'selesai' ? 'green' : data.status === 'batal' || data.status === 'batal_cust' ? 'red' : data.status === 'diambil' ? 'blue' : 'orange';
+                
+                let waktuTampil = data.waktu_order; 
+                if (data.timestamp) {
+                    const dt = new Date(data.timestamp);
+                    const tgl = dt.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                    const jam = dt.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                    waktuTampil = `${tgl} - ${jam} WIB`;
+                }
+
+                // LOGIKA MENAMPILKAN ULASAN (JIKA ADA)
+                let ulasanHtml = data.ulasan ? `
+                    <div class="card-detail" style="margin-top:10px; background:#e8f5e9; padding:10px; border-radius:8px; border-left:4px solid #2E7D32; color:#1B5E20; font-style:italic;">
+                        💬 <b>Ulasan Warga:</b><br>"${data.ulasan}"
+                    </div>
+                ` : '';
+
+                const card = document.createElement('div');
+                card.className = "card";
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span style="font-size:12px; color:#7f8c8d; font-weight:bold;">${waktuTampil}</span>
+                        <span style="font-size:12px; font-weight:bold; color:${statusColor}; text-transform:uppercase;">${data.status}</span>
+                    </div>
+                    <div class="card-title" style="font-size: 16px;">${data.layanan}</div>
+                    <div class="card-detail">👤 Warga: ${data.customer_nama} (<a href="https://wa.me/62${data.customer_wa.substring(1)}" target="_blank" style="color:#2E7D32; text-decoration:none;">${data.customer_wa}</a>)</div>
+                    <div class="card-detail">🛵 Mitra: <b>${data.driver_nama || 'Teu acan aya'}</b> ${data.rating ? ' (⭐'+data.rating+')' : ''}</div>
+                    <div class="card-detail" style="margin-top:10px; background:#f4f7f6; padding:10px; border-radius:8px; line-height: 1.5;">
+                        ${data.detail_1} <br><b style="color:#2E7D32;">➔</b><br> ${data.detail_2}
+                    </div>
+                    ${data.catatan ? `<div class="card-detail" style="margin-top:8px; color:#e67e22; font-weight:bold;">📝 Catetan: ${data.catatan}</div>` : ''}
+                    
+                    ${ulasanHtml} 
+                    
+                    <div style="margin-top:15px; text-align:right; border-top: 1px solid #eee; padding-top: 10px;">
+                        <button class="btn-hapus" onclick="hapusOrder('${data.id}')">🗑️ Hapus Data</button>
+                    </div>
+                `;
+                listDiv.appendChild(card);
+            });
+        });
+    }
+
+    // FUNGSI DOWNLOAD KE EXCEL (.CSV) 
+    window.exportToCSV = function() {
+        if(allOrdersData.length === 0) { alert("Teu acan aya data pesenan kanggo di-download."); return; }
+        
+        let csvContent = "Tanggal & Waktu,Layanan,Status,Nami Warga,WA Warga,Nami Mitra,Detail 1 (Pangjemputan),Detail 2 (Tujuan),Catetan,Bintang (Rating),Ulasan\n";
+        
+        allOrdersData.forEach(o => {
+            let waktuStr = o.waktu_order || "";
+            if(o.timestamp) {
+                let dt = new Date(o.timestamp);
+                waktuStr = dt.toLocaleDateString('id-ID') + " " + dt.toLocaleTimeString('id-ID');
+            }
+            
+            let lay = `"${(o.layanan||"").replace(/"/g, '""')}"`;
+            let stat = `"${(o.status||"").replace(/"/g, '""')}"`;
+            let cNama = `"${(o.customer_nama||"").replace(/"/g, '""')}"`;
+            let cWa = `"${(o.customer_wa||"").replace(/"/g, '""')}"`;
+            let dNama = `"${(o.driver_nama||"").replace(/"/g, '""')}"`;
+            let d1 = `"${(o.detail_1||"").replace(/"/g, '""')}"`;
+            let d2 = `"${(o.detail_2||"").replace(/"/g, '""')}"`;
+            let cat = `"${(o.catatan||"").replace(/"/g, '""')}"`;
+            let rat = o.rating || "";
+            let uls = `"${(o.ulasan||"").replace(/"/g, '""')}"`;
+
+            csvContent += `${waktuStr},${lay},${stat},${cNama},${cWa},${dNama},${d1},${d2},${cat},${rat},${uls}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Laporan_Satria_Batara_" + new Date().toLocaleDateString('id-ID') + ".csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    window.hapusOrder = function(id) {
+        if(confirm("Yakin badé ngahapus data pesenan ieu sacara permanén? (Data moal tiasa wangsul deui)")) {
+            remove(ref(database, `orders/${id}`))
+                .catch(e => alert("Gagal ngahapus: " + e));
+        }
+    }
+
+</script>
+</body>
+</html>

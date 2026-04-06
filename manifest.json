@@ -1,0 +1,16 @@
+{
+  "name": "Portal Mitra - Satria Batara",
+  "short_name": "Mitra Batara",
+  "start_url": "./driver.html",
+  "display": "standalone",
+  "background_color": "#f4f7f6",
+  "theme_color": "#2E7D32",
+  "description": "Aplikasi khusus Mitra Driver Satria Batara",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1048/1048314.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
