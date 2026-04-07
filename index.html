@@ -3,251 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Satria Batara - Aplikasi Komunitas Warga</title>
-    
-    <link rel="manifest" href="manifest-customer.json">
-    <meta name="theme-color" content="#2E7D32">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063822.png">
-
+    <title>Satria Batara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f6fa; margin: 0; padding: 0; height: 100vh; height: 100dvh; overflow: hidden; display: flex; justify-content: center; }
-        .app-container { width: 100vw; max-width: 600px; background-color: white; height: 100%; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        :root {
+            --green: #1B8A4B;
+            --green-dark: #146637;
+            --green-light: #E8F5EE;
+            --green-mid: #27AE60;
+            --accent: #F5A623;
+            --accent-light: #FFF8EC;
+            --bg: #F0F2F5;
+            --card: #FFFFFF;
+            --text: #111827;
+            --text2: #4B5563;
+            --text3: #9CA3AF;
+            --border: #E5E7EB;
+            --red: #EF4444;
+            --blue: #3B82F6;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); height: 100vh; height: 100dvh; overflow: hidden; display: flex; justify-content: center; }
+        .app { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; background: var(--bg); position: relative; overflow: hidden; }
+
+        /* SCROLL AREA */
+        .page { flex: 1; overflow-y: auto; padding-bottom: 90px; scroll-behavior: smooth; }
+        .page::-webkit-scrollbar { display: none; }
+
+        /* ── DECORATIVE ELEMENTS FIX (Agar tidak menutupi tombol) ── */
+        .login-hero::after, .hero-banner::after, .hero-banner::before { pointer-events: none; z-index: 0; }
+
+        /* ── TOP BAR ── */
+        .topbar { background: var(--green); padding: 16px 18px 20px; position: relative; flex-shrink: 0; }
+        .topbar-row { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 10; }
+        .topbar-logo { color: white; font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+        .topbar-logo span { color: var(--accent); }
+        .lang-pill { display: flex; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 3px; gap: 2px; }
+        .lang-btn { background: none; border: none; color: rgba(255,255,255,0.75); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer; font-family: inherit; transition: all 0.2s; position: relative; z-index: 2; }
+        .lang-btn.active { background: white; color: var(--green); }
         
-        .header { background-color: #2E7D32; color: white; padding: 20px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; position: relative; flex-shrink: 0; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header h2 { margin: 0; font-size: 24px; letter-spacing: 0.5px; }
-        
-        .lang-switcher { position: absolute; top: 18px; right: 15px; background: rgba(0,0,0,0.15); padding: 4px; border-radius: 10px; display: flex; gap: 4px; }
-        .lang-btn { background: none; border: none; color: white; font-size: 11px; cursor: pointer; padding: 5px 10px; border-radius: 7px; font-weight: bold; opacity: 0.7; }
-        .lang-btn.active { background: white; color: #2E7D32; opacity: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .lang-pill.light-bg .lang-btn { color: var(--text2); }
+        .lang-pill.light-bg .lang-btn.active { color: var(--green); background: white; }
 
-        .content { padding: 20px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-bottom: 80px; }
-        .content::-webkit-scrollbar { width: 0px; }
-        
-        #install-banner { background-color: #e8f5e9; border: 2px dashed #2E7D32; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 5px; display: none; }
-        #btn-install-pwa { background-color: #2c3e50; color: white; padding: 10px 20px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        .topbar-greeting { color: rgba(255,255,255,0.85); font-size: 13px; margin-top: 10px; position: relative; z-index: 10; }
+        .topbar-name { color: white; font-size: 18px; font-weight: 700; margin-top: 2px; position: relative; z-index: 10; }
 
-        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 15px; color: #2c3e50; }
-        input, textarea { width: 100%; padding: 15px; border: 2px solid #ecf0f1; border-radius: 12px; box-sizing: border-box; font-size: 15px; background-color: #f9f9f9; }
-        input:focus, textarea:focus { border-color: #2E7D32; outline: none; background-color: #fff; }
-        
-        .wa-note { font-size: 12px; color: #e67e22; margin-top: 6px; font-weight: bold; line-height: 1.3; }
+        /* ── HERO BANNER ── */
+        .hero-banner { margin: -6px 16px 0; background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, #22C55E 100%); border-radius: var(--radius); padding: 18px 20px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(27,138,75,0.35); }
+        .hero-banner::after { content: ''; position: absolute; right: -20px; top: -20px; width: 140px; height: 140px; background: rgba(255,255,255,0.07); border-radius: 50%; }
+        .hero-banner::before { content: ''; position: absolute; right: 30px; bottom: -30px; width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .hero-tag { background: var(--accent); color: #7A4F00; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; letter-spacing: 0.3px; position: relative; z-index: 1; }
+        .hero-title { color: white; font-size: 18px; font-weight: 800; line-height: 1.3; margin-bottom: 6px; position: relative; z-index: 1; }
+        .hero-sub { color: rgba(255,255,255,0.8); font-size: 12px; line-height: 1.5; max-width: 220px; position: relative; z-index: 1; }
+        .hero-price { margin-top: 14px; background: rgba(255,255,255,0.15); border-radius: 10px; padding: 10px 14px; display: inline-flex; align-items: center; gap: 8px; position: relative; z-index: 1; }
+        .hero-price-main { color: white; font-size: 20px; font-weight: 800; }
+        .hero-price-sub { color: rgba(255,255,255,0.75); font-size: 11px; font-weight: 500; }
+        .hero-emoji { position: absolute; right: 20px; bottom: 12px; font-size: 56px; z-index: 1; }
 
-        button { background-color: #2E7D32; color: white; border: none; padding: 18px; width: 100%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(46,125,50,0.3); transition: 0.2s; }
-        button:active { transform: scale(0.98); }
+        /* ── SECTION ── */
+        .section { padding: 20px 16px 0; }
+        .section-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .section-title span { color: var(--text3); font-size: 12px; font-weight: 500; }
 
-        .header-action { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; }
-        .back-btn { background-color: #f1f2f6; color: #2f3542; border: none; padding: 10px 15px; width: fit-content; border-radius: 10px; font-size: 14px; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; box-shadow: none; cursor: pointer; }
-        .back-btn:active { background-color: #e2e5ec; }
+        /* ── SERVICE GRID ── */
+        .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .service-card { background: var(--card); border-radius: var(--radius-sm); padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow-sm); border: 1.5px solid transparent; }
+        .service-card:active { transform: scale(0.93); border-color: var(--green); background: var(--green-light); }
+        .service-icon { font-size: 28px; margin-bottom: 6px; display: block; }
+        .service-label { font-size: 11px; font-weight: 600; color: var(--text2); line-height: 1.3; }
 
-        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 15px; }
-        .category-card { background: #ffffff; border: 2px solid #f1f2f6; border-radius: 18px; padding: 20px 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); cursor: pointer; transition: 0.2s; }
-        .category-card:active { transform: scale(0.95); background-color: #e8f5e9; border-color: #2E7D32; }
-        .category-icon { font-size: 36px; margin-bottom: 10px; display: block; }
-        .category-title { font-size: 15px; font-weight: bold; color: #333; }
+        /* ── PROMO BANNER ── */
+        .promo-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 2px 16px 4px; scrollbar-width: none; margin: 0 -16px; }
+        .promo-scroll::-webkit-scrollbar { display: none; }
+        .promo-card { flex-shrink: 0; width: 240px; border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; }
+        .promo-card.green { background: linear-gradient(135deg, #1B8A4B, #22C55E); }
+        .promo-card.amber { background: linear-gradient(135deg, #D97706, #FBBF24); }
+        .promo-card.blue { background: linear-gradient(135deg, #1D4ED8, #60A5FA); }
+        .promo-card-tag { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.75); letter-spacing: 0.5px; text-transform: uppercase; }
+        .promo-card-title { font-size: 15px; font-weight: 800; color: white; margin-top: 4px; line-height: 1.3; }
+        .promo-card-sub { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+        .promo-card-emoji { position: absolute; right: 12px; bottom: 8px; font-size: 36px; opacity: 0.85; }
 
-        .btn-admin-minimal { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #e8f5e9; color: #2E7D32; font-weight: bold; font-size: 13px; text-decoration: none; padding: 10px 20px; border-radius: 20px; border: 1px solid #2E7D32; transition: 0.2s; }
+        /* ── ACTIVE ORDER CARD ── */
+        .active-order-card { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); border-left: 4px solid var(--green); margin: 0 16px; }
+        .aoc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .aoc-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.3); } }
+        .aoc-label { font-size: 13px; font-weight: 700; color: var(--green); }
+        .aoc-status { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .aoc-desc { font-size: 12px; color: var(--text3); }
+        .aoc-btn { margin-top: 12px; background: var(--green-light); color: var(--green); border: none; border-radius: 10px; padding: 10px; width: 100%; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
 
-        .btn-cancel { background-color: #e74c3c; margin-top: 10px; font-size: 15px; padding: 15px; box-shadow: none; }
-        .btn-complete { background-color: #3498db; margin-top: 10px; font-size: 15px; padding: 15px; box-shadow: none; }
+        /* ── BOTTOM NAV ── */
+        .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: white; display: none; border-top: 1px solid var(--border); padding: 8px 0 14px; z-index: 100; }
+        .bottom-nav.visible { display: flex; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 0; }
+        .nav-icon-wrap { width: 44px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 14px; transition: background 0.2s; font-size: 20px; }
+        .nav-item.active .nav-icon-wrap { background: var(--green-light); }
+        .nav-label { font-size: 10px; font-weight: 600; color: var(--text3); }
+        .nav-item.active .nav-label { color: var(--green); }
 
-        .rating-box { margin-top: 15px; padding: 15px; background: #fff; border-radius: 12px; border: 1px solid #ddd; }
-        .stars { display: flex; justify-content: center; gap: 10px; font-size: 35px; margin: 10px 0; }
-        .star { cursor: pointer; color: #e0e0e0; transition: 0.2s; }
-        .star.selected { color: #f1c40f; }
-        .input-ulasan { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; margin-bottom: 12px; resize: none; font-family: inherit; }
-        
-        .info-tarif-box { background-color: #eef7ff; border-left: 5px solid #3498db; padding: 15px; border-radius: 10px; font-size: 14px; color: #2c3e50; line-height: 1.5; }
+        /* ── LOGIN PAGE ── */
+        .login-page { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
+        .login-hero { background: var(--green); padding: 40px 24px 60px; text-align: center; position: relative; overflow: hidden; }
+        .login-hero::after { content:''; position:absolute; right:-40px; bottom:-40px; width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%; }
+        .login-hero-icon { font-size: 56px; margin-bottom: 12px; display: block; position: relative; z-index: 1; }
+        .login-hero-title { color: white; font-size: 26px; font-weight: 800; position: relative; z-index: 1; }
+        .login-hero-title span { color: var(--accent); }
+        .login-hero-sub { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 6px; position: relative; z-index: 1; }
+        .login-body { flex: 1; background: var(--card); border-radius: 28px 28px 0 0; margin-top: -24px; padding: 28px 24px 32px; position: relative; z-index: 2; }
+        .login-heading { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+        .login-sub { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; display: block; }
+        .form-input { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: inherit; background: var(--bg); color: var(--text); transition: border-color 0.2s; }
+        .form-input:focus { outline: none; border-color: var(--green); background: white; }
+        .form-hint { font-size: 11px; color: #D97706; margin-top: 5px; font-weight: 600; }
+        .btn-primary { width: 100%; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); padding: 16px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.15s; box-shadow: 0 4px 12px rgba(27,138,75,0.3); }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-outline { width: 100%; background: none; color: var(--green); border: 1.5px solid var(--green); border-radius: var(--radius-sm); padding: 13px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 10px; }
+        .install-bar { background: var(--green-light); border: 1.5px dashed var(--green); border-radius: var(--radius-sm); padding: 14px 16px; text-align: center; margin-bottom: 20px; display: none; }
+        .install-bar p { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
 
-        .bottom-nav { display: flex; background: #ffffff; justify-content: space-around; padding: 12px 0 8px 0; border-top: 1px solid #f1f2f6; box-shadow: 0 -2px 10px rgba(0,0,0,0.03); flex-shrink: 0; z-index: 100; }
-        .nav-item { text-align: center; color: #7f8c8d; cursor: pointer; flex: 1; transition: 0.2s; }
-        .nav-item.active { color: #2E7D32; font-weight: bold; }
-        .nav-icon { font-size: 24px; margin-bottom: 4px; display: block; }
-        .nav-text { font-size: 12px; }
+        /* ── FORM PAGE ── */
+        .form-page { flex: 1; overflow-y: auto; padding-bottom: 40px; }
+        .form-topbar { background: var(--green); padding: 16px 18px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+        .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 38px; height: 38px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .form-topbar-title { color: white; font-size: 16px; font-weight: 700; }
+        .form-body { padding: 20px 16px; }
+        .tarif-box { background: var(--accent-light); border: 1.5px solid #FBBF24; border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 20px; font-size: 13px; color: #78350F; line-height: 1.6; }
+        .tarif-box b { color: #92400E; }
+        .form-section-label { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 8px; display: block; }
+        .form-textarea { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bg); resize: none; color: var(--text); transition: border-color 0.2s; }
+        .form-textarea:focus { outline: none; border-color: var(--green); background: white; }
 
+        /* ── TRACKING PAGE ── */
+        .tracking-card { background: var(--card); border-radius: var(--radius); margin: 16px; box-shadow: var(--shadow); overflow: hidden; }
+        .tracking-status-bar { padding: 24px 20px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+        .track-icon-big { font-size: 64px; display: block; margin-bottom: 12px; }
+        .track-status-text { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+        .track-desc-text { font-size: 13px; color: var(--text3); }
+        .tracking-driver-row { padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); }
+        .driver-avatar { width: 46px; height: 46px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .driver-name-label { font-size: 11px; color: var(--text3); font-weight: 600; }
+        .driver-name { font-size: 16px; font-weight: 700; color: var(--green); }
+        .tracking-actions { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+        .btn-cancel { background: #FEE2E2; color: var(--red); border: none; border-radius: var(--radius-sm); padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; }
+        .btn-complete { background: #DBEAFE; color: var(--blue); border: none; border-radius: var(--radius-sm); padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; width: 100%; }
+
+        /* RATING */
+        .rating-card { background: var(--card); border-radius: var(--radius); margin: 16px; box-shadow: var(--shadow); padding: 24px 20px; text-align: center; }
+        .rating-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+        .stars { display: flex; justify-content: center; gap: 12px; font-size: 38px; margin-bottom: 16px; }
+        .star { cursor: pointer; color: #E5E7EB; transition: all 0.15s; }
+        .star.selected { color: #FBBF24; transform: scale(1.1); }
+        .rating-textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; resize: none; margin-bottom: 12px; background: var(--bg); }
+        .btn-rating { background: #FBBF24; color: #78350F; border: none; border-radius: var(--radius-sm); padding: 14px; width: 100%; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+
+        /* HISTORY */
+        .history-card { background: var(--card); border-radius: var(--radius-sm); padding: 16px; margin: 0 16px 10px; box-shadow: var(--shadow-sm); }
+        .hc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .hc-service { font-size: 14px; font-weight: 700; color: var(--text); }
+        .hc-time { font-size: 11px; color: var(--text3); }
+        .hc-status-pill { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .pill-pending { background: #FEF3C7; color: #92400E; }
+        .pill-active { background: #DBEAFE; color: #1E3A8A; }
+        .pill-done { background: var(--green-light); color: var(--green-dark); }
+        .pill-cancelled { background: #FEE2E2; color: #991B1B; }
+        .hc-route { font-size: 12px; color: var(--text2); background: var(--bg); padding: 10px; border-radius: 8px; line-height: 1.5; }
+        .hc-driver { font-size: 12px; margin-top: 10px; padding: 8px 12px; background: var(--green-light); border-radius: 8px; color: var(--green-dark); font-weight: 600; }
+        .hc-track-btn { margin-top: 10px; background: var(--bg); border: none; border-radius: 8px; padding: 10px; width: 100%; font-size: 13px; font-weight: 700; color: var(--text2); cursor: pointer; font-family: inherit; }
+
+        /* PROFILE */
+        .profile-hero { background: var(--green); padding: 30px 20px; text-align: center; }
+        .profile-avatar { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 12px; border: 3px solid rgba(255,255,255,0.4); }
+        .profile-name { color: white; font-size: 20px; font-weight: 800; }
+        .profile-wa { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 4px; }
+        .profile-card { background: var(--card); margin: 16px; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+        .profile-row { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .profile-row:last-child { border-bottom: none; }
+        .profile-row-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .profile-row-label { font-size: 14px; font-weight: 600; color: var(--text); }
+        .profile-row-arrow { margin-left: auto; color: var(--text3); font-size: 12px; }
+        .btn-logout { margin: 0 16px; width: calc(100% - 32px); background: #FEE2E2; color: var(--red); border: none; border-radius: var(--radius-sm); padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; }
+
+        /* EMPTY STATE */
+        .empty-state { text-align: center; padding: 50px 30px; }
+        .empty-icon { font-size: 72px; margin-bottom: 16px; display: block; }
+        .empty-title { font-size: 16px; font-weight: 700; color: var(--text2); }
+        .empty-sub { font-size: 13px; color: var(--text3); margin-top: 6px; }
+
+        /* UTIL */
         .hidden { display: none !important; }
-        .track-box { background: #fdfdfd; border: 2px solid #f1f2f6; border-radius: 20px; padding: 20px; text-align: center; }
-        
-        /* List History Warga */
-        .history-card { background: white; border: 2px solid #f1f2f6; border-radius: 15px; padding: 15px; margin-bottom: 10px; text-align: left; }
+        .mt8 { margin-top: 8px; }
+        .mt16 { margin-top: 16px; }
     </style>
 </head>
 <body>
+<div class="app">
 
-<div class="app-container">
-    <div class="header">
-        <div class="lang-switcher">
-            <button class="lang-btn active" onclick="setLang('su')" id="btn-su">Sunda</button>
-            <button class="lang-btn" onclick="setLang('id')" id="btn-id">ID</button>
-            <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    <div id="page-login" style="display:flex; flex-direction:column; flex:1; overflow-y:auto; height:100%;">
+        <div class="login-hero">
+            <span class="login-hero-icon">🛵</span>
+            <div class="login-hero-title">Satria <span>Batara</span></div>
+            <div class="login-hero-sub" id="ui-subtitle">Layanan Asli Wong Kene</div>
         </div>
-        <h2 id="ui-title">Satria Batara</h2>
-        <p id="ui-subtitle" style="font-size: 14px; margin: 5px 0 0 0; opacity: 0.9;">Layanan Gotong Royong Warga</p>
-    </div>
-
-    <div id="page-login" class="content">
-        <div style="margin: auto 0;">
-            <div id="install-banner">
-                <div style="font-weight: bold; font-size: 15px; color: #2E7D32;" id="ui-install-txt">Pasang Aplikasi Satria Batara!</div>
-                <button id="btn-install-pwa">PASANG 📲</button>
+        <div class="login-body">
+            <div style="position:absolute; top:16px; right:20px;">
+                <div class="lang-pill light-bg" style="background:#F0F2F5; position:relative; z-index:10;">
+                    <button class="lang-btn" onclick="setLang('su')" id="btn-su">Sunda</button>
+                    <button class="lang-btn active" onclick="setLang('jw')" id="btn-jw">Jawa</button>
+                    <button class="lang-btn" onclick="setLang('id')" id="btn-id">ID</button>
+                    <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+                </div>
             </div>
 
-            <p id="ui-login-desc" style="text-align: center; font-size: 17px; margin-bottom: 20px; color: #555;">Wilujeng sumping! Mangga lebetkeun data anjeun kanggo ngawitan:</p>
-            
+            <div id="install-banner" class="install-bar" style="margin-top: 24px;">
+                <p id="ui-install-txt">Install Aplikasi Satria Batara!</p>
+                <button id="btn-install-pwa" class="btn-primary" style="padding:10px;">INSTALL 📲</button>
+            </div>
+            <div class="login-heading" style="margin-top: 16px;">Wilujeng Sumping 👋</div>
+            <div class="login-sub" id="ui-login-desc">Lebokno datamu nggo mulai pesen</div>
+
             <div class="form-group">
-                <label id="ui-label-nama">Nami (Panggero)</label>
-                <input type="text" id="inputNama" placeholder="Ketik di dieu...">
+                <label class="form-label" id="ui-label-nama">Jeneng Panggilan</label>
+                <input class="form-input" type="text" id="inputNama" placeholder="Ketik neng kene...">
             </div>
-            
             <div class="form-group">
-                <label id="ui-label-wa">Nomor WhatsApp Aktif</label>
-                <input type="tel" inputmode="numeric" pattern="[0-9]*" id="inputWA" placeholder="Conto: 0813xxxx">
-                <div class="wa-note" id="ui-note-wa">⚠️ Nomor WA kedah aktif supados gampil dihubungi ku driver!</div>
+                <label class="form-label" id="ui-label-wa">Nomer WA Sing Aktif</label>
+                <input class="form-input" type="tel" inputmode="numeric" id="inputWA" placeholder="Conto: 0813xxxx">
+                <div class="form-hint" id="ui-note-wa">⚠️ Pastikno nomer WA-ne aktif ben driver gampang ngubungi kowe!</div>
             </div>
-            
-            <button id="ui-btn-login" onclick="masukAplikasi()" style="margin-top: 10px; margin-bottom: 15px;">Ngawitan Pesen 🚀</button>
-
-            <div style="text-align: center;">
-                <a href="https://wa.me/6281383179209?text=Wilujeng enjing Kang Riski, Admin Satria Batara. Abdi badé naroskeun perkawis layanan." target="_blank" class="btn-admin-minimal" id="ui-btn-admin-login">📞 Peryogi Bantosan Admin?</a>
-            </div>
+            <button class="btn-primary" onclick="masukAplikasi()" id="ui-btn-login">Mulai Pesen 🚀</button>
+            <button class="btn-outline" onclick="chatAdminLoginPage()" id="ui-btn-admin-login">📞 Butuh Bantuan Admin?</button>
+        </div>
+        <div style="text-align:center; padding:12px; background:var(--login-body,white);">
+            <div style="font-size:11px; color:var(--text3);">Satria Batara · Layanan Warga Lokal</div>
         </div>
     </div>
 
-    <div id="page-kategori" class="content hidden">
-        <h3 style="margin:0; font-size: 22px;"><span id="ui-greet">Wilujeng</span>, <span id="displayNama"></span>! 👋</h3>
-        <p id="ui-ask" style="font-size: 15px; margin: 5px 0 10px 0; color: #666;">Aya anu tiasa dibantos dinten ieu?</p>
-        
-        <div class="category-grid">
-            <div class="category-card" onclick="bukaForm('Antar Jemput')">
-                <span class="category-icon">🏍️</span>
-                <div class="category-title" id="cat-1">Pangjajap & Papag</div>
-            </div>
-            <div class="category-card" onclick="bukaForm('Kirim Barang')">
-                <span class="category-icon">📦</span>
-                <div class="category-title" id="cat-2">Pangintun Barang</div>
-            </div>
-            <div class="category-card" onclick="bukaForm('Titip Belanja')">
-                <span class="category-icon">🛒</span>
-                <div class="category-title" id="cat-3">Pangagaleuhkeun (Balanja)</div>
-            </div>
-            <div class="category-card" onclick="bukaForm('Bantu Bersih')">
-                <span class="category-icon">🧹</span>
-                <div class="category-title" id="cat-4">Bantos Beberesih</div>
-            </div>
-            <div class="category-card" style="grid-column: span 2;" onclick="bukaForm('Jasa Unik')">
-                <span class="category-icon">✨</span>
-                <div class="category-title" id="cat-5">Rupi-rupi Jasa</div>
-            </div>
-        </div>
+    <div id="app-main" class="hidden" style="display:flex; flex-direction:column; flex:1; overflow:hidden; position:relative; height:100%;">
 
-        <div style="text-align: center; margin-top: auto; padding-bottom: 10px;">
-            <a href="#" onclick="chatAdminTemplate()" class="btn-admin-minimal" id="ui-btn-admin">📞 Chat Admin (WA)</a>
-        </div>
-    </div>
-
-    <div id="page-form" class="content hidden">
-        <div class="header-action">
-            <button class="back-btn" onclick="kembaliKeMenu()">⬅ <span id="ui-btn-back1">Wangsul</span></button>
-            <h3 style="margin:0; font-size: 20px;" id="judulFormTitle">Rincian Pesenan</h3>
-        </div>
-
-        <div id="boxInfoTarif" class="info-tarif-box"></div>
-        
-        <div class="form-group" style="margin-top:15px;">
-            <label id="labelDetail1">Detail 1</label>
-            <textarea id="inputDetail1" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-            <label id="labelDetail2">Detail 2</label>
-            <textarea id="inputDetail2" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-            <label id="ui-label-catatan">Catetan Tambihan</label>
-            <input type="text" id="inputCatatan" placeholder="(Opsional/Bébas)">
-        </div>
-        <button id="btnKirim" onclick="kirimPesananFirebase()" style="margin-top: auto;">Kintun Pesenan 🚀</button>
-    </div>
-
-    <div id="page-tracking" class="content hidden">
-        <h3 id="ui-track-title" style="margin-top: 0; text-align: center; font-size: 22px;">Status Pesenan</h3>
-        
-        <div id="tracking-active" class="hidden">
-            <div class="track-box">
-                <div id="track-icon" style="font-size: 60px;">⏳</div>
-                <h3 id="track-status" style="margin: 10px 0; font-size: 22px;">Nuju Milari Driver...</h3>
-                <p id="track-desc" style="font-size: 14px; color: #666;"></p>
-                
-                <div id="track-driver-info" class="hidden" style="background:#e8f5e9; padding:15px; border-radius:15px; margin-top:15px; border:1px solid #27ae60;">
-                    <p style="font-size: 12px; margin:0;" id="ui-track-driver-label">Driver anjeun:</p>
-                    <h2 id="track-driver-name" style="margin:5px 0; color:#27ae60; font-size: 24px;">-</h2>
+        <div id="page-home" style="display:flex; flex-direction:column; overflow:hidden; height:100%;">
+            <div class="topbar" style="flex-shrink:0;">
+                <div class="topbar-row">
+                    <div class="topbar-logo">Satria <span>Batara</span></div>
+                    <div class="lang-pill">
+                        <button class="lang-btn" onclick="setLang('su')" id="btn-su2">Sunda</button>
+                        <button class="lang-btn active" onclick="setLang('jw')" id="btn-jw2">Jawa</button>
+                        <button class="lang-btn" onclick="setLang('id')" id="btn-id2">ID</button>
+                        <button class="lang-btn" onclick="setLang('en')" id="btn-en2">EN</button>
+                    </div>
                 </div>
-
-                <div id="cancel-area" class="hidden">
-                    <button class="btn-cancel" onclick="batalPesenanRealtime()" id="ui-btn-cancel" style="width:100%; border-radius:12px; color:white; font-weight:bold; cursor:pointer;">❌ Bolaykeun Pesenan</button>
-                </div>
-
-                <div id="complete-area" class="hidden">
-                    <button class="btn-complete" onclick="selesaiPesenanRealtime()" id="ui-btn-complete" style="width:100%; border-radius:12px; color:white; font-weight:bold; cursor:pointer;">✅ Konfirmasi Pesenan Rengse</button>
-                </div>
-
-                <div id="rating-area" class="hidden">
-                    <div class="rating-box">
-                        <p style="font-weight:bold; margin:0;" id="ui-rating-title">Kumaha palayanan driver dinten ieu?</p>
-                        <div class="stars">
-                            <span class="star" onclick="setRating(1)">★</span>
-                            <span class="star" onclick="setRating(2)">★</span>
-                            <span class="star" onclick="setRating(3)">★</span>
-                            <span class="star" onclick="setRating(4)">★</span>
-                            <span class="star" onclick="setRating(5)">★</span>
+                <div class="topbar-greeting" id="ui-greet-prefix">Sugeng rawuh,</div>
+                <div class="topbar-name" id="displayNama">—</div>
+            </div>
+            <div class="page">
+                <div id="home-active-order" class="hidden" style="margin:16px 0 0;">
+                    <div class="active-order-card">
+                        <div class="aoc-header">
+                            <div class="aoc-dot"></div>
+                            <div class="aoc-label" id="ui-aoc-label">Pesenan Aktif</div>
                         </div>
-                        
-                        <textarea id="inputUlasan" class="input-ulasan" rows="2" placeholder="Serat ulasan atanapi wawartos (opsional)..."></textarea>
+                        <div class="aoc-status" id="aoc-status-text">Golek Driver...</div>
+                        <div class="aoc-desc" id="aoc-desc-text">Tunggu sedilut yo...</div>
+                        <button class="aoc-btn" onclick="navigasiKe('order')" id="ui-aoc-btn">📍 Lacak Pesenanku</button>
+                    </div>
+                </div>
 
-                        <button onclick="kirimRating()" style="padding:12px; font-size:15px; background:#f1c40f; color:#2c3e50; border: none; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer;" id="ui-btn-rating">Kintun Rating ⭐</button>
+                <div class="section">
+                    <div class="hero-banner">
+                        <div class="hero-tag" id="ui-hero-tag">TARIF HEMAT</div>
+                        <div class="hero-title" id="ui-hero-title">Pesen Gampang,\nRego Pas neng Kantong!</div>
+                        <div class="hero-sub" id="ui-hero-sub">Direwangi tonggo dewe sing profesional lan grapyak.</div>
+                        <div class="hero-price">
+                            <div>
+                                <div class="hero-price-main">Rp 2.000</div>
+                                <div class="hero-price-sub" id="ui-hero-price-sub">/ kilometer</div>
+                            </div>
+                        </div>
+                        <div class="hero-emoji">🏍️</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><span id="ui-section-layanan">Pilih Layanan</span></div>
+                    <div class="service-grid">
+                        <div class="service-card" onclick="bukaForm('Antar Jemput')">
+                            <span class="service-icon">🏍️</span>
+                            <div class="service-label" id="cat-1">Ngeterke & Methuk</div>
+                        </div>
+                        <div class="service-card" onclick="bukaForm('Kirim Barang')">
+                            <span class="service-icon">📦</span>
+                            <div class="service-label" id="cat-2">Kirim Barang</div>
+                        </div>
+                        <div class="service-card" onclick="bukaForm('Titip Belanja')">
+                            <span class="service-icon">🛒</span>
+                            <div class="service-label" id="cat-3">Titip Belonjo</div>
+                        </div>
+                        <div class="service-card" onclick="bukaForm('Bantu Bersih')">
+                            <span class="service-icon">🧹</span>
+                            <div class="service-label" id="cat-4">Rewang Resik-resik</div>
+                        </div>
+                    </div>
+                    <div class="service-card mt8" onclick="bukaForm('Jasa Unik')" style="border-radius:var(--radius-sm); display:flex; align-items:center; gap:14px; padding:14px 16px; text-align:left;">
+                        <span style="font-size:28px;">✨</span>
+                        <div>
+                            <div class="service-label" id="cat-5" style="font-size:13px; margin-bottom:2px;">Jasa Liyane</div>
+                            <div style="font-size:11px; color:var(--text3);" id="ui-cat5-sub">Jasa liyane manut kebutuhanmu</div>
+                        </div>
+                        <div style="margin-left:auto; color:var(--text3); font-size:16px;">›</div>
+                    </div>
+                </div>
+
+                <div class="section" style="padding-right:0;">
+                    <div class="section-title" style="padding-right:16px;"><span id="ui-section-promo">Info & Promo</span></div>
+                    <div class="promo-scroll">
+                        <div class="promo-card green">
+                            <div class="promo-card-tag" id="ui-promo1-tag">LAYANAN ANYAR</div>
+                            <div class="promo-card-title" id="ui-promo1-title">Gratis Ongkir Pesanan Pertama!</div>
+                            <div class="promo-card-sub" id="ui-promo1-sub">Biso nggo kabeh layanan</div>
+                            <div class="promo-card-emoji">🎉</div>
+                        </div>
+                        <div class="promo-card amber">
+                            <div class="promo-card-tag" id="ui-promo2-tag">INFO TARIF</div>
+                            <div class="promo-card-title" id="ui-promo2-title">Tarif Jelas, Nego Langsung!</div>
+                            <div class="promo-card-sub" id="ui-promo2-sub">Chat driver via WA</div>
+                            <div class="promo-card-emoji">💬</div>
+                        </div>
+                        <div class="promo-card blue">
+                            <div class="promo-card-tag" id="ui-promo3-tag">24 JAM</div>
+                            <div class="promo-card-title" id="ui-promo3-title">Siap Rewang Kapan Wae!</div>
+                            <div class="promo-card-sub" id="ui-promo3-sub">Hubungi admin nek butuh bantuan</div>
+                            <div class="promo-card-emoji">⏰</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section mt16" style="margin-bottom:0; padding-bottom:0;">
+                    <div style="background:var(--card); border-radius:var(--radius); padding:16px 18px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-sm);">
+                        <div style="font-size:36px;">💬</div>
+                        <div style="flex:1;">
+                            <div style="font-size:14px; font-weight:700; color:var(--text);" id="ui-admin-cta-title">Butuh Bantuan Admin?</div>
+                            <div style="font-size:12px; color:var(--text3);" id="ui-admin-cta-sub">Chat langsung via WA</div>
+                        </div>
+                        <button onclick="chatAdminTemplate()" style="background:var(--green); color:white; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;" id="ui-btn-admin">Chat</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="tracking-empty" style="text-align: center; margin-top: 40px;">
-            <div style="font-size: 60px; margin-bottom: 20px;">📭</div>
-            <h3 id="ui-empty-order" style="color: #7f8c8d; font-size: 18px;">Teu aya pesenan aktif dinten ieu.</h3>
+        <div id="page-form" class="hidden" style="display:flex; flex-direction:column; height:100%;">
+            <div class="form-topbar" style="flex-shrink:0;">
+                <button class="back-btn" onclick="kembaliKeMenu()">←</button>
+                <div class="form-topbar-title" id="judulFormTitle">Detail Pesenan</div>
+            </div>
+            <div class="form-page">
+                <div class="form-body">
+                    <div id="boxInfoTarif" class="tarif-box"></div>
+                    <div class="form-group">
+                        <label class="form-section-label" id="labelDetail1">Detail 1</label>
+                        <textarea class="form-textarea" id="inputDetail1" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-section-label" id="labelDetail2">Detail 2</label>
+                        <textarea class="form-textarea" id="inputDetail2" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-section-label" id="ui-label-catatan">Catetan Tambahan</label>
+                        <input class="form-input" type="text" id="inputCatatan" placeholder="(Opsional)">
+                    </div>
+                    <button class="btn-primary mt16" id="btnKirim" onclick="kirimPesananFirebase()">Kirim Pesenan 🚀</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div id="page-history" class="content hidden">
-        <h3 id="ui-history-title" style="margin-top: 0; margin-bottom: 15px; text-align: center; font-size: 22px;">Sajarah Pesenan</h3>
-        <div id="listHistory" style="padding-bottom: 20px; text-align: center;"></div>
-    </div>
+        <div id="page-tracking" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="topbar" style="flex-shrink:0;">
+                <div class="topbar-row">
+                    <div class="topbar-logo">Satria <span>Batara</span></div>
+                </div>
+                <div style="color:rgba(255,255,255,0.85); font-size:13px; margin-top:8px;" id="ui-track-title">Status Pesenan</div>
+            </div>
+            <div class="page">
+                <div id="tracking-active" class="hidden">
+                    <div class="tracking-card">
+                        <div class="tracking-status-bar">
+                            <span class="track-icon-big" id="track-icon">⏳</span>
+                            <div class="track-status-text" id="track-status">Golek Driver...</div>
+                            <div class="track-desc-text" id="track-desc"></div>
+                        </div>
+                        <div id="track-driver-info" class="hidden tracking-driver-row">
+                            <div class="driver-avatar">🛵</div>
+                            <div>
+                                <div class="driver-name-label" id="ui-track-driver-label">Driver anjeun:</div>
+                                <div class="driver-name" id="track-driver-name">—</div>
+                            </div>
+                        </div>
+                        <div class="tracking-actions">
+                            <div id="cancel-area" class="hidden">
+                                <button class="btn-cancel" onclick="batalPesenanRealtime()" id="ui-btn-cancel">❌ Batalno Pesenan</button>
+                            </div>
+                            <div id="complete-area" class="hidden">
+                                <button class="btn-complete" onclick="selesaiPesenanRealtime()" id="ui-btn-complete">✅ Konfirmasi Pesenan Rampung</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rating-area" class="hidden">
+                        <div class="rating-card">
+                            <div class="rating-title" id="ui-rating-title">Piye pelayanane driver dino iki?</div>
+                            <div class="stars">
+                                <span class="star" onclick="setRating(1)">★</span>
+                                <span class="star" onclick="setRating(2)">★</span>
+                                <span class="star" onclick="setRating(3)">★</span>
+                                <span class="star" onclick="setRating(4)">★</span>
+                                <span class="star" onclick="setRating(5)">★</span>
+                            </div>
+                            <textarea id="inputUlasan" class="rating-textarea" rows="2" placeholder="Tulis ulasan (opsional)..."></textarea>
+                            <button class="btn-rating" onclick="kirimRating()" id="ui-btn-rating">Kirim Rating ⭐</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tracking-empty">
+                    <div class="empty-state">
+                        <span class="empty-icon">📭</span>
+                        <div class="empty-title" id="ui-empty-order">Urung ono pesenan aktif dino iki.</div>
+                        <div class="empty-sub" id="ui-empty-sub">Monggo pilih layanan neng Beranda</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="page-profile" class="content hidden">
-        <h3 id="ui-profile-title" style="margin-top: 0; text-align: center; font-size: 22px;">Propil Abdi</h3>
-        <div style="text-align: center; margin-top: 30px;">
-            <div style="font-size: 80px;">👤</div>
-            <h2 id="profileNama" style="margin: 15px 0 5px 0; color: #2E7D32;">-</h2>
-            <p id="profileWA" style="margin: 0; color: #666; font-size: 18px; font-weight: bold;">-</p>
+        <div id="page-history" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="topbar" style="flex-shrink:0;">
+                <div class="topbar-row">
+                    <div class="topbar-logo">Satria <span>Batara</span></div>
+                </div>
+                <div style="color:rgba(255,255,255,0.85); font-size:13px; margin-top:8px;" id="ui-history-title">Riwayat Pesenan</div>
+            </div>
+            <div class="page">
+                <div style="height:16px;"></div>
+                <div id="listHistory"></div>
+            </div>
         </div>
-        
-        <div style="margin-top: 40px;">
-            <button style="background-color: #e74c3c; color: white;" class="btn-utama" onclick="kaluarAplikasi()" id="ui-btn-logout">Kaluar (Logout)</button>
-        </div>
-    </div>
 
-    <div id="bottom-nav" class="bottom-nav hidden">
-        <div class="nav-item active" id="tab-home" onclick="navigasiKe('home')">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-text" id="nav-home">Tepas</span>
+        <div id="page-profile" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="page">
+                <div class="profile-hero">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-name" id="profileNama">—</div>
+                    <div class="profile-wa" id="profileWA">—</div>
+                </div>
+                <div style="height:16px;"></div>
+                <div class="profile-card">
+                    <div class="profile-row" onclick="navigasiKe('history')">
+                        <div class="profile-row-icon" style="background:#E8F5EE;">🛵</div>
+                        <div class="profile-row-label" id="ui-profile-orders">Riwayat Pesenan</div>
+                        <div class="profile-row-arrow">›</div>
+                    </div>
+                    <div class="profile-row" onclick="chatAdminTemplate()">
+                        <div class="profile-row-icon" style="background:#FEF3C7;">💬</div>
+                        <div class="profile-row-label" id="ui-profile-admin">Hubungi Admin</div>
+                        <div class="profile-row-arrow">›</div>
+                    </div>
+                    <div class="profile-row" onclick="bukaTentang()">
+                        <div class="profile-row-icon" style="background:#EFF6FF;">ℹ️</div>
+                        <div class="profile-row-label" id="ui-profile-about">Tentang Aplikasi</div>
+                        <div class="profile-row-arrow">›</div>
+                    </div>
+                </div>
+                <div style="height:16px;"></div>
+                <button class="btn-logout" onclick="kaluarAplikasi()" id="ui-btn-logout">🚪 Metu (Logout)</button>
+                <div style="text-align:center; padding:16px; font-size:11px; color:var(--text3);">Satria Batara v2.0 · © 2025</div>
+            </div>
         </div>
-        <div class="nav-item" id="tab-order" onclick="navigasiKe('order')">
-            <span class="nav-icon">🛵</span>
-            <span class="nav-text" id="nav-order">Pesenan</span>
+
+        <div id="page-about" class="hidden" style="display:flex; flex-direction:column; height:100%;">
+            <div class="form-topbar" style="flex-shrink:0;">
+                <button class="back-btn" onclick="tutupTentang()">←</button>
+                <div class="form-topbar-title" id="ui-about-topbar">Tentang Aplikasi</div>
+            </div>
+            <div class="page" style="padding: 20px 16px;">
+                <div class="tracking-card" style="margin: 0; padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <div style="font-size: 52px; margin-bottom: 6px;">🛵</div>
+                        <div style="font-size: 22px; font-weight: 800; color: var(--green);">Satria <span style="color: var(--accent);">Batara</span></div>
+                        <div style="font-size: 13px; font-weight: 600; color: var(--text3); margin-top: 4px;" id="ui-about-tagline">Andalan Warga Kota Batara</div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h1">Tentang Kami</div>
+                        <div style="font-size: 13px; color: var(--text2); line-height: 1.6;" id="ui-about-p1">Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara. Kami mengusung konsep "Layanan Lokal, Profesionalitas Maksimal".</div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h2">Visi</div>
+                        <div style="font-size: 13px; color: var(--text2); line-height: 1.6;" id="ui-about-p2">Menjadi layanan andalan nomor satu bagi warga Kota Batara yang membawa kemudahan serta kesejahteraan lingkungan.</div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h3">Misi</div>
+                        <ul style="font-size: 13px; color: var(--text2); line-height: 1.6; padding-left: 18px; margin: 0;" id="ui-about-p3">
+                            <li style="margin-bottom:6px;"><b>Kebutuhan Warga:</b> Layanan praktis & cepat tanggap.</li>
+                            <li style="margin-bottom:6px;"><b>Adil:</b> Tanpa potongan persentase, 100% penghasilan untuk mitra.</li>
+                            <li style="margin-bottom:6px;"><b>Aman:</b> Dilayani oleh sesama warga yang terverifikasi.</li>
+                            <li style="margin-bottom:6px;"><b>Transparan:</b> Tarif dasar jelas, nego langsung via WA.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h4">Nilai Inti (Core Values)</div>
+                        <ul style="list-style-type: none; font-size: 13px; color: var(--text2); line-height: 1.6; padding-left: 0; margin: 0;" id="ui-about-p4">
+                            <li style="margin-bottom:6px;">🛡️ <b>Amanah:</b> Menjaga kepercayaan warga.</li>
+                            <li style="margin-bottom:6px;">💼 <b>Profesional:</b> Pelayanan prima dan sigap.</li>
+                            <li style="margin-bottom:6px;">🤝 <b>Win-Win:</b> Menguntungkan pelanggan & mitra.</li>
+                            <li style="margin-bottom:6px;">🚀 <b>Cepat Tanggap:</b> Solusi secepat mungkin.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="nav-item" id="tab-history" onclick="navigasiKe('history')">
-            <span class="nav-icon">🕒</span>
-            <span class="nav-text" id="nav-history">Sajarah</span>
-        </div>
-        <div class="nav-item" id="tab-profile" onclick="navigasiKe('profile')">
-            <span class="nav-icon">👤</span>
-            <span class="nav-text" id="nav-profile">Propil</span>
+
+        <div class="bottom-nav visible" id="bottom-nav">
+            <div class="nav-item active" id="tab-home" onclick="navigasiKe('home')">
+                <div class="nav-icon-wrap">🏠</div>
+                <div class="nav-label" id="nav-home">Beranda</div>
+            </div>
+            <div class="nav-item" id="tab-order" onclick="navigasiKe('order')" style="position:relative;">
+                <div class="nav-icon-wrap">🛵</div>
+                <div class="nav-label" id="nav-order">Pesenan</div>
+            </div>
+            <div class="nav-item" id="tab-history" onclick="navigasiKe('history')">
+                <div class="nav-icon-wrap">🕒</div>
+                <div class="nav-label" id="nav-history">Riwayat</div>
+            </div>
+            <div class="nav-item" id="tab-profile" onclick="navigasiKe('profile')">
+                <div class="nav-icon-wrap">👤</div>
+                <div class="nav-label" id="nav-profile">Profil</div>
+            </div>
         </div>
     </div>
 </div>
@@ -256,171 +555,295 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    // ✅ KONFIGURASI FIREBASE SATRIA BATARA YANG BARU ✅
     const firebaseConfig = {
         apiKey: "AIzaSyCpuh2KBc_eBMY9uvpLF3NM4q4NjLXpLWQ",
         authDomain: "satria-batara.firebaseapp.com",
-        // WAJIB: URL Database (Format server Singapura)
-        databaseURL: "https://satria-batara-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        databaseURL: "https://satria-batara-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "satria-batara",
         storageBucket: "satria-batara.firebasestorage.app",
         messagingSenderId: "907483766943",
         appId: "1:907483766943:web:eec4cc45323300d87e42aa"
     };
-
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
     let userAktif = { nama: "", wa: "" };
     let layananAktif = "";
-    let currentLang = "su"; 
+    // Bahasa default diset ke Jawa (jw)
+    let currentLang = "jw";
     let currentOrderId = "";
     let ratingSkor = 0;
 
     const langDict = {
         su: {
-            subtitle: "Layanan Gotong Royong Warga", loginDesc: "Wilujeng sumping! Mangga lebetkeun data anjeun kanggo ngawitan:",
+            subtitle: "Layanan Asli Warga Lokal", loginDesc: "Mangga lebetkeun data anjeun kanggo ngawitan",
             lblNama: "Nami (Panggero)", lblWa: "Nomor WhatsApp Aktif", noteWa: "⚠️ Nomor WA kedah aktif supados gampil dihubungi ku driver!", btnLogin: "Ngawitan Pesen 🚀",
             ph_nama: "Ketik di dieu...", ph_wa: "Conto: 0813xxxx",
-            greet: "Wilujeng", ask: "Aya anu tiasa dibantos dinten ieu?",
-            c1: "Pangjajap & Papag", c2: "Pangintun Barang", c3: "Pangagaleuhkeun (Balanja)", c4: "Bantos Beberesih", c5: "Rupi-rupi Jasa",
-            btnAdmin: "📞 Peryogi Bantosan Admin?",
+            greetPrefix: "Wilujeng sumping,", 
+            c1: "Pangjajap & Papag", c2: "Pangintun Barang", c3: "Pangagaleuhkeun", c4: "Beberesih", c5: "Rupi-rupi Jasa", cat5sub: "Jasa sanes dumasar kana kabutuhan",
+            btnAdmin: "Chat",
+            adminCtaTitle: "Peryogi Bantosan Admin?", adminCtaSub: "Chat langsung via WhatsApp", btnAdminLogin: "📞 Bantosan Admin?",
+            sectionLayanan: "Pilih Layanan", sectionPromo: "Informasi & Promo",
+            heroTag: "TARIF HEMAT", heroTitle: "Pesenan Gampil,\nHarga Murah!", heroSub: "Dibantu warga lokal nu profesional sareng ramah.", heroPriceSub: "/ kilometer",
+            promo1Tag: "LAYANAN BARU", promo1Title: "Gratis Ongkir Pesanan Pertama!", promo1Sub: "Berlaku kanggo sadaya layanan",
+            promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WhatsApp",
+            promo3Tag: "24 JAM", promo3Title: "Siap Ngabantosan Iraha Waé!", promo3Sub: "Hubungi admin upami peryogi bantosan",
             btnBack1: "Wangsul", lblCatatan: "Catetan Tambihan", btnOrder: "Kintun Pesenan 🚀",
             trackTitle: "Status Pesenan", histTitle: "Sajarah Pesenan",
             navHome: "Tepas", navOrder: "Pesenan", navHistory: "Sajarah", navProfile: "Propil",
-            profTitle: "Propil Abdi", btnLogout: "Kaluar (Logout)", emptyOrder: "Teu aya pesenan aktif dinten ieu.",
-            tarif1: "🚗 <b>Pangaos Dasar:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA sareng petugas.",
-            tarif2: "📦 <b>Pangaos Kurir:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA sareng petugas.",
-            tarif3: "🛒 <b>Pangaos Jasa:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA sareng petugas.",
-            tarif4: "🧹 <b>Pangaos Beberesih:</b> Fleksibel (Nego).<br>Diluyukeun sareng legana tempat. Mangga nego via WA.",
-            tarif5: "✨ <b>Rupi-rupi Jasa:</b> Pangaos fleksibel (Nego).<br>Gumantung kasusah padamelan. Mangga diskusikeun via WA.",
-            t_formTitle: "Rincian Pesenan", t_jemput: "Titik Pangjemputan", t_antar: "Titik Tujuan", t_ambil: "Bantun Barang Ti", t_kirim: "Kintun Barang Ka", t_daftar: "Daptar Balanjaan", t_alamat: "Alamat Pangintunan", t_resik: "Naon anu badé dibersihkeun?", t_lokasi: "Alamat Lokasi", t_unik: "Sebatkeun Pamundut Anjeun", t_waktu: "Alamat / Waktos Palaksanaan",
-            ph_jemput: "Conto: Gerbang Perumahan, payuneun pos satpam...", ph_antar: "Conto: Stasion, panto lebet...", ph_ambil: "Conto: Bumi abdi, blok C nomer 5...", ph_kirim: "Conto: Ekspedisi, ngintun paket...", ph_daftar: "Conto: Mésér sate 2 porsi, lada...", ph_alamat: "Conto: Jajapkeun ka alun-alun...", ph_resik: "Conto: Sasapu buruan, nguras bak mandi...", ph_lokasi: "Conto: Bumi pungkureun kalurahan...", ph_unik: "Conto: Pangmindahkeun lomari, ngalereskeun kenténg...", ph_waktu: "Conto: Dinten ieu tabuh 2 siang, di bumi...",
-            templateWA: "Wilujeng enjing Kang Riski, Admin Satria Batara, abdi [NAMA]. Abdi badé naroskeun perkawis pesenan: ",
+            profTitle: "Propil Abdi", btnLogout: "🚪 Kaluar (Logout)", emptyOrder: "Teu aya pesenan aktif dinten ieu.",
+            emptySub: "Mangga pilih layanan di Tepas",
+            profileOrders: "Sajarah Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Ngeunaan Aplikasi",
+            aocLabel: "Pesenan Aktif", aocBtn: "📍 Lacak Pesenan Kuring",
+            tarif1: "🚗 <b>Pangaos Dasar:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
+            tarif2: "📦 <b>Pangaos Kurir:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
+            tarif3: "🛒 <b>Pangaos Jasa:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
+            tarif4: "🧹 <b>Pangaos Beberesih:</b> Fleksibel (Nego).<br>Mangga nego via WA sareng petugas.",
+            tarif5: "✨ <b>Rupi-rupi Jasa:</b> Fleksibel (Nego).<br>Mangga diskusikeun via WA.",
+            t_formTitle: "Rincian Pesenan", t_jemput: "Titik Pangjemputan", t_antar: "Titik Tujuan", t_ambil: "Bantun Barang Ti", t_kirim: "Kintun Barang Ka", t_daftar: "Daptar Balanjaan", t_alamat: "Alamat Pangintunan", t_resik: "Naon anu badé dibersihkeun?", t_lokasi: "Alamat Lokasi", t_unik: "Sebatkeun Pamundut", t_waktu: "Alamat / Waktos",
+            ph_jemput: "Conto: Gerbang Payun Batara...", ph_antar: "Conto: Indomaret Batara...", ph_ambil: "Conto: Bumi abdi, blok C nomer 5...", ph_kirim: "Conto: Ekspedisi, ngintun paket...", ph_daftar: "Conto: Mésér sate 2 porsi...", ph_alamat: "Conto: Jajapkeun ka alun-alun...", ph_resik: "Conto: Sasapu buruan...", ph_lokasi: "Conto: Bumi pungkureun kalurahan...", ph_unik: "Conto: Pangmindahkeun lomari...", ph_waktu: "Conto: Dinten ieu tabuh 2 siang...",
+            templateWA: "Wilujeng enjing Admin Satria Batara, abdi [NAMA]. Abdi badé naroskeun perkawis pesenan: ",
             installTxt: "Pasang Aplikasi Satria Batara!", btnInstall: "PASANG 📲",
-            btnCancel: "❌ Bolaykeun Pesenan", btnComplete: "✅ Konfirmasi Pesenan Rengse", ratingTitle: "Kumaha palayanan driver dinten ieu?", ph_ulasan: "Serat ulasan atanapi wawartos (opsional)...", btnRating: "Kintun Rating ⭐",
-            status1: "Nuju Milari Driver...", desc1: "Mangga antosan sakedap...", status2: "Driver Parantos Kenging!", desc2: "Driver badé ngahubungi via WA.", status3: "Pesenan Rengse!", desc3: "Hatur nuhun parantos nganggo palayanan kami!", status4: "Dibolaykeun", desc4: "Pesenan ieu parantos dibolaykeun.", alertRating: "Hatur nuhun kana rating & ulasanana!"
+            btnCancel: "❌ Bolaykeun Pesenan", btnComplete: "✅ Konfirmasi Pesenan Rengse",
+            ratingTitle: "Kumaha palayanan driver dinten ieu?", ph_ulasan: "Serat ulasan (opsional)...", btnRating: "Kintun Rating ⭐",
+            status1: "Nuju Milari Driver...", desc1: "Mangga antosan sakedap...", status2: "Driver Parantos Kenging!", desc2: "Driver badé ngahubungi via WA.", status3: "Pesenan Rengse!", desc3: "Hatur nuhun parantos nganggo palayanan!", status4: "Dibolaykeun", desc4: "Pesenan ieu parantos dibolaykeun.", alertRating: "Hatur nuhun kana rating & ulasanana!",
+            
+            aboutTagline: "Andalan Warga Kota Batara",
+            aboutH1: "Ngeunaan Kami", aboutP1: "Satria Batara mangrupikeun platform panyadia layanan transportasi sareng jasa harian on-demand husus warga Perumahan Kota Batara. Mawa konsép 'Layanan Lokal, Profesionalitas Maksimal'.",
+            aboutH2: "Visi", aboutP2: "Janten layanan andalan nomer hiji pikeun warga Kota Batara anu mawa kamudahan sareng karaharjaan lingkungan.",
+            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kabutuhan Warga:</b> Layanan praktis & gancang.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% kanggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayanan ku warga lokal nu terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
+            aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Ngajaga kapercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Palayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Saling nguntungkeun.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super gancang.</li>"
+        },
+        jw: {
+            subtitle: "Layanan Asli Wong Kene", loginDesc: "Lebokno datamu nggo mulai pesen",
+            lblNama: "Jeneng Panggilan", lblWa: "Nomer WA Sing Aktif", noteWa: "⚠️ Pastikno nomer WA-ne aktif ben driver gampang ngubungi kowe!", btnLogin: "Mulai Pesen 🚀",
+            ph_nama: "Ketik neng kene...", ph_wa: "Conto: 0813xxxx",
+            greetPrefix: "Sugeng rawuh,",
+            c1: "Ngeterke & Methuk", c2: "Kirim Barang", c3: "Titip Belonjo", c4: "Rewang Resik-resik", c5: "Jasa Liyane", cat5sub: "Jasa liyane manut kebutuhanmu",
+            btnAdmin: "Chat",
+            adminCtaTitle: "Butuh Bantuan Admin?", adminCtaSub: "Chat langsung via WA", btnAdminLogin: "📞 Butuh Bantuan Admin?",
+            sectionLayanan: "Pilih Layanan", sectionPromo: "Info & Promo",
+            heroTag: "TARIF HEMAT", heroTitle: "Pesen Gampang,\nRego Pas neng Kantong!", heroSub: "Direwangi tonggo dewe sing profesional lan grapyak.", heroPriceSub: "/ kilometer",
+            promo1Tag: "LAYANAN ANYAR", promo1Title: "Gratis Ongkir Pesanan Pertama!", promo1Sub: "Biso nggo kabeh layanan",
+            promo2Tag: "INFO TARIF", promo2Title: "Tarif Jelas, Nego Langsung!", promo2Sub: "Chat driver via WA",
+            promo3Tag: "24 JAM", promo3Title: "Siap Rewang Kapan Wae!", promo3Sub: "Hubungi admin nek butuh bantuan",
+            btnBack1: "Mbalik", lblCatatan: "Catetan Tambahan", btnOrder: "Kirim Pesenan 🚀",
+            trackTitle: "Status Pesenan", histTitle: "Riwayat Pesenan",
+            navHome: "Beranda", navOrder: "Pesenan", navHistory: "Riwayat", navProfile: "Profil",
+            profTitle: "Profilku", btnLogout: "🚪 Metu (Logout)", emptyOrder: "Urung ono pesenan aktif dino iki.",
+            emptySub: "Monggo pilih layanan neng Beranda",
+            profileOrders: "Riwayat Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi",
+            aocLabel: "Pesenan Aktif", aocBtn: "📍 Lacak Pesenanku",
+            tarif1: "🚗 <b>Tarif Dasar:</b> Rp 2.000 / Kilo.<br>Rego disepakati via WA karo driver.",
+            tarif2: "📦 <b>Tarif Kurir:</b> Rp 2.000 / Kilo.<br>Rego disepakati via WA karo driver.",
+            tarif3: "🛒 <b>Tarif Jasa:</b> Rp 2.000 / Kilo.<br>Rego disepakati via WA karo driver.",
+            tarif4: "🧹 <b>Tarif Resik-resik:</b> Fleksibel (Nego).<br>Monggo nego via WA karo petugase.",
+            tarif5: "✨ <b>Jasa Liyane:</b> Fleksibel (Nego).<br>Rembugan rego via WA wae.",
+            t_formTitle: "Detail Pesenan", t_jemput: "Titik Jemput", t_antar: "Titik Tujuan", t_ambil: "Jupuk Barang Neng", t_kirim: "Kirim Barang Neng", t_daftar: "Daftar Belonjoan", t_alamat: "Alamat Pengiriman", t_resik: "Opo sing arep diresiki?", t_lokasi: "Alamat Lokasi", t_unik: "Sebutno Permintaanmu", t_waktu: "Alamat / Wektu",
+            ph_jemput: "Conto: Gerbang Ngarep Batara...", ph_antar: "Conto: Indomaret Batara...", ph_ambil: "Conto: Omahku, blok C no 5...", ph_kirim: "Conto: JNE, kirim paket...", ph_daftar: "Conto: Tuku sate 2 porsi...", ph_alamat: "Conto: Terno neng alun-alun...", ph_resik: "Conto: Nyapu latar...", ph_lokasi: "Conto: Omah mburi kelurahan...", ph_unik: "Conto: Tulung pindahno lemari...", ph_waktu: "Conto: Dino iki jam 2 awan...",
+            templateWA: "Halo Admin Satria Batara, aku [NAMA]. Aku arep takon babagan pesenan: ",
+            installTxt: "Install Aplikasi Satria Batara!", btnInstall: "INSTALL 📲",
+            btnCancel: "❌ Batalno Pesenan", btnComplete: "✅ Konfirmasi Pesenan Rampung",
+            ratingTitle: "Piye pelayanane driver dino iki?", ph_ulasan: "Tulis ulasan (opsional)...", btnRating: "Kirim Rating ⭐",
+            status1: "Golek Driver...", desc1: "Tunggu sedilut yo...", status2: "Driver Ketemu!", desc2: "Driver arep chat WA nggo konfirmasi.", status3: "Pesenan Rampung!", desc3: "Suwun wes nggunakne layanan iki!", status4: "Dibatalke", desc4: "Pesenan iki wes dibatalke.", alertRating: "Suwun nggo rating & ulasane!",
+
+            aboutTagline: "Andalan Warga Kota Batara",
+            aboutH1: "Tentang Awakdewe", aboutP1: "Satria Batara iku aplikasi layanan transportasi lan jasa harian on-demand khusus nggo warga Perumahan Kota Batara. Nggowo konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
+            aboutH2: "Visi", aboutP2: "Dadi layanan andalan nomer siji nggo warga Kota Batara sing nggowo kemudahan lan kesejahteraan bareng.",
+            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepet.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpo potongan persen, 100% nggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani tonggo dewe sing terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif ceto, nego langsung via WA.</li>",
+            aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Njogo kepercayaane warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan apik lan tanggap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Podo-podo nguntungke.</li><li style='margin-bottom:6px;'>🚀 <b>Cepet:</b> Solusi sat-set das-des.</li>"
         },
         id: {
-            subtitle: "Layanan Asli Warga Lokal", loginDesc: "Selamat datang kak! Masukkan data untuk mulai pesan:",
-            lblNama: "Nama Panggilan", lblWa: "Nomor WhatsApp Aktif", noteWa: "⚠️ Pastikan nomor WA aktif agar driver bisa menghubungi Anda!", btnLogin: "Mulai Pesan 🚀",
+            subtitle: "Layanan Asli Warga Lokal", loginDesc: "Masukkan data kamu untuk mulai pesan",
+            lblNama: "Nama Panggilan", lblWa: "Nomor WhatsApp Aktif", noteWa: "⚠️ Pastikan nomor WA aktif agar driver bisa menghubungi kamu!", btnLogin: "Mulai Pesan 🚀",
             ph_nama: "Ketik di sini...", ph_wa: "Contoh: 0813xxxx",
-            greet: "Hai", ask: "Hari ini mau dibantu apa kak?",
-            c1: "Antar Jemput", c2: "Kirim Barang", c3: "Titip Belanja", c4: "Bantu Bersih", c5: "Jasa Lainnya",
-            btnAdmin: "📞 Butuh Bantuan Admin?",
+            greetPrefix: "Selamat datang,", 
+            c1: "Antar Jemput", c2: "Kirim Barang", c3: "Titip Belanja", c4: "Bantu Bersih", c5: "Jasa Lainnya", cat5sub: "Jasa lainnya sesuai kebutuhanmu",
+            btnAdmin: "Chat",
+            adminCtaTitle: "Butuh Bantuan Admin?", adminCtaSub: "Chat langsung via WhatsApp", btnAdminLogin: "📞 Butuh Bantuan Admin?",
+            sectionLayanan: "Pilih Layanan", sectionPromo: "Informasi & Promo",
+            heroTag: "TARIF HEMAT", heroTitle: "Pesan Mudah,\nHarga Terjangkau!", heroSub: "Dibantu warga lokal yang amanah dan profesional.", heroPriceSub: "/ kilometer",
+            promo1Tag: "LAYANAN BARU", promo1Title: "Gratis Ongkir Pesanan Pertama!", promo1Sub: "Berlaku untuk semua layanan",
+            promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WhatsApp",
+            promo3Tag: "24 JAM", promo3Title: "Siap Membantu Kapan Saja!", promo3Sub: "Hubungi admin jika butuh bantuan",
             btnBack1: "Kembali", lblCatatan: "Catatan Tambahan", btnOrder: "Kirim Pesanan 🚀",
             trackTitle: "Status Pesanan", histTitle: "Riwayat Pesanan",
             navHome: "Beranda", navOrder: "Pesanan", navHistory: "Riwayat", navProfile: "Profil",
-            profTitle: "Profil Saya", btnLogout: "Keluar (Logout)", emptyOrder: "Belum ada pesanan aktif hari ini.",
-            tarif1: "🚗 <b>Tarif Dasar:</b> Rp 2.000 / Kilometer.<br>Harga pasti disepakati via WA dengan driver.",
-            tarif2: "📦 <b>Tarif Kurir:</b> Rp 2.000 / Kilometer.<br>Harga pasti disepakati via WA dengan driver.",
-            tarif3: "🛒 <b>Tarif Jasa:</b> Rp 2.000 / Kilometer.<br>Harga pasti disepakati via WA dengan driver.",
-            tarif4: "🧹 <b>Tarif Bersih-bersih:</b> Fleksibel (Nego).<br>Harga disesuaikan dengan luas area. Silakan nego via WA dengan petugas.",
-            tarif5: "✨ <b>Jasa Lainnya:</b> Harga fleksibel (Nego).<br>Tergantung tingkat kesulitan pekerjaan. Jangan sungkan untuk diskusi harga dengan petugas via WA.",
-            t_formTitle: "Detail Pesanan", t_jemput: "Titik Jemput", t_antar: "Titik Tujuan", t_ambil: "Ambil Barang Di", t_kirim: "Kirim Barang Ke", t_daftar: "Daftar Belanjaan", t_alamat: "Alamat Pengiriman", t_resik: "Apa yang dibersihkan?", t_lokasi: "Alamat Lokasi", t_unik: "Sebutkan Permintaanmu", t_waktu: "Alamat / Waktu Pelaksanaan",
-            ph_jemput: "Contoh: Pasar, depan toko emas...", ph_antar: "Contoh: Stasiun, pintu masuk...", ph_ambil: "Contoh: Rumah saya, gang duku nomor 5...", ph_kirim: "Contoh: JNE, kirim paket...", ph_daftar: "Contoh: Beli sate 2 porsi, pedas...", ph_alamat: "Contoh: Antar ke alun-alun, dekat tugu...", ph_resik: "Contoh: Sapu halaman, kuras bak mandi...", ph_lokasi: "Contoh: Rumah belakang kelurahan...", ph_unik: "Contoh: Minta tolong pindahkan lemari...", ph_waktu: "Contoh: Hari ini jam 2 siang, di rumah...",
+            profTitle: "Profil Saya", btnLogout: "🚪 Keluar (Logout)", emptyOrder: "Belum ada pesanan aktif hari ini.",
+            emptySub: "Silakan pilih layanan di Beranda",
+            profileOrders: "Riwayat Pesanan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi",
+            aocLabel: "Pesanan Aktif", aocBtn: "📍 Lacak Pesanan Saya",
+            tarif1: "🚗 <b>Tarif Dasar:</b> Rp 2.000 / Kilometer.<br>Harga disepakati via WA dengan driver.",
+            tarif2: "📦 <b>Tarif Kurir:</b> Rp 2.000 / Kilometer.<br>Harga disepakati via WA dengan driver.",
+            tarif3: "🛒 <b>Tarif Jasa:</b> Rp 2.000 / Kilometer.<br>Harga disepakati via WA dengan driver.",
+            tarif4: "🧹 <b>Tarif Bersih-bersih:</b> Fleksibel (Nego).<br>Silakan nego via WA dengan petugas.",
+            tarif5: "✨ <b>Jasa Lainnya:</b> Fleksibel (Nego).<br>Diskusikan harga via WA.",
+            t_formTitle: "Detail Pesanan", t_jemput: "Titik Jemput", t_antar: "Titik Tujuan", t_ambil: "Ambil Barang Di", t_kirim: "Kirim Barang Ke", t_daftar: "Daftar Belanjaan", t_alamat: "Alamat Pengiriman", t_resik: "Apa yang dibersihkan?", t_lokasi: "Alamat Lokasi", t_unik: "Sebutkan Permintaanmu", t_waktu: "Alamat / Waktu",
+            ph_jemput: "Contoh: Gerbang Depan Batara...", ph_antar: "Contoh: Indomaret Batara...", ph_ambil: "Contoh: Rumah saya, blok C no 5...", ph_kirim: "Contoh: JNE, kirim paket...", ph_daftar: "Contoh: Beli sate 2 porsi...", ph_alamat: "Contoh: Antar ke alun-alun...", ph_resik: "Contoh: Sapu halaman...", ph_lokasi: "Contoh: Rumah belakang kelurahan...", ph_unik: "Contoh: Tolong pindahkan lemari...", ph_waktu: "Contoh: Hari ini jam 2 siang...",
             templateWA: "Halo Admin Satria Batara, saya [NAMA]. Saya ingin bertanya terkait pesanan: ",
             installTxt: "Install Aplikasi Satria Batara!", btnInstall: "INSTALL 📲",
-            btnCancel: "❌ Batalkan Pesanan", btnComplete: "✅ Konfirmasi Pesanan Selesai", ratingTitle: "Bagaimana pelayanan driver kami?", ph_ulasan: "Tulis ulasan atau masukan (opsional)...", btnRating: "Kirim Rating ⭐",
-            status1: "Mencari Driver...", desc1: "Mohon tunggu sebentar...", status2: "Driver Ditemukan!", desc2: "Driver akan chat WA untuk konfirmasi.", status3: "Pesanan Selesai!", desc3: "Terima kasih sudah menggunakan layanan kami!", status4: "Dibatalkan", desc4: "Pesanan ini telah dibatalkan.", alertRating: "Terima kasih atas rating & ulasan Anda!"
+            btnCancel: "❌ Batalkan Pesanan", btnComplete: "✅ Konfirmasi Pesanan Selesai",
+            ratingTitle: "Bagaimana pelayanan driver kami?", ph_ulasan: "Tulis ulasan (opsional)...", btnRating: "Kirim Rating ⭐",
+            status1: "Mencari Driver...", desc1: "Mohon tunggu sebentar...", status2: "Driver Ditemukan!", desc2: "Driver akan chat WA untuk konfirmasi.", status3: "Pesanan Selesai!", desc3: "Terima kasih sudah menggunakan layanan!", status4: "Dibatalkan", desc4: "Pesanan ini telah dibatalkan.", alertRating: "Terima kasih atas rating & ulasan Anda!",
+
+            aboutTagline: "Andalan Warga Kota Batara",
+            aboutH1: "Tentang Kami", aboutP1: "Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara. Mengusung konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
+            aboutH2: "Visi", aboutP2: "Menjadi layanan andalan nomor satu bagi warga Kota Batara yang membawa kemudahan serta kesejahteraan lingkungan.",
+            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepat.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% untuk mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani oleh warga lokal terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
+            aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Menjaga kepercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Menguntungkan pelanggan & mitra.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super cepat.</li>"
         },
         en: {
-            subtitle: "Authentic Local Services", loginDesc: "Welcome! Enter your details to start:",
+            subtitle: "Authentic Local Services", loginDesc: "Enter your details to get started",
             lblNama: "Nickname", lblWa: "Active WhatsApp Number", noteWa: "⚠️ Ensure your WA number is active so the driver can contact you!", btnLogin: "Start Ordering 🚀",
             ph_nama: "Type here...", ph_wa: "Example: 0813xxxx",
-            greet: "Hi", ask: "What do you need help with today?",
-            c1: "Pick-up / Drop-off", c2: "Delivery", c3: "Grocery Shopping", c4: "Cleaning Service", c5: "Custom Service",
-            btnAdmin: "📞 Contact Admin",
+            greetPrefix: "Welcome back,", 
+            c1: "Pick-up / Drop-off", c2: "Delivery", c3: "Grocery Shopping", c4: "Cleaning", c5: "Custom Service", cat5sub: "Any other service you need",
+            btnAdmin: "Chat",
+            adminCtaTitle: "Need Admin Support?", adminCtaSub: "Chat directly via WhatsApp", btnAdminLogin: "📞 Admin Help?",
+            sectionLayanan: "Choose a Service", sectionPromo: "Promos & Info",
+            heroTag: "AFFORDABLE", heroTitle: "Easy Orders,\nGreat Prices!", heroSub: "Helped by trusted, professional locals.", heroPriceSub: "/ kilometer",
+            promo1Tag: "NEW SERVICE", promo1Title: "Free Delivery on First Order!", promo1Sub: "Valid for all services",
+            promo2Tag: "FARE INFO", promo2Title: "Transparent Fares, Negotiate Direct!", promo2Sub: "Chat the driver via WhatsApp",
+            promo3Tag: "24 HOURS", promo3Title: "Ready to Help Anytime!", promo3Sub: "Contact admin if you need help",
             btnBack1: "Back", lblCatatan: "Additional Notes", btnOrder: "Submit Order 🚀",
             trackTitle: "Order Status", histTitle: "Order History",
             navHome: "Home", navOrder: "Orders", navHistory: "History", navProfile: "Profile",
-            profTitle: "My Profile", btnLogout: "Logout", emptyOrder: "No active orders today.",
-            tarif1: "🚗 <b>Base Fare:</b> Rp 2.000 / Kilometer.<br>Final price negotiated via WA.",
-            tarif2: "📦 <b>Delivery Fare:</b> Rp 2.000 / Kilometer.<br>Final price negotiated via WA.",
-            tarif3: "🛒 <b>Service Fee:</b> Rp 2.000 / Kilometer.<br>Final price negotiated via WA.",
-            tarif4: "🧹 <b>Cleaning Fee:</b> Flexible (Nego).<br>Price depends on the area size. Please negotiate via WA.",
-            tarif5: "✨ <b>Custom Service:</b> Flexible price (Nego).<br>Depends on the task difficulty. Feel free to discuss with the driver via WA.",
-            t_formTitle: "Order Details", t_jemput: "Pick-up Location", t_antar: "Drop-off Location", t_ambil: "Pick up from", t_kirim: "Deliver to", t_daftar: "Shopping List", t_alamat: "Delivery Address", t_resik: "What needs cleaning?", t_lokasi: "Location Address", t_unik: "State Your Request", t_waktu: "Address / Time Details",
-            ph_jemput: "Example: Market, front gate...", ph_antar: "Example: Station...", ph_ambil: "Example: My house, Duku street no 5...", ph_kirim: "Example: JNE, send package...", ph_daftar: "Example: Buy 2 portions of satay...", ph_alamat: "Example: Deliver to city square...", ph_resik: "Example: Sweep the yard, clean bathroom...", ph_lokasi: "Example: House behind the hall...", ph_unik: "Example: Help me move a wardrobe...", ph_waktu: "Example: Today at 2 PM, at my house...",
-            templateWA: "Hello Admin Satria Batara, my name is [NAMA]. I have a question regarding my order: ",
+            profTitle: "My Profile", btnLogout: "🚪 Logout", emptyOrder: "No active orders today.",
+            emptySub: "Please choose a service from Home",
+            profileOrders: "Order History", profileAdmin: "Contact Admin", profileAbout: "About App",
+            aocLabel: "Active Order", aocBtn: "📍 Track My Order",
+            tarif1: "🚗 <b>Base Fare:</b> Rp 2,000 / Kilometer.<br>Final price via WA.",
+            tarif2: "📦 <b>Delivery Fare:</b> Rp 2,000 / Kilometer.<br>Final price via WA.",
+            tarif3: "🛒 <b>Service Fee:</b> Rp 2,000 / Kilometer.<br>Final price via WA.",
+            tarif4: "🧹 <b>Cleaning Fee:</b> Flexible (Negotiable).<br>Please negotiate via WA.",
+            tarif5: "✨ <b>Custom Service:</b> Flexible price (Negotiable).<br>Discuss via WA.",
+            t_formTitle: "Order Details", t_jemput: "Pick-up Location", t_antar: "Drop-off Location", t_ambil: "Pick up from", t_kirim: "Deliver to", t_daftar: "Shopping List", t_alamat: "Delivery Address", t_resik: "What needs cleaning?", t_lokasi: "Location Address", t_unik: "State Your Request", t_waktu: "Address / Time",
+            ph_jemput: "Example: Batara Main Gate...", ph_antar: "Example: Batara Indomaret...", ph_ambil: "Example: My house, block C no 5...", ph_kirim: "Example: JNE, send package...", ph_daftar: "Example: Buy 2 portions of satay...", ph_alamat: "Example: Deliver to city square...", ph_resik: "Example: Sweep the yard...", ph_lokasi: "Example: House behind the hall...", ph_unik: "Example: Help me move a wardrobe...", ph_waktu: "Example: Today at 2 PM...",
+            templateWA: "Hello Admin Satria Batara, my name is [NAMA]. I have a question about my order: ",
             installTxt: "Install Satria Batara App!", btnInstall: "INSTALL 📲",
-            btnCancel: "❌ Cancel Order", btnComplete: "✅ Confirm Order Completed", ratingTitle: "How was the driver's service?", ph_ulasan: "Write your feedback or suggestions (optional)...", btnRating: "Submit Rating ⭐",
-            status1: "Finding Driver...", desc1: "Please wait a moment...", status2: "Driver Found!", desc2: "Driver will chat you via WA.", status3: "Order Completed!", desc3: "Thank you for using our service!", status4: "Cancelled", desc4: "This order has been cancelled.", alertRating: "Thank you for your rating & feedback!"
+            btnCancel: "❌ Cancel Order", btnComplete: "✅ Confirm Order Completed",
+            ratingTitle: "How was the driver's service?", ph_ulasan: "Write feedback (optional)...", btnRating: "Submit Rating ⭐",
+            status1: "Finding Driver...", desc1: "Please wait a moment...", status2: "Driver Found!", desc2: "Driver will chat you via WA.", status3: "Order Completed!", desc3: "Thank you for using our service!", status4: "Cancelled", desc4: "This order has been cancelled.", alertRating: "Thank you for your rating & feedback!",
+
+            aboutTagline: "Kota Batara's Trusted Service",
+            aboutH1: "About Us", aboutP1: "Satria Batara is an on-demand transport and daily service platform exclusively for Kota Batara residents. Bringing the concept of 'Local Service, Maximum Professionalism'.",
+            aboutH2: "Vision", aboutP2: "To be the number one reliable service for Kota Batara residents, bringing convenience and community welfare.",
+            aboutH3: "Mission", aboutP3: "<li style='margin-bottom:6px;'><b>Resident Needs:</b> Practical & fast service.</li><li style='margin-bottom:6px;'><b>Fair:</b> Zero percent commission, 100% to partners.</li><li style='margin-bottom:6px;'><b>Safe:</b> Served by verified local residents.</li><li style='margin-bottom:6px;'><b>Transparent:</b> Clear fares, negotiate via WA.</li>",
+            aboutH4: "Core Values", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Trustworthy:</b> Keeping community trust.</li><li style='margin-bottom:6px;'>💼 <b>Professional:</b> Excellent & responsive service.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Benefiting both customers & partners.</li><li style='margin-bottom:6px;'>🚀 <b>Responsive:</b> Quickest solutions possible.</li>"
         }
     };
 
     window.setLang = function(langKey) {
         currentLang = langKey;
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-' + langKey).classList.add('active');
+        // Update all language buttons inside lang-pill
+        ['btn-su','btn-jw','btn-id','btn-en','btn-su2','btn-jw2','btn-id2','btn-en2'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('active', id.replace('2','').endsWith(langKey));
+        });
         const t = langDict[langKey];
-        
+
+        // Login page
         document.getElementById('ui-subtitle').innerText = t.subtitle;
         document.getElementById('ui-login-desc').innerText = t.loginDesc;
         document.getElementById('ui-label-nama').innerText = t.lblNama;
         document.getElementById('ui-label-wa').innerText = t.lblWa;
-        document.getElementById('ui-note-wa').innerText = t.noteWa; 
+        document.getElementById('ui-note-wa').innerText = t.noteWa;
         document.getElementById('ui-btn-login').innerText = t.btnLogin;
-        
         document.getElementById('inputNama').placeholder = t.ph_nama;
         document.getElementById('inputWA').placeholder = t.ph_wa;
-        
-        document.getElementById('ui-greet').innerText = t.greet;
-        document.getElementById('ui-ask').innerText = t.ask;
+        document.getElementById('ui-btn-admin-login').innerText = t.btnAdminLogin;
+
+        // Home
+        document.getElementById('ui-greet-prefix').innerText = t.greetPrefix;
         document.getElementById('cat-1').innerText = t.c1;
         document.getElementById('cat-2').innerText = t.c2;
         document.getElementById('cat-3').innerText = t.c3;
         document.getElementById('cat-4').innerText = t.c4;
         document.getElementById('cat-5').innerText = t.c5;
-        
-        document.getElementById('ui-btn-admin-login').innerText = t.btnAdmin;
+        document.getElementById('ui-cat5-sub').innerText = t.cat5sub;
         document.getElementById('ui-btn-admin').innerText = t.btnAdmin;
-        
-        document.getElementById('ui-btn-back1').innerText = t.btnBack1;
+        document.getElementById('ui-admin-cta-title').innerText = t.adminCtaTitle;
+        document.getElementById('ui-admin-cta-sub').innerText = t.adminCtaSub;
+        document.getElementById('ui-section-layanan').innerText = t.sectionLayanan;
+        document.getElementById('ui-section-promo').innerText = t.sectionPromo;
+        document.getElementById('ui-hero-tag').innerText = t.heroTag;
+        document.getElementById('ui-hero-title').innerText = t.heroTitle;
+        document.getElementById('ui-hero-sub').innerText = t.heroSub;
+        document.getElementById('ui-hero-price-sub').innerText = t.heroPriceSub;
+        document.getElementById('ui-promo1-tag').innerText = t.promo1Tag;
+        document.getElementById('ui-promo1-title').innerText = t.promo1Title;
+        document.getElementById('ui-promo1-sub').innerText = t.promo1Sub;
+        document.getElementById('ui-promo2-tag').innerText = t.promo2Tag;
+        document.getElementById('ui-promo2-title').innerText = t.promo2Title;
+        document.getElementById('ui-promo2-sub').innerText = t.promo2Sub;
+        document.getElementById('ui-promo3-tag').innerText = t.promo3Tag;
+        document.getElementById('ui-promo3-title').innerText = t.promo3Title;
+        document.getElementById('ui-promo3-sub').innerText = t.promo3Sub;
+
+        // Form
         document.getElementById('ui-label-catatan').innerText = t.lblCatatan;
         document.getElementById('btnKirim').innerText = t.btnOrder;
-        
-        document.getElementById('ui-track-title').innerText = t.trackTitle;
-        document.getElementById('ui-history-title').innerText = t.histTitle;
-        
-        document.getElementById('ui-install-txt').innerText = t.installTxt;
-        document.getElementById('btn-install-pwa').innerText = t.btnInstall;
 
+        // Tracking
+        document.getElementById('ui-track-title').innerText = t.trackTitle;
         document.getElementById('ui-btn-cancel').innerText = t.btnCancel;
         document.getElementById('ui-btn-complete').innerText = t.btnComplete;
         document.getElementById('ui-rating-title').innerText = t.ratingTitle;
         document.getElementById('inputUlasan').placeholder = t.ph_ulasan;
         document.getElementById('ui-btn-rating').innerText = t.btnRating;
-        
+        document.getElementById('ui-empty-order').innerText = t.emptyOrder;
+        document.getElementById('ui-empty-sub').innerText = t.emptySub;
+
+        // History & profile
+        document.getElementById('ui-history-title').innerText = t.histTitle;
+        document.getElementById('ui-btn-logout').innerText = t.btnLogout;
+        document.getElementById('ui-profile-orders').innerText = t.profileOrders;
+        document.getElementById('ui-profile-admin').innerText = t.profileAdmin;
+        document.getElementById('ui-profile-about').innerText = t.profileAbout;
+
+        // Nav
         document.getElementById('nav-home').innerText = t.navHome;
         document.getElementById('nav-order').innerText = t.navOrder;
         document.getElementById('nav-history').innerText = t.navHistory;
         document.getElementById('nav-profile').innerText = t.navProfile;
-        document.getElementById('ui-profile-title').innerText = t.profTitle;
-        document.getElementById('ui-btn-logout').innerText = t.btnLogout;
-        document.getElementById('ui-empty-order').innerText = t.emptyOrder;
-        
-        if(!document.getElementById('page-form').classList.contains('hidden')){
-            bukaForm(layananAktif); 
-        }
+
+        // Misc
+        document.getElementById('ui-install-txt').innerText = t.installTxt;
+        document.getElementById('btn-install-pwa').innerText = t.btnInstall;
+        document.getElementById('ui-aoc-label').innerText = t.aocLabel;
+        document.getElementById('ui-aoc-btn').innerText = t.aocBtn;
+
+        // About Page
+        document.getElementById('ui-about-topbar').innerText = t.profileAbout;
+        document.getElementById('ui-about-tagline').innerText = t.aboutTagline;
+        document.getElementById('ui-about-h1').innerText = t.aboutH1;
+        document.getElementById('ui-about-p1').innerText = t.aboutP1;
+        document.getElementById('ui-about-h2').innerText = t.aboutH2;
+        document.getElementById('ui-about-p2').innerText = t.aboutP2;
+        document.getElementById('ui-about-h3').innerText = t.aboutH3;
+        document.getElementById('ui-about-p3').innerHTML = t.aboutP3;
+        document.getElementById('ui-about-h4').innerText = t.aboutH4;
+        document.getElementById('ui-about-p4').innerHTML = t.aboutP4;
+
+        if(!document.getElementById('page-form').classList.contains('hidden')) bukaForm(layananAktif);
         if(currentOrderId !== "") pantauStatusPesanan(currentOrderId);
     }
 
     window.navigasiKe = function(tab) {
-        document.querySelectorAll('.content').forEach(el => {
-            if (el.id !== 'page-login') el.classList.add('hidden');
+        ['page-home','page-form','page-tracking','page-history','page-profile','page-about'].forEach(p => {
+            const el = document.getElementById(p);
+            if(el) el.classList.add('hidden');
         });
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-        if (tab === 'home') {
-            document.getElementById('page-kategori').classList.remove('hidden');
-            document.getElementById('tab-home').classList.add('active');
-        } 
-        else if (tab === 'order') {
-            document.getElementById('page-tracking').classList.remove('hidden');
-            document.getElementById('tab-order').classList.add('active');
-            
-            if (currentOrderId === "") {
+        const pageMap = { home:'page-home', order:'page-tracking', history:'page-history', profile:'page-profile' };
+        const tabMap = { home:'tab-home', order:'tab-order', history:'tab-history', profile:'tab-profile' };
+
+        if(pageMap[tab]) document.getElementById(pageMap[tab]).classList.remove('hidden');
+        if(tabMap[tab]) document.getElementById(tabMap[tab]).classList.add('active');
+
+        if(tab === 'order') {
+            if(currentOrderId === "") {
                 document.getElementById('tracking-empty').classList.remove('hidden');
                 document.getElementById('tracking-active').classList.add('hidden');
             } else {
@@ -428,18 +851,17 @@
                 document.getElementById('tracking-active').classList.remove('hidden');
                 pantauStatusPesanan(currentOrderId);
             }
-        } 
-        else if (tab === 'history') {
-            document.getElementById('page-history').classList.remove('hidden');
-            document.getElementById('tab-history').classList.add('active');
-            muatRiwayat(); 
-        } 
-        else if (tab === 'profile') {
-            document.getElementById('page-profile').classList.remove('hidden');
-            document.getElementById('tab-profile').classList.add('active');
         }
-        
-        document.getElementById('bottom-nav').classList.remove('hidden');
+        if(tab === 'history') muatRiwayat();
+    }
+
+    window.bukaTentang = function() {
+        document.getElementById('page-profile').classList.add('hidden');
+        document.getElementById('page-about').classList.remove('hidden');
+    }
+    window.tutupTentang = function() {
+        document.getElementById('page-about').classList.add('hidden');
+        document.getElementById('page-profile').classList.remove('hidden');
     }
 
     let deferredPrompt;
@@ -448,236 +870,199 @@
         document.getElementById('install-banner').style.display = 'block';
     });
     document.getElementById('btn-install-pwa').addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            document.getElementById('install-banner').style.display = 'none';
-            deferredPrompt = null;
-        }
+        if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; document.getElementById('install-banner').style.display = 'none'; }
     });
 
     window.chatAdminTemplate = function() {
-        const namaPelanggan = userAktif.nama ? userAktif.nama : "Pelanggan";
-        const templateAsli = langDict[currentLang].templateWA;
-        const pesanFinal = templateAsli.replace("[NAMA]", namaPelanggan);
-        window.open(`https://wa.me/6281383179209?text=${encodeURIComponent(pesanFinal)}`, '_blank');
+        const nama = userAktif.nama || "Pelanggan";
+        const pesan = langDict[currentLang].templateWA.replace("[NAMA]", nama);
+        window.open(`https://wa.me/6281383179209?text=${encodeURIComponent(pesan)}`, '_blank');
+    }
+    window.chatAdminLoginPage = function() {
+        window.open(`https://wa.me/6281383179209?text=${encodeURIComponent("Halo Admin Satria Batara, saya ingin bertanya tentang layanan.")}`, '_blank');
     }
 
     window.masukAplikasi = function() {
-        const nama = document.getElementById('inputNama').value;
-        const wa = document.getElementById('inputWA').value;
-        if (!nama || !wa) { alert("Harap isi data!"); return; }
+        const nama = document.getElementById('inputNama').value.trim();
+        const wa = document.getElementById('inputWA').value.trim();
+        if(!nama || !wa) { alert(currentLang==='en'?"Please fill all fields!":"Harap isi semua data!"); return; }
         userAktif = { nama, wa };
-        
         document.getElementById('displayNama').innerText = nama;
         document.getElementById('profileNama').innerText = nama;
         document.getElementById('profileWA').innerText = wa;
-        
         document.getElementById('page-login').classList.add('hidden');
-        navigasiKe('home'); 
+        document.getElementById('app-main').classList.remove('hidden');
+        navigasiKe('home');
     }
 
     window.kaluarAplikasi = function() {
-        userAktif = { nama: "", wa: "" };
-        currentOrderId = "";
-        document.getElementById('inputNama').value = "";
-        document.getElementById('inputWA').value = "";
-        
-        document.querySelectorAll('.content').forEach(el => el.classList.add('hidden'));
-        document.getElementById('bottom-nav').classList.add('hidden');
-        document.getElementById('page-login').classList.remove('hidden');
+        if(confirm(currentLang==='en'?'Are you sure you want to logout?':(currentLang==='jw'?'Tenane arep metu (logout)?':'Yakin badé kaluar?'))) {
+            userAktif = { nama:"", wa:"" }; currentOrderId = "";
+            document.getElementById('inputNama').value = "";
+            document.getElementById('inputWA').value = "";
+            document.getElementById('app-main').classList.add('hidden');
+            document.getElementById('page-login').classList.remove('hidden');
+        }
     }
 
-    window.bukaForm = function(kategoriSistem) {
-        layananAktif = kategoriSistem;
+    window.bukaForm = function(kat) {
+        layananAktif = kat;
         const t = langDict[currentLang];
-        let label1, label2, tarifHTML, judul, ph1, ph2;
-        
-        if(kategoriSistem === 'Antar Jemput') { judul = t.c1; label1 = t.t_jemput; label2 = t.t_antar; tarifHTML = t.tarif1; ph1 = t.ph_jemput; ph2 = t.ph_antar; }
-        else if(kategoriSistem === 'Kirim Barang') { judul = t.c2; label1 = t.t_ambil; label2 = t.t_kirim; tarifHTML = t.tarif2; ph1 = t.ph_ambil; ph2 = t.ph_kirim; }
-        else if(kategoriSistem === 'Titip Belanja') { judul = t.c3; label1 = t.t_daftar; label2 = t.t_alamat; tarifHTML = t.tarif3; ph1 = t.ph_daftar; ph2 = t.ph_alamat; }
-        else if(kategoriSistem === 'Bantu Bersih') { judul = t.c4; label1 = t.t_resik; label2 = t.t_lokasi; tarifHTML = t.tarif4; ph1 = t.ph_resik; ph2 = t.ph_lokasi; }
-        else { judul = t.c5; label1 = t.t_unik; label2 = t.t_waktu; tarifHTML = t.tarif5; ph1 = t.ph_unik; ph2 = t.ph_waktu; }
-        
-        document.getElementById('judulFormTitle').innerText = t.t_formTitle;
+        let label1, label2, tarifHTML, ph1, ph2;
+
+        if(kat==='Antar Jemput'){label1=t.t_jemput;label2=t.t_antar;tarifHTML=t.tarif1;ph1=t.ph_jemput;ph2=t.ph_antar;}
+        else if(kat==='Kirim Barang'){label1=t.t_ambil;label2=t.t_kirim;tarifHTML=t.tarif2;ph1=t.ph_ambil;ph2=t.ph_kirim;}
+        else if(kat==='Titip Belanja'){label1=t.t_daftar;label2=t.t_alamat;tarifHTML=t.tarif3;ph1=t.ph_daftar;ph2=t.ph_alamat;}
+        else if(kat==='Bantu Bersih'){label1=t.t_resik;label2=t.t_lokasi;tarifHTML=t.tarif4;ph1=t.ph_resik;ph2=t.ph_lokasi;}
+        else{label1=t.t_unik;label2=t.t_waktu;tarifHTML=t.tarif5;ph1=t.ph_unik;ph2=t.ph_waktu;}
+
+        document.getElementById('judulFormTitle').innerText = t.t_formTitle + ' — ' + (kat==='Antar Jemput'?t.c1:kat==='Kirim Barang'?t.c2:kat==='Titip Belanja'?t.c3:kat==='Bantu Bersih'?t.c4:t.c5);
         document.getElementById('labelDetail1').innerText = label1;
         document.getElementById('labelDetail2').innerText = label2;
         document.getElementById('boxInfoTarif').innerHTML = tarifHTML;
-        
         document.getElementById('inputDetail1').placeholder = ph1;
         document.getElementById('inputDetail2').placeholder = ph2;
-        
         document.getElementById('inputDetail1').value = '';
         document.getElementById('inputDetail2').value = '';
         document.getElementById('inputCatatan').value = '';
-        
-        document.getElementById('page-kategori').classList.add('hidden');
-        document.getElementById('bottom-nav').classList.add('hidden'); 
+
+        document.getElementById('page-home').classList.add('hidden');
         document.getElementById('page-form').classList.remove('hidden');
     }
 
-    window.kembaliKeMenu = function() { 
-        document.getElementById('page-form').classList.add('hidden'); 
-        navigasiKe('home'); 
+    window.kembaliKeMenu = function() {
+        document.getElementById('page-form').classList.add('hidden');
+        navigasiKe('home');
     }
 
     window.muatRiwayat = function() {
-        const ordersRef = ref(database, 'orders');
-        onValue(ordersRef, (snapshot) => {
-            const listHistory = document.getElementById('listHistory');
-            listHistory.innerHTML = "";
-            let adaRiwayat = false;
-            const semuaOrder = [];
-            snapshot.forEach((child) => { semuaOrder.push({ id: child.key, ...child.val() }); });
-            semuaOrder.reverse(); 
+        const t = langDict[currentLang];
+        const listEl = document.getElementById('listHistory');
+        listEl.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text3); font-size:13px;">...</div>';
+        onValue(ref(database, 'orders'), (snap) => {
+            listEl.innerHTML = "";
+            let ada = false;
+            const arr = [];
+            snap.forEach(c => arr.push({id:c.key,...c.val()}));
+            arr.reverse();
+            arr.forEach(data => {
+                if(data.customer_wa !== userAktif.wa) return;
+                ada = true;
+                let pillClass = 'pill-pending', statusTxt = t.status1;
+                if(data.status==='diambil'){pillClass='pill-active';statusTxt=currentLang==='en'?'In Progress':(currentLang==='jw'?'Lagi Mlaku':'Nuju Diprosés');}
+                if(data.status==='selesai'){pillClass='pill-done';statusTxt=t.status3;}
+                if(data.status==='batal'||data.status==='batal_cust'){pillClass='pill-cancelled';statusTxt=t.status4;}
 
-            semuaOrder.forEach((data) => {
-                if (data.customer_wa === userAktif.wa) {
-                    adaRiwayat = true;
-                    let warnaStatus = "#f39c12"; let teksStatus = langDict[currentLang].status1;
-                    if(data.status === "diambil") { warnaStatus = "#3498db"; teksStatus = currentLang==="en"?"In Progress":"Nuju Diprosés"; }
-                    if(data.status === "selesai") { warnaStatus = "#27ae60"; teksStatus = langDict[currentLang].status3; }
-                    if(data.status === "batal" || data.status === "batal_cust") { warnaStatus = "#e74c3c"; teksStatus = langDict[currentLang].status4; }
-                    
-                    let tombolPantau = "";
-                    if(data.status === "terbuka" || data.status === "diambil") {
-                        let btnLacakTxt = currentLang==="en"?"📍 Track Order":"📍 Lacak Pesenan";
-                        tombolPantau = `<button style="background:#f1f2f6; color:#2f3542; width:100%; padding: 10px; font-size: 14px; margin-top: 10px; border:none; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="lanjutPantau('${data.id}')">${btnLacakTxt}</button>`;
-                    }
-
-                    let teksUlasan = data.ulasan ? `<br>💬 <i>"${data.ulasan}"</i>` : '';
-
-                    const card = document.createElement('div');
-                    card.className = 'history-card';
-                    card.innerHTML = `
-                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:8px;">
-                            <span style="font-weight:bold; font-size:15px; color:#2c3e50;">${data.layanan}</span>
-                            <span style="font-size:11px; color:#7f8c8d;">${data.waktu_order}</span>
-                        </div>
-                        <div style="font-size:13px; margin-bottom:5px;"><b>Status:</b> <span style="color:${warnaStatus}; font-weight:bold;">${teksStatus}</span></div>
-                        <div style="font-size:12px; color:#555; line-height:1.4; background:#f9f9f9; padding:8px; border-radius:8px;">${data.detail_1} <br>➔<br> ${data.detail_2}</div>
-                        ${data.driver_nama ? `<div style="font-size:12px; margin-top:8px; background-color:#e8f8f5; padding:8px; border-radius:8px; border-left:4px solid #1abc9c;">🛵 <b>Driver:</b> ${data.driver_nama} ${data.rating ? ' (⭐'+data.rating+')' : ''} ${teksUlasan}</div>` : ''}
-                        ${tombolPantau}
-                    `;
-                    listHistory.appendChild(card);
-                }
+                const card = document.createElement('div');
+                card.className = 'history-card';
+                card.innerHTML = `
+                    <div class="hc-header">
+                        <div class="hc-service">${data.layanan}</div>
+                        <div class="hc-time">${data.waktu_order}</div>
+                    </div>
+                    <span class="hc-status-pill ${pillClass}">${statusTxt}</span>
+                    <div class="hc-route">${data.detail_1}<br>⬇<br>${data.detail_2}</div>
+                    ${data.driver_nama ? `<div class="hc-driver">🛵 Driver: ${data.driver_nama}${data.rating?' · ⭐'+data.rating:''}</div>` : ''}
+                    ${(data.status==='terbuka'||data.status==='diambil') ? `<button class="hc-track-btn" onclick="lanjutPantau('${data.id}')">📍 ${currentLang==='en'?'Track Order':(currentLang==='jw'?'Lacak Pesenan':'Lacak Pesenan')}</button>` : ''}
+                `;
+                listEl.appendChild(card);
             });
-            if(!adaRiwayat) { listHistory.innerHTML = `<div style="text-align:center; color:#7f8c8d; font-style:italic; padding:30px; font-size:14px;">Teu acan aya pesenan.</div>`; }
+            if(!ada) listEl.innerHTML = `<div class="empty-state"><span class="empty-icon">📭</span><div class="empty-title">${t.emptyOrder}</div></div>`;
         });
     }
 
-    window.lanjutPantau = function(orderId) { 
-        currentOrderId = orderId;
-        navigasiKe('order'); 
-    }
+    window.lanjutPantau = function(id) { currentOrderId = id; navigasiKe('order'); }
 
     window.kirimPesananFirebase = function() {
-        const detail1 = document.getElementById('inputDetail1').value;
-        const detail2 = document.getElementById('inputDetail2').value;
-        const catatan = document.getElementById('inputCatatan').value;
-        if (!detail1 || !detail2) { alert("Data teu acan lengkep!"); return; }
-        
-        const btnKirim = document.getElementById('btnKirim');
-        btnKirim.innerText = "⏳..."; btnKirim.disabled = true;
-        
-        const orderBaruRef = push(ref(database, 'orders')); 
-        currentOrderId = orderBaruRef.key;
-
-        const dataPesanan = { 
-            waktu_order: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }), 
-            timestamp: new Date().getTime(), 
-            customer_nama: userAktif.nama, 
-            customer_wa: userAktif.wa, 
-            layanan: layananAktif, 
-            detail_1: detail1, 
-            detail_2: detail2, 
-            catatan: catatan, 
-            status: "terbuka", 
-            driver_nama: "" 
+        const d1 = document.getElementById('inputDetail1').value.trim();
+        const d2 = document.getElementById('inputDetail2').value.trim();
+        if(!d1||!d2){alert(currentLang==='en'?"Data is incomplete!":"Data teu acan lengkep!");return;}
+        const btn = document.getElementById('btnKirim');
+        btn.innerText = "⏳..."; btn.disabled = true;
+        const newRef = push(ref(database,'orders'));
+        currentOrderId = newRef.key;
+        const data = {
+            waktu_order: new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}),
+            timestamp: Date.now(), customer_nama: userAktif.nama, customer_wa: userAktif.wa,
+            layanan: layananAktif, detail_1: d1, detail_2: d2,
+            catatan: document.getElementById('inputCatatan').value, status:"terbuka", driver_nama:""
         };
-        
-        set(orderBaruRef, dataPesanan).then(() => {
-            btnKirim.innerText = langDict[currentLang].btnOrder; btnKirim.disabled = false;
+        set(newRef, data).then(() => {
+            btn.innerText = langDict[currentLang].btnOrder; btn.disabled = false;
             ratingSkor = 0;
-            document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+            document.querySelectorAll('.star').forEach(s=>s.classList.remove('selected'));
             document.getElementById('inputUlasan').value = "";
-
             document.getElementById('page-form').classList.add('hidden');
-            navigasiKe('order'); 
-        }).catch((e) => { alert("Error: " + e); btnKirim.disabled = false; });
+            navigasiKe('order');
+            // Show active order on home
+            document.getElementById('home-active-order').classList.remove('hidden');
+        }).catch(e=>{alert("Error: "+e);btn.disabled=false;});
     }
 
-    function pantauStatusPesanan(orderId) {
-        currentOrderId = orderId;
-        onValue(ref(database, 'orders/' + orderId), (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                const t = langDict[currentLang];
-                const icon = document.getElementById('track-icon'); 
-                const status = document.getElementById('track-status'); 
-                const desc = document.getElementById('track-desc'); 
-                
-                const driverInfo = document.getElementById('track-driver-info');
-                const cancelArea = document.getElementById('cancel-area');
-                const completeArea = document.getElementById('complete-area');
-                const ratingArea = document.getElementById('rating-area');
-                
-                if (data.status === "terbuka") {
-                    icon.innerText = "⏳"; status.innerText = t.status1; desc.innerText = t.desc1; status.style.color = "#333";
-                    cancelArea.classList.remove('hidden');
-                    driverInfo.classList.add('hidden'); completeArea.classList.add('hidden'); ratingArea.classList.add('hidden');
-                } else if (data.status === "diambil") {
-                    icon.innerText = "🛵"; status.style.color = "#27ae60"; status.innerText = t.status2; desc.innerText = t.desc2;
-                    document.getElementById('track-driver-name').innerText = data.driver_nama;
-                    driverInfo.classList.remove('hidden'); completeArea.classList.remove('hidden');
-                    cancelArea.classList.add('hidden'); ratingArea.classList.add('hidden');
-                } else if (data.status === "selesai") {
-                    icon.innerText = "✅"; status.style.color = "#2980b9"; status.innerText = t.status3; desc.innerText = t.desc3;
-                    ratingArea.classList.remove('hidden');
-                    cancelArea.classList.add('hidden'); completeArea.classList.add('hidden'); driverInfo.classList.add('hidden');
-                    if(data.rating) ratingArea.classList.add('hidden');
-                } else if (data.status === "batal" || data.status === "batal_cust") {
-                    icon.innerText = "❌"; status.style.color = "#e74c3c"; status.innerText = t.status4; desc.innerText = t.desc4;
-                    cancelArea.classList.add('hidden'); completeArea.classList.add('hidden'); ratingArea.classList.add('hidden'); driverInfo.classList.add('hidden');
-                }
+    function pantauStatusPesanan(id) {
+        currentOrderId = id;
+        onValue(ref(database,'orders/'+id), (snap) => {
+            const data = snap.val();
+            if(!data) return;
+            const t = langDict[currentLang];
+            const icon = document.getElementById('track-icon');
+            const statusEl = document.getElementById('track-status');
+            const descEl = document.getElementById('track-desc');
+            const driverInfo = document.getElementById('track-driver-info');
+            const cancelArea = document.getElementById('cancel-area');
+            const completeArea = document.getElementById('complete-area');
+            const ratingArea = document.getElementById('rating-area');
+
+            // Update home active card too
+            if(document.getElementById('aoc-status-text')) {
+                document.getElementById('aoc-status-text').innerText = data.status==='terbuka'?t.status1:data.status==='diambil'?t.status2:data.status==='selesai'?t.status3:t.status4;
+            }
+
+            if(data.status==='terbuka'){
+                icon.innerText='⏳'; statusEl.innerText=t.status1; statusEl.style.color='var(--text)'; descEl.innerText=t.desc1;
+                cancelArea.classList.remove('hidden');
+                driverInfo.classList.add('hidden'); completeArea.classList.add('hidden'); ratingArea.classList.add('hidden');
+            } else if(data.status==='diambil'){
+                icon.innerText='🛵'; statusEl.innerText=t.status2; statusEl.style.color='var(--green)'; descEl.innerText=t.desc2;
+                document.getElementById('track-driver-name').innerText = data.driver_nama;
+                driverInfo.classList.remove('hidden'); completeArea.classList.remove('hidden');
+                cancelArea.classList.add('hidden'); ratingArea.classList.add('hidden');
+            } else if(data.status==='selesai'){
+                icon.innerText='✅'; statusEl.innerText=t.status3; statusEl.style.color='var(--blue)'; descEl.innerText=t.desc3;
+                if(!data.rating) ratingArea.classList.remove('hidden'); else ratingArea.classList.add('hidden');
+                cancelArea.classList.add('hidden'); completeArea.classList.add('hidden'); driverInfo.classList.add('hidden');
+                document.getElementById('home-active-order').classList.add('hidden');
+            } else {
+                icon.innerText='❌'; statusEl.innerText=t.status4; statusEl.style.color='var(--red)'; descEl.innerText=t.desc4;
+                cancelArea.classList.add('hidden'); completeArea.classList.add('hidden'); ratingArea.classList.add('hidden'); driverInfo.classList.add('hidden');
+                document.getElementById('home-active-order').classList.add('hidden');
             }
         });
     }
 
     window.batalPesenanRealtime = function() {
-        if(confirm(currentLang==="en" ? "Are you sure you want to cancel?" : "Naha leres badé ngabolaykeun pesenan ieu?")) {
-            update(ref(database, 'orders/' + currentOrderId), { status: "batal_cust" });
-        }
+        if(confirm(currentLang==='en'?'Are you sure you want to cancel?':(currentLang==='jw'?'Tenane arep dibatalno?':'Naha leres badé ngabolaykeun pesenan ieu?')))
+            update(ref(database,'orders/'+currentOrderId),{status:'batal_cust'});
     }
-
     window.selesaiPesenanRealtime = function() {
-        if(confirm(currentLang==="en" ? "Is the order fully completed?" : "Driver parantos ngabéréskeun pesenan anjeun?")) {
-            update(ref(database, 'orders/' + currentOrderId), { status: "selesai" });
-        }
+        if(confirm(currentLang==='en'?'Is the order fully completed?':(currentLang==='jw'?'Tenane pesenane wes rampung?':'Driver parantos ngabéréskeun pesenan anjeun?')))
+            update(ref(database,'orders/'+currentOrderId),{status:'selesai'});
     }
-
     window.setRating = function(skor) {
         ratingSkor = skor;
-        document.querySelectorAll('.star').forEach((s, idx) => {
-            s.classList.toggle('selected', idx < skor);
-        });
+        document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('selected',i<skor));
     }
-
     window.kirimRating = function() {
-        if(ratingSkor === 0) { 
-            alert(currentLang==="en" ? "Please select stars first!" : "Pilih bintangna heula!"); 
-            return; 
-        }
-        const teksUlasan = document.getElementById('inputUlasan').value.trim();
-        update(ref(database, 'orders/' + currentOrderId), { 
-            rating: ratingSkor, ulasan: teksUlasan
-        }).then(() => {
+        if(ratingSkor===0){alert(currentLang==='en'?'Please select stars first!':(currentLang==='jw'?'Pilih lintange disik!':'Pilih bintangna heula!'));return;}
+        const ulasan = document.getElementById('inputUlasan').value.trim();
+        update(ref(database,'orders/'+currentOrderId),{rating:ratingSkor,ulasan}).then(()=>{
             alert(langDict[currentLang].alertRating);
             document.getElementById('rating-area').classList.add('hidden');
         });
     }
 
-    setLang('su');
+    // Default ke bahasa Jawa
+    setLang('jw');
 </script>
 </body>
 </html>
