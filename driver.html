@@ -4,256 +4,495 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Satria Batara - Portal Mitra Driver</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2E7D32">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048314.png">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f5f6fa; margin: 0; padding: 0; height: 100vh; height: 100dvh; overflow: hidden; display: flex; justify-content: center; }
-        .app-container { width: 100vw; max-width: 600px; background-color: #f4f7f6; height: 100%; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        :root {
+            --green: #1B8A4B;
+            --green-dark: #0F5C32;
+            --green-deep: #0A3D22;
+            --green-light: #E8F5EE;
+            --green-mid: #27AE60;
+            --accent: #F5A623;
+            --accent-light: #FFF8EC;
+            --bg: #F0F2F5;
+            --card: #FFFFFF;
+            --text: #111827;
+            --text2: #4B5563;
+            --text3: #9CA3AF;
+            --border: #E5E7EB;
+            --red: #EF4444;
+            --red-light: #FEE2E2;
+            --blue: #3B82F6;
+            --blue-light: #DBEAFE;
+            --yellow: #F59E0B;
+            --yellow-light: #FEF3C7;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); height: 100vh; height: 100dvh; overflow: hidden; display: flex; justify-content: center; }
+        .app { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; background: var(--bg); position: relative; overflow: hidden; }
+
+        .page { flex: 1; overflow-y: auto; padding-bottom: 90px; }
+        .page::-webkit-scrollbar { display: none; }
+
+        /* ── DECORATIVE ELEMENTS FIX (Agar tidak menutupi tombol) ── */
+        .login-hero::before, .login-hero::after, .driver-topbar::after, .wallet-hero::after { pointer-events: none; }
+
+        /* ── LOGIN / REGISTER PAGE ── */
+        .login-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; height: 100%; }
+        .login-hero { background: linear-gradient(160deg, var(--green-deep) 0%, var(--green-dark) 50%, var(--green) 100%); padding: 44px 24px 64px; text-align: center; position: relative; overflow: hidden; flex-shrink: 0; }
+        .login-hero::before { content:''; position:absolute; right:-60px; top:-60px; width:200px; height:200px; background:rgba(255,255,255,0.05); border-radius:50%; }
+        .login-hero::after { content:''; position:absolute; left:-30px; bottom:-30px; width:140px; height:140px; background:rgba(255,255,255,0.04); border-radius:50%; }
+        .login-hero-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:5px 14px; font-size:11px; font-weight:700; color:rgba(255,255,255,0.9); letter-spacing:0.5px; margin-bottom:16px; }
+        .login-hero-icon { font-size:52px; display:block; margin-bottom:12px; }
+        .login-hero-title { color:white; font-size:26px; font-weight:800; line-height:1.2; }
+        .login-hero-title span { color:var(--accent); }
+        .login-hero-sub { color:rgba(255,255,255,0.65); font-size:13px; margin-top:8px; }
+        .login-body { flex:1; background:var(--card); border-radius:28px 28px 0 0; margin-top:-24px; padding:28px 24px 40px; position:relative; z-index:1; }
+        .login-heading { font-size:20px; font-weight:800; color:var(--text); margin-bottom:4px; }
+        .login-sub { font-size:13px; color:var(--text3); margin-bottom:24px; }
+
+        .form-group { margin-bottom:16px; }
+        .form-label { font-size:12px; font-weight:700; color:var(--text2); margin-bottom:6px; display:block; text-transform:uppercase; letter-spacing:0.4px; }
+        .form-input { width:100%; padding:14px 16px; border:1.5px solid var(--border); border-radius:var(--radius-sm); font-size:15px; font-family:inherit; background:var(--bg); color:var(--text); transition:border-color 0.2s, background 0.2s; }
+        .form-input:focus { outline:none; border-color:var(--green); background:white; }
+        .form-hint { font-size:11px; color:var(--accent); margin-top:5px; font-weight:600; }
+
+        .btn-primary { width:100%; background:var(--green); color:white; border:none; border-radius:var(--radius-sm); padding:16px; font-size:16px; font-weight:700; font-family:inherit; cursor:pointer; transition:all 0.15s; box-shadow:0 4px 14px rgba(27,138,75,0.35); }
+        .btn-primary:active { transform:scale(0.98); }
+        .btn-secondary { width:100%; background:none; color:var(--green); border:1.5px solid var(--green); border-radius:var(--radius-sm); padding:13px; font-size:14px; font-weight:700; font-family:inherit; cursor:pointer; margin-top:10px; }
+
+        .link-row { text-align:center; margin-top:16px; font-size:13px; color:var(--text3); }
+        .link-row a { color:var(--green); font-weight:700; text-decoration:none; cursor:pointer; }
+        .link-row a.wa-link { color:#25D366; } /* Warna hijau khas WA untuk link bantuan */
+
+        .tnc-box { background:var(--green-light); border:1.5px solid #A7D9B7; border-radius:var(--radius-sm); padding:14px 16px; font-size:12px; color:#1B5E20; line-height:1.6; max-height:130px; overflow-y:auto; margin-bottom:14px; }
+        .check-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:20px; cursor:pointer; }
+        .check-row input { width:18px; height:18px; margin-top:1px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+        .check-row span { font-size:13px; font-weight:600; color:var(--text2); line-height:1.4; }
+
+        /* ── TOP STATUS BAR ── */
+        .driver-topbar { background:linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 60%, var(--green) 100%); padding:16px 18px 18px; flex-shrink:0; position:relative; overflow:hidden; }
+        .driver-topbar::after { content:''; position:absolute; right:-30px; top:-30px; width:120px; height:120px; background:rgba(255,255,255,0.05); border-radius:50%; z-index:0; }
+        .dtb-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; position:relative; z-index:1; }
+        .dtb-logo { color:white; font-size:18px; font-weight:800; }
+        .dtb-logo span { color:var(--accent); }
+        .lang-pill { display:flex; background:rgba(255,255,255,0.12); border-radius:20px; padding:3px; gap:2px; }
+        .lang-btn { background:none; border:none; color:rgba(255,255,255,0.7); font-size:10px; font-weight:700; padding:4px 9px; border-radius:16px; cursor:pointer; font-family:inherit; transition:all 0.2s; position:relative; z-index:2; }
+        .lang-btn.active { background:white; color:var(--green); }
         
-        .header { background-color: #2E7D32; color: white; padding: 20px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; font-weight: bold; flex-shrink: 0; position: relative; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .header h2 { margin: 0; font-size: 24px; }
-        
-        .lang-switcher { position: absolute; top: 18px; right: 15px; background: rgba(0,0,0,0.15); padding: 4px; border-radius: 10px; display: flex; gap: 4px; }
-        .lang-btn { background: none; border: none; color: white; font-size: 11px; cursor: pointer; padding: 5px 10px; border-radius: 7px; font-weight: bold; opacity: 0.6; }
-        .lang-btn.active { background: white; color: #2E7D32; opacity: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .lang-pill.light-bg .lang-btn { color: var(--text2); }
+        .lang-pill.light-bg .lang-btn.active { color: var(--green); background: white; }
 
-        .content { padding: 20px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-        .content::-webkit-scrollbar { width: 0px; }
-        
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 15px; color: #333; text-align: left; }
-        input[type="text"], input[type="tel"], input[type="password"] { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 16px; background-color: white; margin-bottom: 15px; }
-        input:focus { border-color: #2E7D32; outline: none; }
-        
-        .btn-utama { background-color: #2E7D32; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(46,125,50,0.3); transition: 0.2s; }
-        .btn-utama:active { transform: scale(0.98); }
-        
-        .link-teks { text-align: center; margin-top: 15px; font-size: 14px; color: #7f8c8d; }
-        .link-teks a { color: #2E7D32; font-weight: bold; text-decoration: none; cursor: pointer; }
+        .driver-info-row { display:flex; align-items:center; gap:12px; position:relative; z-index:1; }
+        .driver-avatar-sm { width:42px; height:42px; background:rgba(255,255,255,0.15); border-radius:50%; border:2px solid rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+        .driver-name-txt { color:white; font-size:16px; font-weight:700; }
+        .driver-status-pill { display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.15); border-radius:20px; padding:3px 10px; margin-top:3px; }
+        .status-dot { width:7px; height:7px; background:#4ADE80; border-radius:50%; animation:blink 1.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .driver-status-txt { font-size:11px; color:rgba(255,255,255,0.85); font-weight:600; }
+        .dtb-saldo { margin-left:auto; text-align:right; }
+        .dtb-saldo-label { font-size:10px; color:rgba(255,255,255,0.6); font-weight:600; letter-spacing:0.3px; }
+        .dtb-saldo-val { font-size:18px; font-weight:800; color:white; }
+        .dtb-saldo-val.low { color:#FCA5A5; }
 
-        .tnc-box { background-color: #e8f5e9; border: 2px solid #2E7D32; padding: 15px; border-radius: 12px; font-size: 13px; color: #1B5E20; line-height: 1.5; margin-bottom: 15px; height: 130px; overflow-y: auto; text-align: left; }
-        .checkbox-container { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; font-size: 14px; font-weight: bold; color: #2c3e50; cursor: pointer; }
-        .checkbox-container input { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: #2E7D32; }
+        /* ── STAT STRIP ── */
+        .stat-strip { display:flex; gap:10px; padding:14px 16px 0; }
+        .stat-chip { flex:1; background:var(--card); border-radius:var(--radius-sm); padding:12px 14px; box-shadow:var(--shadow-sm); }
+        .stat-chip-val { font-size:22px; font-weight:800; color:var(--text); }
+        .stat-chip-label { font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
+        .stat-chip.blue .stat-chip-val { color:var(--blue); }
+        .stat-chip.green .stat-chip-val { color:var(--green); }
 
-        .wallet-box { background: linear-gradient(135deg, #2E7D32, #1B5E20); padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(46,125,50,0.3); margin-bottom: 20px; color: #fff; position: relative; }
-        .wallet-label { font-size: 13px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; color: rgba(255,255,255,0.9); }
-        .wallet-angka { font-size: 38px; font-weight: bold; margin-top: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .btn-topup-wa { background: white; color: #2E7D32; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; margin-top: 15px; cursor: pointer; font-size: 15px; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; }
-        .btn-topup-wa:active { transform: scale(0.98); }
+        /* ── SECTION ── */
+        .section { padding:16px 16px 0; }
+        .sec-title { font-size:13px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+        .sec-title-dot { width:8px; height:8px; border-radius:50%; }
+        .sec-title-dot.amber { background:var(--yellow); }
+        .sec-title-dot.blue { background:var(--blue); }
+        .sec-title-dot.green { background:var(--green); }
 
-        .sound-setting-box { background: white; padding: 15px; border-radius: 12px; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; }
-        .sound-setting-box select { padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-weight: bold; font-size: 14px; background: #f9f9f9; cursor: pointer; outline: none; max-width: 55%; }
+        /* ── ORDER CARDS ── */
+        .order-card { background:var(--card); border-radius:var(--radius); margin-bottom:12px; box-shadow:var(--shadow); overflow:hidden; }
+        .order-card-new { border-top:3px solid var(--yellow); }
+        .order-card-active { border-top:3px solid var(--blue); }
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-box { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-bottom: 4px solid #ddd; }
-        .stat-box.green { border-color: #27ae60; }
-        .stat-box.blue { border-color: #3498db; }
-        .stat-angka { font-size: 28px; font-weight: bold; color: #2c3e50; margin-top: 5px; }
-        .stat-label { font-size: 11px; color: #7f8c8d; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
+        .oc-header { padding:14px 16px 10px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+        .oc-badge { font-size:11px; font-weight:700; padding:5px 12px; border-radius:20px; }
+        .oc-badge-new { background:var(--yellow-light); color:#92400E; }
+        .oc-badge-active { background:var(--blue-light); color:#1E3A8A; }
+        .oc-time { font-size:11px; color:var(--text3); font-weight:600; }
 
-        .order-card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        .order-card.baru { border-left: 8px solid #f1c40f; } 
-        .order-card.aktif { border-left: 8px solid #3498db; background-color: #f0f8ff; } 
-        .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px; align-items: center; }
-        .badge-layanan { background-color: #2E7D32; color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; }
-        .order-detail { font-size: 15px; color: #333; margin-bottom: 8px; line-height: 1.5; background: #f9f9f9; padding: 8px; border-radius: 8px; }
-        
-        .btn-ambil { background-color: #f1c40f; color: #2c3e50; border: none; padding: 15px; width: 100%; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; animation: pulse 2s infinite; }
-        .btn-wa-kembali { background-color: #25D366; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 5px; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .oc-body { padding:14px 16px; }
+        .oc-customer { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+        .oc-cust-avatar { width:36px; height:36px; background:var(--green-light); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        .oc-cust-name { font-size:15px; font-weight:700; color:var(--text); }
+        .oc-cust-wa { font-size:11px; color:var(--text3); }
 
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-batal-driver { background-color: #e74c3c; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 13px; cursor: pointer; }
-        .btn-selesai-driver { background-color: #3498db; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .oc-route { background:var(--bg); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
+        .oc-route-row { display:flex; align-items:flex-start; gap:10px; }
+        .oc-route-row + .oc-route-row { margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); }
+        .oc-route-icon { width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:1px; }
+        .oc-route-label { font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.3px; }
+        .oc-route-val { font-size:13px; font-weight:600; color:var(--text); line-height:1.4; }
 
-        .section-title { font-size: 16px; font-weight: bold; color: #2c3e50; margin: 15px 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #eee; }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .modal-box { background: white; border-radius: 15px; padding: 25px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .modal-box h3 { margin-top: 0; color: #2c3e50; font-size: 20px; }
-        .dana-box { background: #e8f5e9; color: #2E7D32; padding: 15px; border-radius: 12px; margin: 20px 0; border: 2px dashed #2E7D32; }
-        .dana-box h2 { margin: 5px 0; letter-spacing: 2px; font-size: 26px; }
-        .btn-wa-confirm { background: #2E7D32; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px; }
-        .btn-close-modal { background: #f1f2f6; color: #e74c3c; border: 1px solid #e74c3c; padding: 12px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .oc-note { background:var(--accent-light); border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:12px; color:#78350F; font-weight:600; }
 
-        .bottom-nav { display: flex; background: #ffffff; justify-content: space-around; padding: 12px 0 8px 0; border-top: 1px solid #eee; box-shadow: 0 -2px 10px rgba(0,0,0,0.03); flex-shrink: 0; z-index: 100; }
-        .nav-item { text-align: center; color: #7f8c8d; cursor: pointer; flex: 1; transition: 0.2s; }
-        .nav-item.active { color: #2E7D32; font-weight: bold; }
-        .nav-icon { font-size: 24px; margin-bottom: 4px; display: block; }
-        .nav-text { font-size: 12px; }
+        .btn-wa-chat { width:100%; background:#25D366; color:white; border:none; border-radius:var(--radius-sm); padding:12px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:10px; }
+        .btn-ambil { width:100%; background:var(--yellow); color:#1C1917; border:none; border-radius:var(--radius-sm); padding:15px; font-size:15px; font-weight:800; cursor:pointer; font-family:inherit; position:relative; overflow:hidden; }
+        .btn-ambil::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%); animation:shine 2s infinite; }
+        @keyframes shine { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        .hidden { display: none !important; }
-        .empty-state { text-align: center; color: #95a5a6; padding: 40px 20px; font-size: 15px; }
+        .action-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .btn-cancel-order { background:var(--red-light); color:var(--red); border:none; border-radius:var(--radius-sm); padding:13px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
+        .btn-complete-order { background:var(--blue-light); color:var(--blue); border:none; border-radius:var(--radius-sm); padding:13px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
+        .oc-note-bottom { font-size:11px; color:var(--text3); text-align:center; padding:4px 0 8px; font-style:italic; }
+
+        /* ── EMPTY STATE ── */
+        .empty-state { text-align:center; padding:30px 20px; }
+        .empty-icon { font-size:48px; display:block; margin-bottom:10px; }
+        .empty-title { font-size:14px; font-weight:700; color:var(--text2); }
+        .empty-sub { font-size:12px; color:var(--text3); margin-top:4px; }
+
+        /* ── WALLET PAGE ── */
+        .wallet-hero { margin:16px; background:linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 50%, var(--green) 100%); border-radius:var(--radius); padding:24px; position:relative; overflow:hidden; box-shadow:var(--shadow-lg); }
+        .wh-label { font-size:11px; font-weight:700; color:rgba(255,255,255,0.65); text-transform:uppercase; letter-spacing:0.5px; }
+        .wh-amount { font-size:38px; font-weight:800; color:white; margin:6px 0 4px; }
+        .wh-amount.low { color:#FCA5A5; }
+        .wh-sub { font-size:12px; color:rgba(255,255,255,0.6); }
+        .wh-topup-btn { margin-top:18px; background:white; color:var(--green-dark); border:none; border-radius:10px; padding:12px 20px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; width:100%; position:relative; z-index:1; }
+
+        .wallet-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 16px; }
+        .ws-card { background:var(--card); border-radius:var(--radius-sm); padding:16px; box-shadow:var(--shadow-sm); }
+        .ws-val { font-size:28px; font-weight:800; }
+        .ws-val.blue { color:var(--blue); }
+        .ws-val.green { color:var(--green); }
+        .ws-label { font-size:11px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.4px; margin-top:3px; }
+
+        /* ── HISTORY PAGE ── */
+        .rating-hero { background:var(--card); margin:16px; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:16px; }
+        .rh-stars { font-size:44px; font-weight:800; color:var(--green); }
+        .rh-star-icon { font-size:20px; color:var(--yellow); }
+        .rh-label { font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.4px; margin-top:3px; }
+
+        .hist-card { background:var(--card); border-radius:var(--radius-sm); margin:0 16px 10px; padding:16px; box-shadow:var(--shadow-sm); }
+        .hc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+        .hc-service { font-size:14px; font-weight:700; color:var(--text); }
+        .hc-time { font-size:11px; color:var(--text3); }
+        .hc-pill { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:8px; }
+        .hc-pill-done { background:var(--green-light); color:var(--green-dark); }
+        .hc-pill-ongoing { background:var(--blue-light); color:#1E3A8A; }
+        .hc-route-box { background:var(--bg); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--text2); line-height:1.6; }
+        .hc-rating { margin-top:10px; font-size:13px; color:var(--yellow); font-weight:700; }
+        .hc-no-rating { font-size:11px; color:var(--text3); font-style:italic; margin-top:8px; }
+        .hc-customer { font-size:12px; color:var(--text2); margin-bottom:6px; font-weight:600; }
+
+        /* ── PROFILE PAGE ── */
+        .profile-hero { background:linear-gradient(160deg, var(--green-deep), var(--green)); padding:36px 20px 28px; text-align:center; flex-shrink:0; }
+        .prof-avatar { width:80px; height:80px; background:rgba(255,255,255,0.15); border-radius:50%; border:3px solid rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; }
+        .prof-name { color:white; font-size:20px; font-weight:800; }
+        .prof-wa { color:rgba(255,255,255,0.65); font-size:13px; margin-top:4px; }
+
+        .profile-card { background:var(--card); margin:16px; border-radius:var(--radius); box-shadow:var(--shadow-sm); }
+        .profile-row { display:flex; align-items:center; gap:14px; padding:15px 18px; border-bottom:1px solid var(--border); cursor:pointer; }
+        .profile-row:last-child { border-bottom:none; }
+        .pr-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        .pr-label { font-size:14px; font-weight:600; color:var(--text); }
+        .pr-arrow { margin-left:auto; color:var(--text3); }
+
+        .sound-section { background:var(--card); margin:0 16px; border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow-sm); }
+        .sound-row { display:flex; align-items:center; justify-content:space-between; }
+        .sound-label { font-size:14px; font-weight:700; color:var(--text); }
+        .sound-select { padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:13px; font-weight:600; background:var(--bg); cursor:pointer; outline:none; font-family:inherit; max-width:55%; color:var(--text); }
+
+        .btn-logout { margin:16px; width:calc(100% - 32px); background:var(--red-light); color:var(--red); border:none; border-radius:var(--radius-sm); padding:15px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-nav { position:absolute; bottom:0; left:0; right:0; background:white; display:none; border-top:1px solid var(--border); padding:8px 0 14px; z-index:100; }
+        .bottom-nav.visible { display:flex; }
+        .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:6px 0; }
+        .nav-icon-wrap { width:44px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:14px; font-size:20px; transition:background 0.2s; }
+        .nav-item.active .nav-icon-wrap { background:var(--green-light); }
+        .nav-label { font-size:10px; font-weight:600; color:var(--text3); }
+        .nav-item.active .nav-label { color:var(--green); }
+
+        /* ── MODAL ── */
+        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; display:flex; align-items:flex-end; justify-content:center; padding:0; }
+        .modal-box { background:white; border-radius:24px 24px 0 0; padding:28px 24px 40px; width:100%; max-width:480px; }
+        .modal-handle { width:40px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
+        .modal-title { font-size:18px; font-weight:800; color:var(--text); margin-bottom:6px; }
+        .modal-sub { font-size:13px; color:var(--text3); margin-bottom:20px; }
+        .modal-dana-box { background:var(--green-light); border:2px dashed var(--green); border-radius:var(--radius-sm); padding:20px; text-align:center; margin-bottom:16px; }
+        .modal-dana-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px; }
+        .modal-dana-num { font-size:28px; font-weight:800; color:var(--green-dark); letter-spacing:2px; }
+        .modal-dana-name { font-size:13px; color:var(--green); font-weight:600; margin-top:4px; }
+        .modal-note { font-size:12px; color:var(--accent); font-weight:700; text-align:center; margin-bottom:20px; }
+        .btn-whatsapp { width:100%; background:#25D366; color:white; border:none; border-radius:var(--radius-sm); padding:15px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+        .btn-modal-close { width:100%; background:none; color:var(--red); border:1.5px solid var(--red); border-radius:var(--radius-sm); padding:13px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-top:10px; }
+
+        .hidden { display:none !important; }
+        .mt10 { margin-top:10px; }
+        .mt12 { margin-top:12px; }
+        .mt16 { margin-top:16px; }
     </style>
 </head>
 <body>
-
 <audio id="suaraNotif" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
 <input type="file" id="inputCustomSound" accept="audio/*" class="hidden" onchange="prosesUploadSuara(event)">
 
 <div id="modal-topup" class="modal-overlay hidden">
     <div class="modal-box">
-        <h3 id="ui-modal-title">Parentah Top-Up</h3>
-        <p id="ui-modal-desc" style="font-size: 14px; color: #555;">Transfer nominal anu badé diisi kana rekening / DANA ieu:</p>
-        
-        <div class="dana-box">
-            <div style="font-size: 13px; font-weight: bold; opacity: 0.9;" id="ui-modal-dana-lbl">Nomer DANA Admin</div>
-            <h2>081383179209</h2>
-            <div style="font-size: 14px; font-weight: bold;">a.n Riski Hariyanto</div>
+        <div class="modal-handle"></div>
+        <div class="modal-title" id="ui-modal-title">Parentah Top-Up</div>
+        <div class="modal-sub" id="ui-modal-desc">Transfer nominal anu badé diisi kana rekening / DANA ieu:</div>
+        <div class="modal-dana-box">
+            <div class="modal-dana-label" id="ui-modal-dana-lbl">Nomer DANA Admin</div>
+            <div class="modal-dana-num">0813-8317-9209</div>
+            <div class="modal-dana-name">a.n Riski Hariyanto</div>
         </div>
-
-        <p id="ui-modal-note" style="font-size: 13px; color: #e67e22; font-weight: bold;">⚠️ Ulah hilap di-screenshot bukti transferna!</p>
-
-        <button class="btn-wa-confirm" onclick="konfirmasiTopUpWA()" id="ui-btn-confirm-wa">Kintun Bukti via WA 💬</button>
-        <button class="btn-close-modal" onclick="tutupModalTopUp()" id="ui-btn-close-modal">Bolaykeun</button>
+        <div class="modal-note" id="ui-modal-note">⚠️ Ulah hilap di-screenshot bukti transferna!</div>
+        <button class="btn-whatsapp" onclick="konfirmasiTopUpWA()" id="ui-btn-confirm-wa">💬 Kintun Bukti via WA</button>
+        <button class="btn-modal-close" onclick="tutupModalTopUp()" id="ui-btn-close-modal">Bolaykeun</button>
     </div>
 </div>
 
-<div class="app-container">
-    <div class="header">
-        <div class="lang-switcher">
-            <button class="lang-btn active" onclick="setLang('su')" id="btn-su">Sunda</button>
-            <button class="lang-btn" onclick="setLang('id')" id="btn-id">ID</button>
-            <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
-        </div>
-        <h2 id="ui-title">🛵 Portal Mitra</h2>
-        <p style="font-size: 13px; margin: 5px 0 0 0;" id="ui-subtitle">Satria Batara - Aplikasi Driver</p>
-        
-        <div id="ui-status-box" class="hidden" style="margin-top: 15px; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <div style="text-align: left;">
-                <h3 style="margin:0; font-size: 13px;" id="ui-status-text">Status: <span style="color: #fff;">AKTIF NARAMPI PESENAN</span> 🟢</h3>
-                <p style="font-size: 12px; margin: 3px 0 0 0;"><span id="ui-lbl-driver-name">Mitra:</span> <b id="displayNamaDriver"></b></p>
-            </div>
-        </div>
-    </div>
+<div class="app">
 
-    <div id="page-login" class="content">
-        <div style="margin: auto 0;">
-            <h3 style="text-align:center; color:#2c3e50; margin-top:0;" id="ui-login-title">Lebet Akun Mitra</h3>
-            
-            <label id="ui-lbl-wa-login">Nomer WA Kadaptar</label>
-            <input type="tel" inputmode="numeric" id="loginWA" placeholder="Conto: 0813xxxx">
-            
-            <label id="ui-lbl-pass-login">Kecap Sandi (Password)</label>
-            <input type="password" id="loginPass" placeholder="******">
-            
-            <button class="btn-utama" onclick="prosesLogin()" id="ui-btn-login">Ngawitan Narik 🟢</button>
-            
-            <div class="link-teks">
+    <div id="page-login" class="login-wrapper">
+        <div class="login-hero">
+            <div class="login-hero-badge">🛵 PORTAL MITRA DRIVER</div>
+            <span class="login-hero-icon">👷</span>
+            <div class="login-hero-title">Satria <span>Batara</span></div>
+            <div class="login-hero-sub">Selamat datang, Mitra Driver Terpercaya!</div>
+        </div>
+        <div class="login-body">
+            <div style="position:absolute; top:16px; right:20px;">
+                <div class="lang-pill light-bg" style="background:#F0F2F5;">
+                    <button class="lang-btn" onclick="setLang('su')" id="btn-su">Sunda</button>
+                    <button class="lang-btn active" onclick="setLang('jw')" id="btn-jw">Jawa</button>
+                    <button class="lang-btn" onclick="setLang('id')" id="btn-id">ID</button>
+                    <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+                </div>
+            </div>
+            <div class="login-heading" id="ui-login-title">Lebet Akun Mitra</div>
+            <div class="login-sub" id="ui-login-sub">Asupkeun kredensial anjeun</div>
+            <div class="form-group">
+                <label class="form-label" id="ui-lbl-wa-login">Nomer WA Kadaptar</label>
+                <input class="form-input" type="tel" inputmode="numeric" id="loginWA" placeholder="0813xxxx">
+            </div>
+            <div class="form-group">
+                <label class="form-label" id="ui-lbl-pass-login">Kecap Sandi</label>
+                <input class="form-input" type="password" id="loginPass" placeholder="••••••">
+            </div>
+            <button class="btn-primary" onclick="prosesLogin()" id="ui-btn-login">Ngawitan Narik 🟢</button>
+            <div class="link-row">
                 <span id="ui-txt-noreg">Teu acan kagungan akun?</span> <a onclick="tampilDaftar()" id="ui-link-daftar">Daptar janten Mitra</a>
             </div>
-        </div>
-    </div>
-
-    <div id="page-register" class="content hidden">
-        <h3 style="text-align:center; color:#2E7D32; margin-top:0;" id="ui-reg-title">Daptar Mitra Driver</h3>
-        
-        <label id="ui-lbl-nama">Nami Lengkep / Panggero</label>
-        <input type="text" id="regNama" placeholder="Conto: Kang Riski">
-
-        <label id="ui-lbl-wa-reg">Nomer WhatsApp Aktif</label>
-        <input type="tel" inputmode="numeric" id="regWA" placeholder="Conto: 0813xxxx">
-        
-        <label id="ui-lbl-pass-reg">Damel Kecap Sandi</label>
-        <input type="password" id="regPass" placeholder="Minimal 6 karakter">
-
-        <label id="ui-lbl-tnc">Aturan Saldo & Potongan</label>
-        <div class="tnc-box" id="ui-tnc-text">
-            <b>1. Sistem Saldo Prabayar:</b><br>
-            Saban nampi 1 pesenan, saldo anjeun badé kapotong <b>Rp 1.000</b> kanggo biaya aplikasi. Artos jasa ti warga 100% utuh kanggo anjeun.<br><br>
-            <b>2. Top-Up Bebas:</b><br>
-            Teu aya minimal Top-Up! Badé ngalebetkeun Rp 5.000 ogé mangga. Hubungi Admin (Kang Riski) kanggo tambih saldo.<br><br>
-            <b>3. Sarat Narik:</b><br>
-            Upami saldo lami (handapeun Rp 1.000), anjeun teu tiasa nampi pesenan énggal.
-        </div>
-
-        <label class="checkbox-container">
-            <input type="checkbox" id="chkSetuju">
-            <span id="ui-txt-setuju">Abdi satuju kana aturan di luhur</span>
-        </label>
-        
-        <button class="btn-utama" onclick="prosesDaftar()" id="ui-btn-reg">Kintun Pendaftaran 📝</button>
-        
-        <div class="link-teks">
-            <span id="ui-txt-yesreg">Parantos kagungan akun?</span> <a onclick="tampilLogin()" id="ui-link-login">Lebet ayeuna</a>
-        </div>
-    </div>
-
-    <div id="page-radar" class="content hidden">
-        <div class="section-title" style="margin-top: 0; color: #e67e22;" id="ui-title-aktif">🛠️ Garapan Aktif Anjeun</div>
-        <div id="listOrderanAktif"></div>
-
-        <div class="section-title" style="margin-top: 20px;" id="ui-title-radar">📡 Radar Pesenan Énggal</div>
-        <div id="listOrderan"></div>
-    </div>
-
-    <div id="page-wallet" class="content hidden">
-        <div class="wallet-box">
-            <div class="wallet-label" id="ui-lbl-saldo">Sisa Saldo Aplikasi</div>
-            <div class="wallet-angka" id="statSaldo">Rp 0</div>
-            <button onclick="bukaModalTopUp()" class="btn-topup-wa" id="ui-btn-topup">➕ Isi Saldo (Top-Up)</button>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-box blue">
-                <div class="stat-label" id="ui-stat-jalan">Nuju Diprosés</div>
-                <div class="stat-angka" id="statJalan">0</div>
-            </div>
-            <div class="stat-box green">
-                <div class="stat-label" id="ui-stat-beres">Total Rengsé</div>
-                <div class="stat-angka" id="statSelesai">0</div>
+            <div class="link-row mt12">
+                <span id="ui-txt-help">Butuh bantuan?</span> <a class="wa-link" onclick="hubungiAdmin()" id="ui-link-help">Hubungi Admin</a>
             </div>
         </div>
     </div>
 
-    <div id="page-history" class="content hidden">
-        <h3 style="margin-top: 0; text-align: center;" id="ui-hist-title">Sajarah & Ulasan Warga</h3>
-        <div style="background: white; border-radius: 15px; padding: 20px; text-align: center; border: 2px solid #2E7D32; margin-bottom: 20px;">
-            <div style="font-size: 40px; margin-bottom: 5px;">⭐ <span id="avgRatingDisplay" style="font-weight: bold; color: #2E7D32;">0.0</span></div>
-            <div style="font-size: 12px; font-weight: bold; color: #7f8c8d; text-transform: uppercase;" id="ui-lbl-avg">Rating Rata-rata</div>
+    <div id="page-register" class="login-wrapper hidden">
+        <div class="login-hero" style="padding-bottom:50px;">
+            <div class="login-hero-badge">🛵 DAFTAR MITRA BARU</div>
+            <span class="login-hero-icon">📝</span>
+            <div class="login-hero-title">Bergabung <span>Bersama</span> Kami</div>
+            <div class="login-hero-sub">Isi data dengan benar untuk diverifikasi Admin</div>
         </div>
-        <div id="listHistoryDriver" style="padding-bottom: 20px;"></div>
+        <div class="login-body">
+            <div class="login-heading" id="ui-reg-title">Daptar Mitra Driver</div>
+            <div class="login-sub">Isi sadaya data ieu</div>
+            <div class="form-group">
+                <label class="form-label" id="ui-lbl-nama">Nami Lengkep / Panggero</label>
+                <input class="form-input" type="text" id="regNama" placeholder="Conto: Kang Riski">
+            </div>
+            <div class="form-group">
+                <label class="form-label" id="ui-lbl-wa-reg">Nomer WhatsApp Aktif</label>
+                <input class="form-input" type="tel" inputmode="numeric" id="regWA" placeholder="0813xxxx">
+            </div>
+            <div class="form-group">
+                <label class="form-label" id="ui-lbl-pass-reg">Damel Kecap Sandi</label>
+                <input class="form-input" type="password" id="regPass" placeholder="Minimal 6 karakter">
+            </div>
+            <div class="form-group">
+                <label class="form-label" id="ui-lbl-tnc">Aturan Saldo & Potongan</label>
+                <div class="tnc-box" id="ui-tnc-text">
+                    <b>1. Sistem Saldo Prabayar:</b><br>Saban nampi 1 pesenan, saldo anjeun badé kapotong <b>Rp 1.000</b> kanggo biaya aplikasi. Artos jasa ti warga 100% utuh kanggo anjeun.<br><br>
+                    <b>2. Top-Up Bebas:</b><br>Teu aya minimal Top-Up! Badé ngalebetkeun Rp 5.000 ogé mangga. Hubungi Admin (Kang Riski) kanggo tambih saldo.<br><br>
+                    <b>3. Sarat Narik:</b><br>Upami saldo lami (handapeun Rp 1.000), anjeun teu tiasa nampi pesenan énggal.
+                </div>
+                <label class="check-row">
+                    <input type="checkbox" id="chkSetuju">
+                    <span id="ui-txt-setuju">Abdi satuju kana aturan di luhur</span>
+                </label>
+            </div>
+            <button class="btn-primary" onclick="prosesDaftar()" id="ui-btn-reg">Kintun Pendaftaran 📝</button>
+            <div class="link-row">
+                <span id="ui-txt-yesreg">Parantos kagungan akun?</span> <a onclick="tampilLogin()" id="ui-link-login">Lebet ayeuna</a>
+            </div>
+            <div class="link-row mt12">
+                <span id="ui-txt-help2">Butuh bantuan?</span> <a class="wa-link" onclick="hubungiAdmin()" id="ui-link-help2">Hubungi Admin</a>
+            </div>
+        </div>
     </div>
 
-    <div id="page-profile" class="content hidden">
-        <div style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
-            <div style="font-size: 70px;">👷</div>
-            <h2 id="profDisplayNama" style="margin: 10px 0 0 0; color: #2E7D32;">-</h2>
-            <p id="profDisplayWA" style="margin: 5px 0 0 0; color: #7f8c8d; font-weight: bold;">-</p>
+    <div id="app-main" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden; position:relative;">
+
+        <div class="driver-topbar">
+            <div class="dtb-top">
+                <div class="dtb-logo">Satria <span>Batara</span></div>
+                <div class="lang-pill">
+                    <button class="lang-btn" onclick="setLang('su')" id="btn-su2">Sunda</button>
+                    <button class="lang-btn active" onclick="setLang('jw')" id="btn-jw2">Jawa</button>
+                    <button class="lang-btn" onclick="setLang('id')" id="btn-id2">ID</button>
+                    <button class="lang-btn" onclick="setLang('en')" id="btn-en2">EN</button>
+                </div>
+            </div>
+            <div class="driver-info-row">
+                <div class="driver-avatar-sm">👷</div>
+                <div>
+                    <div class="driver-name-txt" id="displayNamaDriver">—</div>
+                    <div class="driver-status-pill">
+                        <div class="status-dot"></div>
+                        <div class="driver-status-txt" id="ui-status-txt">AKTIF NARAMPI PESENAN</div>
+                    </div>
+                </div>
+                <div class="dtb-saldo">
+                    <div class="dtb-saldo-label" id="ui-lbl-saldo-top">SALDO</div>
+                    <div class="dtb-saldo-val" id="dtbSaldo">Rp 0</div>
+                </div>
+            </div>
         </div>
 
-        <div class="sound-setting-box">
-            <span style="font-weight: bold; color: #2c3e50; font-size: 14px;" id="ui-lbl-sound">🔊 Sora Notif:</span>
-            <select id="soundSelect" onchange="gantiSuara()">
-                <option value="default">Standar (Beep)</option>
-                <option value="doorbell">Bél Bumi</option>
-                <option value="chime">Bél Toko</option>
-                <option value="horn">Klakson Motor</option>
-                <option value="custom" id="ui-opt-custom">🎵 Sora Nyalira (Upload)</option>
-            </select>
+        <div id="page-radar" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="page">
+                <div class="stat-strip">
+                    <div class="stat-chip blue">
+                        <div class="stat-chip-val" id="statJalan">0</div>
+                        <div class="stat-chip-label" id="ui-stat-jalan">Nuju Diprosés</div>
+                    </div>
+                    <div class="stat-chip green">
+                        <div class="stat-chip-val" id="statSelesai">0</div>
+                        <div class="stat-chip-label" id="ui-stat-beres">Total Rengsé</div>
+                    </div>
+                </div>
+
+                <div class="section mt10">
+                    <div class="sec-title"><span class="sec-title-dot blue"></span><span id="ui-title-aktif">Garapan Aktif</span></div>
+                    <div id="listOrderanAktif"></div>
+                </div>
+
+                <div class="section mt10">
+                    <div class="sec-title"><span class="sec-title-dot amber"></span><span id="ui-title-radar">Radar Pesenan Énggal</span></div>
+                    <div id="listOrderan"></div>
+                </div>
+            </div>
         </div>
 
-        <button style="background: #e74c3c; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: auto;" onclick="keluarAplikasi()" id="ui-btn-logout">🚪 Kaluar (Logout)</button>
-    </div>
+        <div id="page-wallet" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="page">
+                <div class="wallet-hero mt16">
+                    <div class="wh-label" id="ui-lbl-saldo">Sisa Saldo Aplikasi</div>
+                    <div class="wh-amount" id="statSaldo">Rp 0</div>
+                    <div class="wh-sub" id="ui-saldo-sub">Dipotong Rp 1.000 satiap pesenan</div>
+                    <button class="wh-topup-btn" onclick="bukaModalTopUp()" id="ui-btn-topup">➕ Isi Saldo (Top-Up)</button>
+                </div>
+                <div class="wallet-stats mt16">
+                    <div class="ws-card">
+                        <div class="ws-val blue" id="statJalan2">0</div>
+                        <div class="ws-label" id="ui-stat-jalan2">Nuju Diprosés</div>
+                    </div>
+                    <div class="ws-card">
+                        <div class="ws-val green" id="statSelesai2">0</div>
+                        <div class="ws-label" id="ui-stat-beres2">Total Rengsé</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="bottom-nav" class="bottom-nav hidden">
-        <div class="nav-item active" id="tab-radar" onclick="navigasiKe('radar')">
-            <span class="nav-icon">📡</span>
-            <span class="nav-text" id="nav-radar">Radar</span>
+        <div id="page-history" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="page">
+                <div class="rating-hero mt16">
+                    <div class="rh-stars" id="avgRatingDisplay">0.0</div>
+                    <div>
+                        <div style="font-size:22px; color:var(--yellow);">★★★★★</div>
+                        <div class="rh-label" id="ui-lbl-avg">Rating Rata-rata</div>
+                    </div>
+                </div>
+                <div style="height:12px;"></div>
+                <div id="listHistoryDriver"></div>
+            </div>
         </div>
-        <div class="nav-item" id="tab-wallet" onclick="navigasiKe('wallet')">
-            <span class="nav-icon">💰</span>
-            <span class="nav-text" id="nav-wallet">Dompet</span>
+
+        <div id="page-profile" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+            <div class="page" style="padding-bottom:80px;">
+                <div class="profile-hero">
+                    <div class="prof-avatar">👷</div>
+                    <div class="prof-name" id="profDisplayNama">—</div>
+                    <div class="prof-wa" id="profDisplayWA">—</div>
+                </div>
+                <div style="height:16px;"></div>
+                <div class="sound-section">
+                    <div class="sound-row">
+                        <div class="sound-label" id="ui-lbl-sound">🔊 Sora Notif</div>
+                        <select class="sound-select" id="soundSelect" onchange="gantiSuara()">
+                            <option value="default">Standar (Beep)</option>
+                            <option value="doorbell">Bél Bumi</option>
+                            <option value="chime">Bél Toko</option>
+                            <option value="horn">Klakson Motor</option>
+                            <option value="custom" id="ui-opt-custom">🎵 Sora Nyalira</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="height:12px;"></div>
+                <div class="profile-card">
+                    <div class="profile-row" onclick="navigasiKe('history')">
+                        <div class="pr-icon" style="background:var(--green-light);">🕒</div>
+                        <div class="pr-label" id="ui-profile-hist">Sajarah Tarikan</div>
+                        <div class="pr-arrow">›</div>
+                    </div>
+                    <div class="profile-row" onclick="navigasiKe('wallet')">
+                        <div class="pr-icon" style="background:var(--accent-light);">💰</div>
+                        <div class="pr-label" id="ui-profile-wallet">Dompet Saldo</div>
+                        <div class="pr-arrow">›</div>
+                    </div>
+                    <div class="profile-row" onclick="hubungiAdmin()">
+                        <div class="pr-icon" style="background:#DCFCE7;">💬</div>
+                        <div class="pr-label" id="ui-profile-help">Pusat Bantuan</div>
+                        <div class="pr-arrow">›</div>
+                    </div>
+                </div>
+                <div style="height:16px;"></div>
+                <button class="btn-logout" onclick="keluarAplikasi()" id="ui-btn-logout">🚪 Kaluar (Logout)</button>
+                <div style="text-align:center; padding:14px; font-size:11px; color:var(--text3);">Satria Batara Driver v2.0 · © 2025</div>
+            </div>
         </div>
-        <div class="nav-item" id="tab-history" onclick="navigasiKe('history')">
-            <span class="nav-icon">🕒</span>
-            <span class="nav-text" id="nav-history">Sajarah</span>
-        </div>
-        <div class="nav-item" id="tab-profile" onclick="navigasiKe('profile')">
-            <span class="nav-icon">⚙️</span>
-            <span class="nav-text" id="nav-profile">Propil</span>
+
+        <div class="bottom-nav visible" id="bottom-nav">
+            <div class="nav-item active" id="tab-radar" onclick="navigasiKe('radar')">
+                <div class="nav-icon-wrap">📡</div>
+                <div class="nav-label" id="nav-radar">Radar</div>
+            </div>
+            <div class="nav-item" id="tab-wallet" onclick="navigasiKe('wallet')">
+                <div class="nav-icon-wrap">💰</div>
+                <div class="nav-label" id="nav-wallet">Dompet</div>
+            </div>
+            <div class="nav-item" id="tab-history" onclick="navigasiKe('history')">
+                <div class="nav-icon-wrap">🕒</div>
+                <div class="nav-label" id="nav-history">Sajarah</div>
+            </div>
+            <div class="nav-item" id="tab-profile" onclick="navigasiKe('profile')">
+                <div class="nav-icon-wrap">⚙️</div>
+                <div class="nav-label" id="nav-profile">Propil</div>
+            </div>
         </div>
     </div>
 </div>
@@ -262,7 +501,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, onValue, runTransaction, get, child, set, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    // ✅ KONFIGURASI FIREBASE SATRIA BATARA YANG BARU ✅
     const firebaseConfig = {
         apiKey: "AIzaSyCpuh2KBc_eBMY9uvpLF3NM4q4NjLXpLWQ",
         authDomain: "satria-batara.firebaseapp.com",
@@ -272,18 +510,17 @@
         messagingSenderId: "907483766943",
         appId: "1:907483766943:web:eec4cc45323300d87e42aa"
     };
-
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    let namaDriverAktif = "";
-    let waDriverAktif = "";
-    let saldoDriverAktif = 0; 
-    let orderYangSudahBunyi = new Set(); 
-    let latestOrdersData = []; 
-    let currentLang = "su";
+    let namaDriverAktif = "", waDriverAktif = "", saldoDriverAktif = 0;
+    let orderYangSudahBunyi = new Set();
+    let latestOrdersData = [];
     
-    const BIAYA_PLATFORM = 1000; 
+    // Default bahasa diset ke Jawa (jw)
+    let currentLang = "jw";
+    
+    const BIAYA_PLATFORM = 1000;
     const NOMOR_ADMIN_DRIVER = "6281383179209";
 
     const soundUrls = {
@@ -294,208 +531,243 @@
     };
 
     function muatPengaturanSuara() {
-        let savedSound = localStorage.getItem('suaraDriverSatria') || 'default';
-        document.getElementById('soundSelect').value = savedSound;
-        if (savedSound === 'custom') {
+        let saved = localStorage.getItem('suaraDriverSatria') || 'default';
+        document.getElementById('soundSelect').value = saved;
+        if(saved === 'custom') {
             let customData = localStorage.getItem('customSoundSatria');
-            if (customData) { document.getElementById('suaraNotif').src = customData; } 
-            else { document.getElementById('suaraNotif').src = soundUrls['default']; document.getElementById('soundSelect').value = 'default'; }
-        } else { document.getElementById('suaraNotif').src = soundUrls[savedSound]; }
+            document.getElementById('suaraNotif').src = customData ? customData : soundUrls['default'];
+        } else {
+            document.getElementById('suaraNotif').src = soundUrls[saved];
+        }
     }
 
     window.gantiSuara = function() {
         let val = document.getElementById('soundSelect').value;
         let audio = document.getElementById('suaraNotif');
-        if (val === 'custom') { document.getElementById('inputCustomSound').click(); return; }
+        if(val === 'custom') { document.getElementById('inputCustomSound').click(); return; }
         audio.src = soundUrls[val];
-        audio.currentTime = 0; audio.play().catch(e => console.log("Gagal memutar audio"));
+        audio.currentTime = 0; audio.play().catch(()=>{});
         localStorage.setItem('suaraDriverSatria', val);
     }
 
     window.prosesUploadSuara = function(event) {
         const file = event.target.files[0];
-        if (file) {
-            if (file.size > 2 * 1024 * 1024) { alert(currentLang === 'en' ? "File too large! Max 2MB." : "Ukuran file kalintang ageung! Maksimal 2MB."); document.getElementById('soundSelect').value = localStorage.getItem('suaraDriverSatria') || 'default'; return; }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Audio = e.target.result;
-                localStorage.setItem('customSoundSatria', base64Audio); localStorage.setItem('suaraDriverSatria', 'custom');
-                let audio = document.getElementById('suaraNotif');
-                audio.src = base64Audio; audio.currentTime = 0; audio.play();
-                alert(currentLang === 'en' ? "Custom sound saved!" : "Sora sukses disimpen!");
-            };
-            reader.readAsDataURL(file);
-        } else { document.getElementById('soundSelect').value = localStorage.getItem('suaraDriverSatria') || 'default'; }
+        if(!file) { document.getElementById('soundSelect').value = localStorage.getItem('suaraDriverSatria')||'default'; return; }
+        if(file.size > 2*1024*1024) { alert("Max 2MB!"); document.getElementById('soundSelect').value = 'default'; return; }
+        const reader = new FileReader();
+        reader.onload = e => {
+            localStorage.setItem('customSoundSatria', e.target.result);
+            localStorage.setItem('suaraDriverSatria', 'custom');
+            document.getElementById('suaraNotif').src = e.target.result;
+            document.getElementById('suaraNotif').play();
+            alert(langDict[currentLang].alertSound);
+        };
+        reader.readAsDataURL(file);
     }
 
     const langDict = {
         su: {
-            titleApp: "🛵 Portal Mitra",
-            titleLogin: "Lebet Akun Mitra", lblWaLog: "Nomer WA Kadaptar", lblPassLog: "Kecap Sandi", btnLogin: "Ngawitan Narik 🟢", txtNoReg: "Teu acan kagungan akun?", linkDaftar: "Daptar janten Mitra",
-            titleReg: "Daptar Mitra Driver", lblNama: "Nami Lengkep / Panggero", lblWaReg: "Nomer WhatsApp Aktif", lblPassReg: "Damel Kecap Sandi", lblTnc: "Aturan Saldo & Potongan", 
-            ph_wa: "Conto: 0813xxxx", ph_pass_log: "******", ph_pass_reg: "Minimal 6 karakter",
-            txtTnc: "<b>1. Sistem Saldo Prabayar:</b><br>Saban nampi 1 pesenan, saldo anjeun badé kapotong <b>Rp 1.000</b> kanggo biaya aplikasi. Artos jasa ti warga 100% utuh kanggo anjeun.<br><br><b>2. Top-Up Bebas:</b><br>Teu aya minimal Top-Up! Badé ngalebetkeun Rp 5.000 ogé mangga. Hubungi Admin (Kang Riski) kanggo tambih saldo.<br><br><b>3. Sarat Narik:</b><br>Upami saldo lami (handapeun Rp 1.000), anjeun teu tiasa nampi pesenan énggal.", 
-            txtSetuju: "Abdi satuju kana aturan di luhur", btnReg: "Kintun Pendaftaran 📝", txtYesReg: "Parantos kagungan akun?", linkLogin: "Lebet ayeuna",
-            statusTxt: "Status: <span style='color:#fff'>AKTIF NARAMPI PESENAN</span> 🟢", statJalan: "Nuju Diprosés", statBeres: "Total Rengsé", titleAktif: "🛠️ Garapan Aktif Anjeun", titleRadar: "📡 Radar Pesenan Énggal", emptyAktif: "Teu acan aya pesenan anu nuju didamel.", emptyRadar: "Teu acan aya pesenan asup.<br>Mangga ngopi heula Kang ☕",
-            lblCust: "👤 <b>Warga:</b>", lblDet1: "📍 <b>Jemput:</b>", lblDet2: "🏁 <b>Tujuan:</b>", lblNote: "📝 <b>Catetan:</b>", badgeAktif: "ENGGAL BERESKEUN", noteAktif: "Pesenan badé leungit tina radar ieu pami dikonfirmasi 'Rengsé' ku Warga.", btnWa: "💬 Chat WA Warga", btnAmbil: "Tampi Pesenan Ieu ⚡", 
-            lblSaldo: "Sisa Saldo Aplikasi", btnTopup: "➕ Isi Saldo (Top-Up)", lblSound: "🔊 Sora Notif:", optCustom: "🎵 Sora Nyalira (Upload)",
-            lblDriverName: "Mitra:", btnLogout: "🚪 Kaluar (Logout)", histTitle: "Sajarah & Ulasan Warga", lblAvg: "Rating Rata-rata", 
-            navRadar: "Radar", navWallet: "Dompet", navHistory: "Sajarah", navProfile: "Propil",
-            modalTitle: "Parentah Top-Up", modalDesc: "Transfer nominal anu badé diisi kana rekening / DANA ieu:", modalDanaLbl: "Nomer DANA Admin", modalNote: "⚠️ Ulah hilap di-screenshot bukti transferna!", btnConfirmWA: "Kintun Bukti via WA 💬", btnCloseModal: "Bolaykeun",
-            btnCancelOrder: "❌ Bolaykeun (Saldo Diuihkeun)", btnCompleteOrder: "✅ Pesenan Rengsé",
-            alertTnc: "Kedah dicolok heula kotak persetujuanana!", alertIsi: "Mangga lebetkeun sadaya data!", alertPass: "Password minimal 6 karakter!", alertRegWait: "Pendaftaran suksés! Mangga antosan, Admin nuju marios akun anjeun.", alertRegExist: "Nomer WA ieu parantos kadaptar!", alertWrong: "Nomer WA atanapi Password lepat!", alertPending: "Akun anjeun masih PENDING. Mangga antosan verifikasi Admin.", alertSuspend: "⛔ AKUN DITANGGUHKEUN ⛔\nHubungi admin supados tiasa login deui.", alertSaldoHabis: "Saldo anjeun seep! Mangga Top-Up heula ka Admin.", alertSuccess: "Suksés ditampi! Saldo anjeun kapotong Rp 1.000.", alertLate: "Hapunten! Pesenan parantos kenging ku driver sanes.",
-            alertCancelConf: "Yakin badé ngabolaykeun? Saldo Rp 1.000 badé diuihkeun, sareng pesenan ieu badé dialungkeun deui ka radar.", alertCancelSucc: "Suksés dibolaykeun! Saldo parantos diuihkeun.", alertCompleteConf: "Yakin pesenan ieu parantos rengsé sareng artos parantos katampi?",
-            waTemplate1: "Wilujeng enjing ", waTemplate2: ", abdi ", waTemplate3: " ti Satria Batara. Pesenan anjeun parantos ditampi, abdi nuju ka lokasi ayeuna!",
-            waTopUpMsg: "Wilujeng enjing Kang Riski (Admin Satria Batara), abdi mitra [NAMA] (WA: [WA]). Abdi nembé transfer DANA kanggo Top-Up saldo aplikasi. Ieu bukti transferna: "
+            titleLogin:"Lebet Akun Mitra", loginSub:"Asupkeun kredensial anjeun", lblWaLog:"Nomer WA Kadaptar", lblPassLog:"Kecap Sandi", btnLogin:"Ngawitan Narik 🟢", txtNoReg:"Teu acan kagungan akun?", linkDaftar:"Daptar janten Mitra",
+            titleReg:"Daptar Mitra Driver", lblNama:"Nami Lengkep / Panggero", lblWaReg:"Nomer WhatsApp Aktif", lblPassReg:"Damel Kecap Sandi", lblTnc:"Aturan Saldo & Potongan",
+            txtTnc:"<b>1. Sistem Saldo Prabayar:</b><br>Saban nampi 1 pesenan, saldo anjeun badé kapotong <b>Rp 1.000</b> kanggo biaya aplikasi. Artos jasa ti warga 100% utuh kanggo anjeun.<br><br><b>2. Top-Up Bebas:</b><br>Teu aya minimal Top-Up! Badé ngalebetkeun Rp 5.000 ogé mangga.<br><br><b>3. Sarat Narik:</b><br>Upami saldo lami (handapeun Rp 1.000), anjeun teu tiasa nampi pesenan énggal.",
+            txtSetuju:"Abdi satuju kana aturan di luhur", btnReg:"Kintun Pendaftaran 📝", txtYesReg:"Parantos kagungan akun?", linkLogin:"Lebet ayeuna",
+            statusTxt:"AKTIF NARAMPI PESENAN", lblSaldoTop:"SALDO",
+            statJalan:"Nuju Diprosés", statBeres:"Total Rengsé", titleAktif:"Garapan Aktif", titleRadar:"Radar Pesenan Énggal",
+            emptyAktif:"Teu acan aya pesenan aktif.", emptyRadar:"Teu acan aya pesenan asup.<br>Mangga ngopi heula Kang ☕",
+            lblCust:"Warga", lblDet1:"Jemput", lblDet2:"Tujuan", lblNote:"Catetan", badgeAktif:"ENGGAL BERESKEUN", badgeNew:"PESENAN ÉNGGAL",
+            noteAktif:"Pesenan ieu leungit pami dikonfirmasi 'Rengsé' ku Warga.",
+            btnWa:"💬 Chat WA Warga", btnAmbil:"Tampi Pesenan Ieu ⚡",
+            lblSaldo:"Sisa Saldo Aplikasi", saldoSub:"Dipotong Rp 1.000 satiap pesenan", btnTopup:"➕ Isi Saldo (Top-Up)",
+            lblSound:"🔊 Sora Notif", optCustom:"🎵 Sora Nyalira",
+            btnLogout:"🚪 Kaluar (Logout)", histTitle:"Sajarah & Ulasan Warga", lblAvg:"Rating Rata-rata",
+            navRadar:"Radar", navWallet:"Dompet", navHistory:"Sajarah", navProfile:"Propil",
+            profHist:"Sajarah Tarikan", profWallet:"Dompet Saldo",
+            txtHelp:"Peryogi bantosan?", linkHelp:"Hubungi Admin", profHelp:"Pusat Bantosan",
+            modalTitle:"Parentah Top-Up", modalDesc:"Transfer nominal anu badé diisi kana rekening / DANA ieu:", modalDanaLbl:"Nomer DANA Admin", modalNote:"⚠️ Ulah hilap di-screenshot bukti transferna!", btnConfirmWA:"💬 Kintun Bukti via WA", btnCloseModal:"Bolaykeun",
+            btnCancelOrder:"❌ Bolaykeun (Saldo Diuihkeun)", btnCompleteOrder:"✅ Pesenan Rengsé",
+            alertTnc:"Kedah dicolok heula kotak persetujuanana!", alertIsi:"Mangga lebetkeun sadaya data!", alertPass:"Password minimal 6 karakter!", alertRegWait:"Pendaftaran suksés! Mangga antosan, Admin nuju marios akun anjeun.", alertRegExist:"Nomer WA ieu parantos kadaptar!", alertWrong:"Nomer WA atanapi Password lepat!", alertPending:"Akun anjeun masih PENDING. Mangga antosan verifikasi Admin.", alertSuspend:"⛔ AKUN DITANGGUHKEUN ⛔\nHubungi admin supados tiasa login deui.", alertSaldoHabis:"Saldo anjeun seep! Mangga Top-Up heula ka Admin.", alertSuccess:"Suksés ditampi! Saldo anjeun kapotong Rp 1.000.", alertLate:"Hapunten! Pesenan parantos kenging ku driver sanes.",
+            alertCancelConf:"Yakin badé ngabolaykeun? Saldo Rp 1.000 badé diuihkeun.", alertCancelSucc:"Suksés dibolaykeun! Saldo parantos diuihkeun.", alertCompleteConf:"Yakin pesenan ieu parantos rengsé sareng artos parantos katampi?",
+            waTemplate1:"Wilujeng enjing ", waTemplate2:", abdi ", waTemplate3:" ti Satria Batara. Pesenan anjeun parantos ditampi, abdi nuju ka lokasi ayeuna!",
+            waTopUpMsg:"Wilujeng enjing Kang Riski (Admin Satria Batara), abdi mitra [NAMA] (WA: [WA]). Abdi nembé transfer DANA kanggo Top-Up saldo aplikasi. Ieu bukti transferna: ",
+            noRating:"Warga teu acan ngantunkeun ulasan",
+            emptyHistory:"Teu acan aya sajarah tarikan.", pillDone:"Rengsé ✓", pillOngoing:"Nuju Diprosés", txtStar:"Bintang", alertLogout:"Yakin badé kaluar?", alertSound:"Sora sukses disimpen!"
+        },
+        jw: {
+            titleLogin:"Mlebu Akun Mitra", loginSub:"Lebokno datamu sing bener", lblWaLog:"Nomer WA Sing Kedaftar", lblPassLog:"Kata Sandi", btnLogin:"Gass Narik 🟢", txtNoReg:"Durung duwe akun to?", linkDaftar:"Daftar dadi Mitra",
+            titleReg:"Daftar Mitra Driver", lblNama:"Jeneng Lengkap / Panggilan", lblWaReg:"Nomer WA Sing Aktif", lblPassReg:"Gawe Password", lblTnc:"Aturan Saldo & Potongan",
+            txtTnc:"<b>1. Sistem Saldo Prabayar:</b><br>Saben njupuk 1 orderan, saldomu bakal kepotong <b>Rp 1.000</b> nggo bayar aplikasi. Duit seko penumpang 100% utuh nggo kowe.<br><br><b>2. Top-Up Bebas:</b><br>Gak ono minimal isi saldo! Arep ngisi Rp 5.000 yo monggo. Chat Admin wae.<br><br><b>3. Syarat Narik:</b><br>Nek saldomu entek (ngisore Rp 1.000), kowe gak iso nampa orderan anyar.",
+            txtSetuju:"Aku setuju karo aturan neng dhuwur", btnReg:"Kirim Pendaftaran 📝", txtYesReg:"Wes duwe akun?", linkLogin:"Mlebu saiki",
+            statusTxt:"AKTIF GOLEK PENUMPANG", lblSaldoTop:"SALDO",
+            statJalan:"Lagi Mlaku", statBeres:"Total Rampung", titleAktif:"Garapan Aktif", titleRadar:"Radar Orderan Anyar",
+            emptyAktif:"Kowe urung nyekel orderan babar blas.", emptyRadar:"Urung ono orderan mlebu.<br>Ambi ngudud disik wae Kang ☕",
+            lblCust:"Warga", lblDet1:"Jemput", lblDet2:"Tujuan", lblNote:"Catetan", badgeAktif:"NDANG RAMPUNGNO", badgeNew:"ORDERAN ANYAR LUR",
+            noteAktif:"Orderan ilang nek wes dikonfirmasi 'Rampung' karo Warga.",
+            btnWa:"💬 Chat WA Warga", btnAmbil:"Sikat Orderan Iki ⚡",
+            lblSaldo:"Sisa Saldo Aplikasi", saldoSub:"Kepotong Rp 1.000 saben orderan", btnTopup:"➕ Isi Saldo (Top-Up)",
+            lblSound:"🔊 Suara Notif", optCustom:"🎵 Suarane Dewe",
+            btnLogout:"🚪 Metu (Logout)", histTitle:"Riwayat & Ulasan", lblAvg:"Rating Rata-rata",
+            navRadar:"Radar", navWallet:"Dompet", navHistory:"Riwayat", navProfile:"Profil",
+            profHist:"Riwayat Tarikan", profWallet:"Dompet Saldo",
+            txtHelp:"Butuh bantuan?", linkHelp:"Chat Admin", profHelp:"Pusat Bantuan",
+            modalTitle:"Instruksi Top-Up", modalDesc:"Transfer nominale neng nomer DANA iki:", modalDanaLbl:"Nomer DANA Admin", modalNote:"⚠️ Ojo lali di-screenshot bukti transfere!", btnConfirmWA:"💬 Kirim Bukti via WA", btnCloseModal:"Batal / Ora Sido",
+            btnCancelOrder:"❌ Batalno (Saldo Mbalik)", btnCompleteOrder:"✅ Orderan Rampung",
+            alertTnc:"Kudu dicentang disik kothak persetujuane!", alertIsi:"Tolong diisi kabeh datane!", alertPass:"Password minimal 6 karakter yo!", alertRegWait:"Daftare sukses! Enteni diluk, Admin lagi ngecek akunmu.", alertRegExist:"Nomer WA iki wes kedaftar!", alertWrong:"Nomer WA utawa Password salah lur!", alertPending:"Akunmu isih PENDING. Enteni di-ACC Admin.", alertSuspend:"⛔ AKUNMU DITANGGUHKE ⛔\nHubungi admin ben iso login meneh.", alertSaldoHabis:"Saldomu entek lur! Ayo Top-Up disik neng Admin.", alertSuccess:"Sukses dijupuk! Saldomu kepotong Rp 1.000.", alertLate:"Waduh telat! Orderane wes disrobot driver liyo.",
+            alertCancelConf:"Tenane arep dibatalno? Saldo Rp 1.000 bakal mbalik.", alertCancelSucc:"Sukses dibatalno! Saldomu wes mbalik.", alertCompleteConf:"Tenane orderan iki wes rampung lan duite wes ditampa?",
+            waTemplate1:"Halo ", waTemplate2:", aku ", waTemplate3:" seko Satria Batara. Orderanmu wes tak jupuk, aku otw saiki!",
+            waTopUpMsg:"Halo Kang Riski (Admin Satria Batara), aku mitra [NAMA] (WA: [WA]). Aku bar transfer DANA nggo Top-Up. Iki buktine: ",
+            noRating:"Warga urung ngekeki ulasan",
+            emptyHistory:"Urung ono riwayat tarikan babar blas.", pillDone:"Rampung ✓", pillOngoing:"Lagi Mlaku", txtStar:"Bintang", alertLogout:"Tenane arep metu (logout)?", alertSound:"Suarane sukses disimpen!"
         },
         id: {
-            titleApp: "🛵 Portal Mitra",
-            titleLogin: "Login Akun Mitra", lblWaLog: "Nomor WA Terdaftar", lblPassLog: "Kata Sandi", btnLogin: "Mulai Narik 🟢", txtNoReg: "Belum punya akun?", linkDaftar: "Daftar jadi Mitra",
-            titleReg: "Daftar Mitra Driver", lblNama: "Nama Lengkap / Panggilan", lblWaReg: "Nomor WhatsApp Aktif", lblPassReg: "Buat Kata Sandi", lblTnc: "Aturan Saldo & Potongan", 
-            ph_wa: "Contoh: 0813xxxx", ph_pass_log: "******", ph_pass_reg: "Minimal 6 karakter",
-            txtTnc: "<b>1. Sistem Saldo Prabayar:</b><br>Setiap mengambil 1 orderan, saldo Anda akan terpotong <b>Rp 1.000</b> untuk biaya server/aplikasi. Uang jasa dari pelanggan 100% utuh milik Anda.<br><br><b>2. Top-Up Bebas:</b><br>Tidak ada minimal isi saldo! Hubungi Admin (Kang Riski) untuk Top-Up.<br><br><b>3. Syarat Narik:</b><br>Jika saldo Anda habis (di bawah Rp 1.000), Anda tidak bisa mengambil orderan.", 
-            txtSetuju: "Saya menyetujui aturan di atas", btnReg: "Kirim Pendaftaran 📝", txtYesReg: "Sudah punya akun?", linkLogin: "Masuk sekarang",
-            statusTxt: "Status: <span style='color:#fff'>AKTIF MENCARI ORDER</span> 🟢", statJalan: "Sedang Berjalan", statBeres: "Total Selesai", titleAktif: "🛠️ Pekerjaan Aktif Anda", titleRadar: "📡 Radar Pesanan Baru", emptyAktif: "Anda belum memegang orderan apapun.", emptyRadar: "Belum ada orderan masuk.<br>Sambil ngopi dulu aja Kang ☕",
-            lblCust: "👤 <b>Warga:</b>", lblDet1: "📍 <b>Jemput:</b>", lblDet2: "🏁 <b>Tujuan:</b>", lblNote: "📝 <b>Catatan:</b>", badgeAktif: "SEGERA SELESAIKAN", noteAktif: "Orderan ini akan hilang saat dikonfirmasi Selesai oleh pelanggan.", btnWa: "💬 Chat WA Warga", btnAmbil: "Ambil Pesanan Ini ⚡", 
-            lblSaldo: "Sisa Saldo Aplikasi", btnTopup: "➕ Isi Saldo (Top-Up)", lblSound: "🔊 Suara Notif:", optCustom: "🎵 Suara Sendiri (Upload)",
-            lblDriverName: "Mitra:", btnLogout: "🚪 Keluar (Logout)", histTitle: "Riwayat & Ulasan", lblAvg: "Rating Rata-rata", 
-            navRadar: "Radar", navWallet: "Dompet", navHistory: "Riwayat", navProfile: "Profil",
-            modalTitle: "Instruksi Top-Up", modalDesc: "Transfer nominal yang ingin diisi ke nomor DANA berikut:", modalDanaLbl: "Nomor DANA Admin", modalNote: "⚠️ Jangan lupa screenshot bukti transfernya!", btnConfirmWA: "Kirim Bukti via WA 💬", btnCloseModal: "Batal",
-            btnCancelOrder: "❌ Batalkan (Refund Saldo)", btnCompleteOrder: "✅ Pesanan Selesai",
-            alertTnc: "Harap centang persetujuan terlebih dahulu!", alertIsi: "Harap isi semua data!", alertPass: "Password minimal 6 karakter!", alertRegWait: "Pendaftaran sukses! Mohon tunggu, Admin sedang memverifikasi akun Anda.", alertRegExist: "Nomor WA ini sudah terdaftar!", alertWrong: "Nomor WA atau Password salah!", alertPending: "Akun Anda berstatus PENDING. Silakan tunggu verifikasi Admin.", alertSuspend: "⛔ AKUN DITANGGUHKAN ⛔\nHubungi Admin agar bisa login kembali.", alertSaldoHabis: "Saldo Anda habis! Silakan Top-Up ke Admin.", alertSuccess: "Berhasil diambil! Saldo Anda terpotong Rp 1.000.", alertLate: "Yah telat! Orderan sudah diambil driver lain.",
-            alertCancelConf: "Yakin ingin membatalkan? Saldo Rp 1.000 akan dikembalikan, dan orderan ini akan dilempar kembali ke radar.", alertCancelSucc: "Berhasil dibatalkan! Saldo telah dikembalikan.", alertCompleteConf: "Yakin pesanan ini sudah selesai dan pembayaran sudah diterima?",
-            waTemplate1: "Halo ", waTemplate2: ", saya ", waTemplate3: " dari Satria Batara. Pesanan sudah saya ambil, saya meluncur sekarang!",
-            waTopUpMsg: "Halo Kang Riski (Admin Satria Batara), saya mitra [NAMA] (WA: [WA]). Saya baru saja transfer DANA untuk Top-Up saldo. Berikut buktinya: "
+            titleLogin:"Login Akun Mitra", loginSub:"Masukkan data akun Anda", lblWaLog:"Nomor WA Terdaftar", lblPassLog:"Kata Sandi", btnLogin:"Mulai Narik 🟢", txtNoReg:"Belum punya akun?", linkDaftar:"Daftar jadi Mitra",
+            titleReg:"Daftar Mitra Driver", lblNama:"Nama Lengkap / Panggilan", lblWaReg:"Nomor WhatsApp Aktif", lblPassReg:"Buat Kata Sandi", lblTnc:"Aturan Saldo & Potongan",
+            txtTnc:"<b>1. Sistem Saldo Prabayar:</b><br>Setiap mengambil 1 orderan, saldo Anda akan terpotong <b>Rp 1.000</b> untuk biaya aplikasi. Uang jasa dari pelanggan 100% utuh milik Anda.<br><br><b>2. Top-Up Bebas:</b><br>Tidak ada minimal isi saldo! Hubungi Admin untuk Top-Up.<br><br><b>3. Syarat Narik:</b><br>Jika saldo habis, Anda tidak bisa mengambil orderan.",
+            txtSetuju:"Saya menyetujui aturan di atas", btnReg:"Kirim Pendaftaran 📝", txtYesReg:"Sudah punya akun?", linkLogin:"Masuk sekarang",
+            statusTxt:"AKTIF MENCARI ORDER", lblSaldoTop:"SALDO",
+            statJalan:"Sedang Berjalan", statBeres:"Total Selesai", titleAktif:"Pekerjaan Aktif", titleRadar:"Radar Pesanan Baru",
+            emptyAktif:"Anda belum memegang orderan apapun.", emptyRadar:"Belum ada orderan masuk.<br>Sambil ngopi dulu aja Kang ☕",
+            lblCust:"Pelanggan", lblDet1:"Jemput", lblDet2:"Tujuan", lblNote:"Catatan", badgeAktif:"SEGERA SELESAIKAN", badgeNew:"PESANAN BARU",
+            noteAktif:"Orderan hilang saat pelanggan konfirmasi Selesai.",
+            btnWa:"💬 Chat WA Pelanggan", btnAmbil:"Ambil Pesanan Ini ⚡",
+            lblSaldo:"Sisa Saldo Aplikasi", saldoSub:"Dipotong Rp 1.000 tiap orderan", btnTopup:"➕ Isi Saldo (Top-Up)",
+            lblSound:"🔊 Suara Notif", optCustom:"🎵 Suara Sendiri",
+            btnLogout:"🚪 Keluar (Logout)", histTitle:"Riwayat & Ulasan", lblAvg:"Rating Rata-rata",
+            navRadar:"Radar", navWallet:"Dompet", navHistory:"Riwayat", navProfile:"Profil",
+            profHist:"Riwayat Orderan", profWallet:"Dompet Saldo",
+            txtHelp:"Butuh bantuan?", linkHelp:"Hubungi Admin", profHelp:"Pusat Bantuan",
+            modalTitle:"Instruksi Top-Up", modalDesc:"Transfer nominal ke nomor DANA berikut:", modalDanaLbl:"Nomor DANA Admin", modalNote:"⚠️ Jangan lupa screenshot bukti transfernya!", btnConfirmWA:"💬 Kirim Bukti via WA", btnCloseModal:"Batal",
+            btnCancelOrder:"❌ Batalkan (Refund Saldo)", btnCompleteOrder:"✅ Pesanan Selesai",
+            alertTnc:"Harap centang persetujuan!", alertIsi:"Harap isi semua data!", alertPass:"Password minimal 6 karakter!", alertRegWait:"Pendaftaran sukses! Tunggu verifikasi Admin.", alertRegExist:"Nomor WA ini sudah terdaftar!", alertWrong:"Nomor WA atau Password salah!", alertPending:"Akun PENDING. Tunggu verifikasi Admin.", alertSuspend:"⛔ AKUN DITANGGUHKAN ⛔\nHubungi Admin.", alertSaldoHabis:"Saldo habis! Silakan Top-Up.", alertSuccess:"Berhasil diambil! Saldo terpotong Rp 1.000.", alertLate:"Yah telat! Orderan sudah diambil driver lain.",
+            alertCancelConf:"Yakin ingin batalkan? Saldo Rp 1.000 akan dikembalikan.", alertCancelSucc:"Berhasil dibatalkan! Saldo dikembalikan.", alertCompleteConf:"Yakin orderan sudah selesai dan pembayaran diterima?",
+            waTemplate1:"Halo ", waTemplate2:", saya ", waTemplate3:" dari Satria Batara. Pesanan sudah saya ambil, saya meluncur sekarang!",
+            waTopUpMsg:"Halo Kang Riski (Admin Satria Batara), saya mitra [NAMA] (WA: [WA]). Saya baru transfer DANA untuk Top-Up. Ini buktinya: ",
+            noRating:"Pelanggan belum memberikan ulasan",
+            emptyHistory:"Belum ada riwayat orderan.", pillDone:"Selesai ✓", pillOngoing:"Sedang Berjalan", txtStar:"Bintang", alertLogout:"Yakin ingin keluar?", alertSound:"Suara berhasil disimpan!"
         },
         en: {
-            titleApp: "🛵 Partner Portal",
-            titleLogin: "Partner Login", lblWaLog: "Registered WA Number", lblPassLog: "Password", btnLogin: "Start Driving 🟢", txtNoReg: "Don't have an account?", linkDaftar: "Register as Partner",
-            titleReg: "Partner Registration", lblNama: "Full Name", lblWaReg: "Active WhatsApp Number", lblPassReg: "Create Password", lblTnc: "Balance Rules", 
-            ph_wa: "Example: 0813xxxx", ph_pass_log: "******", ph_pass_reg: "Min 6 characters",
-            txtTnc: "<b>1. Prepaid Balance:</b><br>Every time you take an order, your balance will be deducted by <b>Rp 1.000</b>. 100% of the customer's fee is yours.<br><br><b>2. Free Top-Up:</b><br>No minimum top-up! Contact Admin to top-up.<br><br><b>3. Requirement:</b><br>If your balance is empty, you cannot accept new orders.", 
-            txtSetuju: "I agree to the rules above", btnReg: "Submit Registration 📝", txtYesReg: "Already have an account?", linkLogin: "Login here",
-            statusTxt: "Status: <span style='color:#fff'>ACTIVE & SEARCHING</span> 🟢", statJalan: "In Progress", statBeres: "Total Done", titleAktif: "🛠️ Active Job", titleRadar: "📡 New Order Radar", emptyAktif: "You don't have any active orders.", emptyRadar: "No new orders yet.<br>Grab a coffee while waiting ☕",
-            lblCust: "👤 <b>Customer:</b>", lblDet1: "📍 <b>Pick-up:</b>", lblDet2: "🏁 <b>Drop-off:</b>", lblNote: "📝 <b>Note:</b>", badgeAktif: "COMPLETE ASAP", noteAktif: "This order disappears when customer confirms it as Completed.", btnWa: "💬 Chat Customer", btnAmbil: "Take This Order ⚡", 
-            lblSaldo: "App Balance", btnTopup: "➕ Top-Up Balance", lblSound: "🔊 Alert Sound:", optCustom: "🎵 Custom Sound",
-            lblDriverName: "Partner:", btnLogout: "🚪 Logout", histTitle: "History & Reviews", lblAvg: "Average Rating", 
-            navRadar: "Radar", navWallet: "Wallet", navHistory: "History", navProfile: "Profile",
-            modalTitle: "Top-Up Instructions", modalDesc: "Transfer your desired amount to this DANA number:", modalDanaLbl: "Admin DANA Number", modalNote: "⚠️ Don't forget to screenshot your receipt!", btnConfirmWA: "Send Receipt via WA 💬", btnCloseModal: "Cancel",
-            btnCancelOrder: "❌ Cancel (Refund Balance)", btnCompleteOrder: "✅ Mark as Completed",
-            alertTnc: "Please check the agreement box!", alertIsi: "Please fill all fields!", alertPass: "Password must be at least 6 chars!", alertRegWait: "Registration successful! Wait for Admin verification.", alertRegExist: "This WA is already registered!", alertWrong: "Wrong WA or Password!", alertPending: "Account is PENDING. Wait for Admin.", alertSuspend: "⛔ ACCOUNT SUSPENDED ⛔\nContact Admin.", alertSaldoHabis: "Insufficient balance! Please Top-Up.", alertSuccess: "Successfully taken! Balance deducted by Rp 1.000.", alertLate: "Too late! Another driver took it.",
-            alertCancelConf: "Are you sure? Rp 1.000 will be refunded, and the order will return to the radar.", alertCancelSucc: "Successfully cancelled! Balance refunded.", alertCompleteConf: "Are you sure this order is completed?",
-            waTemplate1: "Hi ", waTemplate2: ", I am ", waTemplate3: " from Satria Batara. I took your order and I'm on my way!",
-            waTopUpMsg: "Hello Admin Satria Batara, I am partner [NAMA] (WA: [WA]). I just transferred via DANA for Top-Up. Here is the receipt: "
+            titleLogin:"Partner Login", loginSub:"Enter your credentials", lblWaLog:"Registered WA Number", lblPassLog:"Password", btnLogin:"Start Driving 🟢", txtNoReg:"Don't have an account?", linkDaftar:"Register as Partner",
+            titleReg:"Partner Registration", lblNama:"Full Name", lblWaReg:"Active WhatsApp Number", lblPassReg:"Create Password", lblTnc:"Balance Rules",
+            txtTnc:"<b>1. Prepaid Balance:</b><br>Every order deducts <b>Rp 1,000</b> from your balance. 100% of customer fees are yours.<br><br><b>2. Free Top-Up:</b><br>No minimum top-up! Contact Admin.<br><br><b>3. Requirement:</b><br>If balance is empty, you cannot take orders.",
+            txtSetuju:"I agree to the rules above", btnReg:"Submit Registration 📝", txtYesReg:"Already have an account?", linkLogin:"Login here",
+            statusTxt:"ACTIVE & SEARCHING", lblSaldoTop:"BALANCE",
+            statJalan:"In Progress", statBeres:"Total Done", titleAktif:"Active Job", titleRadar:"New Order Radar",
+            emptyAktif:"You have no active orders.", emptyRadar:"No new orders yet.<br>Grab a coffee while waiting ☕",
+            lblCust:"Customer", lblDet1:"Pick-up", lblDet2:"Drop-off", lblNote:"Note", badgeAktif:"COMPLETE ASAP", badgeNew:"NEW ORDER",
+            noteAktif:"Order disappears when customer confirms Completed.",
+            btnWa:"💬 Chat Customer", btnAmbil:"Take This Order ⚡",
+            lblSaldo:"App Balance", saldoSub:"Rp 1,000 deducted per order", btnTopup:"➕ Top-Up Balance",
+            lblSound:"🔊 Alert Sound", optCustom:"🎵 Custom Sound",
+            btnLogout:"🚪 Logout", histTitle:"History & Reviews", lblAvg:"Average Rating",
+            navRadar:"Radar", navWallet:"Wallet", navHistory:"History", navProfile:"Profile",
+            profHist:"Order History", profWallet:"Wallet",
+            txtHelp:"Need help?", linkHelp:"Contact Admin", profHelp:"Help Center",
+            modalTitle:"Top-Up Instructions", modalDesc:"Transfer your amount to this DANA number:", modalDanaLbl:"Admin DANA Number", modalNote:"⚠️ Don't forget to screenshot your receipt!", btnConfirmWA:"💬 Send Receipt via WA", btnCloseModal:"Cancel",
+            btnCancelOrder:"❌ Cancel (Refund)", btnCompleteOrder:"✅ Mark Completed",
+            alertTnc:"Please check the agreement box!", alertIsi:"Please fill all fields!", alertPass:"Password must be 6+ chars!", alertRegWait:"Registration success! Wait for Admin verification.", alertRegExist:"This WA is already registered!", alertWrong:"Wrong WA or Password!", alertPending:"Account PENDING. Wait for Admin.", alertSuspend:"⛔ ACCOUNT SUSPENDED ⛔\nContact Admin.", alertSaldoHabis:"Insufficient balance! Please Top-Up.", alertSuccess:"Successfully taken! Balance deducted Rp 1,000.", alertLate:"Too late! Another driver took it.",
+            alertCancelConf:"Sure to cancel? Rp 1,000 will be refunded.", alertCancelSucc:"Cancelled! Balance refunded.", alertCompleteConf:"Confirm order is completed and payment received?",
+            waTemplate1:"Hi ", waTemplate2:", I'm ", waTemplate3:" from Satria Batara. I took your order, on my way!",
+            waTopUpMsg:"Hello Admin Satria Batara, I'm partner [NAMA] (WA: [WA]). I just transferred for Top-Up. Receipt: ",
+            noRating:"Customer hasn't left a review yet",
+            emptyHistory:"No order history yet.", pillDone:"Completed ✓", pillOngoing:"In Progress", txtStar:"Stars", alertLogout:"Are you sure you want to logout?", alertSound:"Custom sound saved!"
         }
     };
 
     window.setLang = function(langKey) {
         currentLang = langKey;
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-' + langKey).classList.add('active');
-        const t = langDict[langKey];
-        
-        document.getElementById('ui-title').innerText = t.titleApp;
-        document.getElementById('ui-login-title').innerText = t.titleLogin;
-        document.getElementById('ui-lbl-wa-login').innerText = t.lblWaLog;
-        document.getElementById('ui-lbl-pass-login').innerText = t.lblPassLog;
-        
-        document.getElementById('loginWA').placeholder = t.ph_wa;
-        document.getElementById('regWA').placeholder = t.ph_wa;
-        document.getElementById('loginPass').placeholder = t.ph_pass_log;
-        document.getElementById('regPass').placeholder = t.ph_pass_reg;
-
-        document.getElementById('ui-btn-login').innerText = t.btnLogin;
-        document.getElementById('ui-txt-noreg').innerText = t.txtNoReg;
-        document.getElementById('ui-link-daftar').innerText = t.linkDaftar;
-        
-        document.getElementById('ui-reg-title').innerText = t.titleReg;
-        document.getElementById('ui-lbl-nama').innerText = t.lblNama;
-        document.getElementById('ui-lbl-wa-reg').innerText = t.lblWaReg;
-        document.getElementById('ui-lbl-pass-reg').innerText = t.lblPassReg;
-        document.getElementById('ui-lbl-tnc').innerText = t.lblTnc;
-        document.getElementById('ui-tnc-text').innerHTML = t.txtTnc;
-        document.getElementById('ui-txt-setuju').innerText = t.txtSetuju;
-        document.getElementById('ui-btn-reg').innerText = t.btnReg;
-        document.getElementById('ui-txt-yesreg').innerText = t.txtYesReg;
-        document.getElementById('ui-link-login').innerText = t.linkLogin;
-
-        document.getElementById('ui-status-text').innerHTML = t.statusTxt;
-        document.getElementById('ui-lbl-saldo').innerText = t.lblSaldo;
-        document.getElementById('ui-btn-topup').innerText = t.btnTopup;
-        document.getElementById('ui-lbl-sound').innerText = t.lblSound; 
-        document.getElementById('ui-opt-custom').innerText = t.optCustom; 
-        
-        document.getElementById('ui-stat-jalan').innerText = t.statJalan;
-        document.getElementById('ui-stat-beres').innerText = t.statBeres;
-        document.getElementById('ui-title-aktif').innerText = t.titleAktif;
-        document.getElementById('ui-title-radar').innerText = t.titleRadar;
-        
-        document.getElementById('ui-lbl-driver-name').innerText = t.lblDriverName;
-        document.getElementById('ui-btn-logout').innerText = t.btnLogout;
-        document.getElementById('ui-hist-title').innerText = t.histTitle;
-        document.getElementById('ui-lbl-avg').innerText = t.lblAvg;
-
-        document.getElementById('ui-modal-title').innerText = t.modalTitle;
-        document.getElementById('ui-modal-desc').innerText = t.modalDesc;
-        document.getElementById('ui-modal-dana-lbl').innerText = t.modalDanaLbl;
-        document.getElementById('ui-modal-note').innerText = t.modalNote;
-        document.getElementById('ui-btn-confirm-wa').innerText = t.btnConfirmWA;
-        document.getElementById('ui-btn-close-modal').innerText = t.btnCloseModal;
-
-        // Bottom Nav Translate
-        document.getElementById('nav-radar').innerText = t.navRadar;
-        document.getElementById('nav-wallet').innerText = t.navWallet;
-        document.getElementById('nav-history').innerText = t.navHistory;
-        document.getElementById('nav-profile').innerText = t.navProfile;
-
-        renderOrdersUI(); 
-    }
-
-    // BOTTOM NAV SPA LOGIC
-    window.navigasiKe = function(tab) {
-        document.querySelectorAll('.content').forEach(el => {
-            if (el.id !== 'page-login' && el.id !== 'page-register') el.classList.add('hidden');
+        ['btn-su','btn-jw','btn-id','btn-en','btn-su2','btn-jw2','btn-id2','btn-en2'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.classList.toggle('active', id.replace('2','').endsWith(langKey));
         });
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        const t = langDict[langKey];
 
-        if (tab === 'radar') {
-            document.getElementById('page-radar').classList.remove('hidden');
-            document.getElementById('tab-radar').classList.add('active');
-        } else if (tab === 'wallet') {
-            document.getElementById('page-wallet').classList.remove('hidden');
-            document.getElementById('tab-wallet').classList.add('active');
-        } else if (tab === 'history') {
-            document.getElementById('page-history').classList.remove('hidden');
-            document.getElementById('tab-history').classList.add('active');
-            renderRiwayatDriver(); 
-        } else if (tab === 'profile') {
-            document.getElementById('page-profile').classList.remove('hidden');
-            document.getElementById('tab-profile').classList.add('active');
+        // Login / Register
+        const li = document.getElementById('ui-login-title'); if(li) li.innerText = t.titleLogin;
+        const ls = document.getElementById('ui-login-sub'); if(ls) ls.innerText = t.loginSub;
+        setText('ui-lbl-wa-login', t.lblWaLog); setText('ui-lbl-pass-login', t.lblPassLog);
+        setText('ui-btn-login', t.btnLogin); setText('ui-txt-noreg', t.txtNoReg); setText('ui-link-daftar', t.linkDaftar);
+        setText('ui-reg-title', t.titleReg); setText('ui-lbl-nama', t.lblNama);
+        setText('ui-lbl-wa-reg', t.lblWaReg); setText('ui-lbl-pass-reg', t.lblPassReg);
+        setText('ui-lbl-tnc', t.lblTnc); setHTML('ui-tnc-text', t.txtTnc);
+        setText('ui-txt-setuju', t.txtSetuju); setText('ui-btn-reg', t.btnReg);
+        setText('ui-txt-yesreg', t.txtYesReg); setText('ui-link-login', t.linkLogin);
+        setText('ui-txt-help', t.txtHelp); setText('ui-link-help', t.linkHelp);
+        setText('ui-txt-help2', t.txtHelp); setText('ui-link-help2', t.linkHelp);
+
+        // Driver topbar
+        setText('ui-status-txt', t.statusTxt);
+        setText('ui-lbl-saldo-top', t.lblSaldoTop);
+
+        // Stats
+        setText('ui-stat-jalan', t.statJalan); setText('ui-stat-beres', t.statBeres);
+        setText('ui-stat-jalan2', t.statJalan); setText('ui-stat-beres2', t.statBeres);
+        setText('ui-title-aktif', t.titleAktif); setText('ui-title-radar', t.titleRadar);
+
+        // Wallet
+        setText('ui-lbl-saldo', t.lblSaldo); setText('ui-saldo-sub', t.saldoSub); setText('ui-btn-topup', t.btnTopup);
+
+        // History/Profile
+        setText('ui-lbl-avg', t.lblAvg);
+        setText('ui-lbl-sound', t.lblSound); setText('ui-opt-custom', t.optCustom);
+        setText('ui-btn-logout', t.btnLogout);
+        setText('ui-profile-hist', t.profHist); setText('ui-profile-wallet', t.profWallet);
+        setText('ui-profile-help', t.profHelp);
+
+        // Modal
+        setText('ui-modal-title', t.modalTitle); setText('ui-modal-desc', t.modalDesc);
+        setText('ui-modal-dana-lbl', t.modalDanaLbl); setText('ui-modal-note', t.modalNote);
+        setText('ui-btn-confirm-wa', t.btnConfirmWA); setText('ui-btn-close-modal', t.btnCloseModal);
+
+        // Nav
+        setText('nav-radar', t.navRadar); setText('nav-wallet', t.navWallet);
+        setText('nav-history', t.navHistory); setText('nav-profile', t.navProfile);
+
+        renderOrdersUI();
+        if(!document.getElementById('page-history').classList.contains('hidden')) {
+            renderRiwayatDriver();
         }
     }
 
-    // MODAL TOP UP ACTIONS
+    function setText(id, val) { const el = document.getElementById(id); if(el) el.innerText = val; }
+    function setHTML(id, val) { const el = document.getElementById(id); if(el) el.innerHTML = val; }
+
+    window.navigasiKe = function(tab) {
+        ['page-radar','page-wallet','page-history','page-profile'].forEach(p => {
+            document.getElementById(p).classList.add('hidden');
+        });
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        const map = {radar:'page-radar', wallet:'page-wallet', history:'page-history', profile:'page-profile'};
+        const tmap = {radar:'tab-radar', wallet:'tab-wallet', history:'tab-history', profile:'tab-profile'};
+        if(map[tab]) document.getElementById(map[tab]).classList.remove('hidden');
+        if(tmap[tab]) document.getElementById(tmap[tab]).classList.add('active');
+        if(tab === 'history') renderRiwayatDriver();
+    }
+
     window.bukaModalTopUp = function() { document.getElementById('modal-topup').classList.remove('hidden'); }
     window.tutupModalTopUp = function() { document.getElementById('modal-topup').classList.add('hidden'); }
     window.konfirmasiTopUpWA = function() {
-        const msgTpl = langDict[currentLang].waTopUpMsg;
-        const msgFinal = msgTpl.replace("[NAMA]", namaDriverAktif).replace("[WA]", waDriverAktif);
-        window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}?text=${encodeURIComponent(msgFinal)}`, '_blank');
+        const msg = langDict[currentLang].waTopUpMsg.replace('[NAMA]', namaDriverAktif).replace('[WA]', waDriverAktif);
+        window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}?text=${encodeURIComponent(msg)}`, '_blank');
         tutupModalTopUp();
     }
 
-    window.tampilDaftar = function() { document.getElementById('page-login').classList.add('hidden'); document.getElementById('page-register').classList.remove('hidden'); }
-    window.tampilLogin = function() { document.getElementById('page-register').classList.add('hidden'); document.getElementById('page-login').classList.remove('hidden'); }
+    window.hubungiAdmin = function() {
+        window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}`, '_blank');
+    }
+
+    window.tampilDaftar = function() {
+        document.getElementById('page-login').classList.add('hidden');
+        document.getElementById('page-register').classList.remove('hidden');
+    }
+    window.tampilLogin = function() {
+        document.getElementById('page-register').classList.add('hidden');
+        document.getElementById('page-login').classList.remove('hidden');
+    }
 
     window.keluarAplikasi = function() {
-        if(confirm(currentLang === 'en' ? "Are you sure you want to logout?" : "Yakin badé kaluar tina aplikasi?")) {
-            namaDriverAktif = ""; waDriverAktif = "";
-            document.getElementById('loginPass').value = ""; 
-            
-            document.querySelectorAll('.content').forEach(el => el.classList.add('hidden'));
-            document.getElementById('ui-status-box').classList.add('hidden');
-            document.getElementById('bottom-nav').classList.add('hidden');
-            
+        if(confirm(langDict[currentLang].alertLogout)) {
+            namaDriverAktif = ''; waDriverAktif = '';
+            document.getElementById('loginPass').value = '';
+            document.getElementById('app-main').classList.add('hidden');
             document.getElementById('page-login').classList.remove('hidden');
         }
     }
@@ -506,254 +778,246 @@
         const wa = document.getElementById('regWA').value.trim();
         const pass = document.getElementById('regPass').value;
         const setuju = document.getElementById('chkSetuju').checked;
-
-        if(!nama || !wa || !pass) { alert(t.alertIsi); return; }
-        if(pass.length < 6) { alert(t.alertPass); return; }
-        if(!setuju) { alert(t.alertTnc); return; }
-
+        if(!nama||!wa||!pass){alert(t.alertIsi);return;}
+        if(pass.length<6){alert(t.alertPass);return;}
+        if(!setuju){alert(t.alertTnc);return;}
         const btn = document.getElementById('ui-btn-reg');
-        btn.disabled = true; btn.innerText = "Loading... ⏳";
-
-        get(child(ref(database), `drivers/${wa}`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                alert(t.alertRegExist); btn.disabled = false; btn.innerText = t.btnReg;
-            } else {
-                set(ref(database, 'drivers/' + wa), {
-                    nama: nama, password: pass, status: 'pending', saldo: 0, tanggal_daftar: new Date().toLocaleDateString('id-ID')
-                }).then(() => {
-                    alert(t.alertRegWait); tampilLogin(); document.getElementById('loginWA').value = wa;
-                    btn.disabled = false; btn.innerText = t.btnReg;
-                });
-            }
-        }).catch((error) => { alert("Error: " + error); btn.disabled = false; btn.innerText = t.btnReg; });
+        btn.disabled=true; btn.innerText='Loading... ⏳';
+        get(child(ref(database),`drivers/${wa}`)).then(snap => {
+            if(snap.exists()){alert(t.alertRegExist);btn.disabled=false;btn.innerText=t.btnReg;return;}
+            set(ref(database,'drivers/'+wa),{nama,password:pass,status:'pending',saldo:0,tanggal_daftar:new Date().toLocaleDateString('id-ID')}).then(()=>{
+                alert(t.alertRegWait);tampilLogin();document.getElementById('loginWA').value=wa;
+                btn.disabled=false;btn.innerText=t.btnReg;
+            });
+        }).catch(e=>{alert('Error: '+e);btn.disabled=false;btn.innerText=t.btnReg;});
     }
 
     window.prosesLogin = function() {
         const t = langDict[currentLang];
         const wa = document.getElementById('loginWA').value.trim();
         const pass = document.getElementById('loginPass').value;
-        if(!wa || !pass) { alert(t.alertIsi); return; }
-
+        if(!wa||!pass){alert(t.alertIsi);return;}
         const btn = document.getElementById('ui-btn-login');
-        btn.disabled = true; btn.innerText = "Loading... ⏳";
+        btn.disabled=true; btn.innerText='Loading... ⏳';
+        get(child(ref(database),`drivers/${wa}`)).then(snap => {
+            if(!snap.exists()){alert(t.alertWrong);btn.disabled=false;btn.innerText=t.btnLogin;return;}
+            const d = snap.val();
+            if(d.password !== pass){alert(t.alertWrong);btn.disabled=false;btn.innerText=t.btnLogin;return;}
+            if(d.status==='pending'){alert(t.alertPending);btn.disabled=false;btn.innerText=t.btnLogin;return;}
+            if(d.status==='suspend'){alert(t.alertSuspend);btn.disabled=false;btn.innerText=t.btnLogin;return;}
+            if(d.status==='aktif'){
+                namaDriverAktif=d.nama; waDriverAktif=wa;
+                document.getElementById('displayNamaDriver').innerText=d.nama;
+                document.getElementById('profDisplayNama').innerText=d.nama;
+                document.getElementById('profDisplayWA').innerText=wa;
+                document.getElementById('page-login').classList.add('hidden');
+                document.getElementById('app-main').classList.remove('hidden');
+                navigasiKe('radar');
+                muatPengaturanSuara();
+                document.getElementById('suaraNotif').play().catch(()=>{});
+                pantauSaldoDriver();
+                pantauOrderanMasuk();
+                btn.disabled=false; btn.innerText=t.btnLogin;
+            }
+        }).catch(e=>{alert('Error: '+e);btn.disabled=false;btn.innerText=t.btnLogin;});
+    }
 
-        get(child(ref(database), `drivers/${wa}`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                const dataDriver = snapshot.val();
-                if (dataDriver.password === pass) {
-                    if (dataDriver.status === 'pending') { alert(t.alertPending); btn.disabled = false; btn.innerText = t.btnLogin; } 
-                    else if (dataDriver.status === 'suspend') { alert(t.alertSuspend); btn.disabled = false; btn.innerText = t.btnLogin; } 
-                    else if (dataDriver.status === 'aktif') {
-                        namaDriverAktif = dataDriver.nama; waDriverAktif = wa;
-                        document.getElementById('displayNamaDriver').innerText = dataDriver.nama;
-                        document.getElementById('profDisplayNama').innerText = dataDriver.nama;
-                        document.getElementById('profDisplayWA').innerText = wa;
-                        
-                        document.getElementById('page-login').classList.add('hidden');
-                        document.getElementById('ui-status-box').classList.remove('hidden'); 
-                        document.getElementById('bottom-nav').classList.remove('hidden');
-                        navigasiKe('radar');
-                        
-                        muatPengaturanSuara(); 
-                        document.getElementById('suaraNotif').play().catch(e => console.log("Audio siap."));
-                        
-                        pantauSaldoDriver();
-                        pantauOrderanMasuk();
-                    }
-                } else { alert(t.alertWrong); btn.disabled = false; btn.innerText = t.btnLogin; }
-            } else { alert(t.alertWrong); btn.disabled = false; btn.innerText = t.btnLogin; }
-        }).catch((error) => { alert("Error: " + error); btn.disabled = false; btn.innerText = t.btnLogin; });
+    function updateSaldoUI(saldo) {
+        const fmt = 'Rp '+saldo.toLocaleString('id-ID');
+        const low = saldo < BIAYA_PLATFORM;
+        const dtbEl = document.getElementById('dtbSaldo');
+        const statEl = document.getElementById('statSaldo');
+        if(dtbEl){ dtbEl.innerText=fmt; dtbEl.className='dtb-saldo-val'+(low?' low':''); }
+        if(statEl){ statEl.innerText=fmt; statEl.className='wh-amount'+(low?' low':''); }
     }
 
     function pantauSaldoDriver() {
-        onValue(ref(database, `drivers/${waDriverAktif}`), (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                saldoDriverAktif = data.saldo || 0;
-                document.getElementById('statSaldo').innerText = "Rp " + saldoDriverAktif.toLocaleString('id-ID');
-                if(saldoDriverAktif < BIAYA_PLATFORM) { document.getElementById('statSaldo').style.color = '#e74c3c'; } 
-                else { document.getElementById('statSaldo').style.color = '#fff'; }
-            }
+        onValue(ref(database,`drivers/${waDriverAktif}`), snap => {
+            const d = snap.val();
+            if(d){ saldoDriverAktif = d.saldo||0; updateSaldoUI(saldoDriverAktif); }
         });
     }
 
     function pantauOrderanMasuk() {
-        onValue(ref(database, 'orders'), (snapshot) => {
-            const semuaOrder = [];
-            snapshot.forEach((child) => { semuaOrder.push({ id: child.key, ...child.val() }); });
-            semuaOrder.reverse(); latestOrdersData = semuaOrder; 
-            
-            if(!document.getElementById('page-radar').classList.contains('hidden') || !document.getElementById('page-wallet').classList.contains('hidden')){
-                renderOrdersUI(); 
-            }
-            if(!document.getElementById('page-history').classList.contains('hidden')){
-                renderRiwayatDriver(); 
-            }
+        onValue(ref(database,'orders'), snap => {
+            const arr = [];
+            snap.forEach(c => arr.push({id:c.key,...c.val()}));
+            arr.reverse(); latestOrdersData = arr;
+            renderOrdersUI();
+            if(!document.getElementById('page-history').classList.contains('hidden')) renderRiwayatDriver();
         });
     }
 
     function renderOrdersUI() {
-        if(latestOrdersData.length === 0 && namaDriverAktif === "") return; 
+        if(namaDriverAktif==='') return;
         const t = langDict[currentLang];
-        const listOrderanDiv = document.getElementById('listOrderan');
-        const listOrderanAktifDiv = document.getElementById('listOrderanAktif');
-        listOrderanDiv.innerHTML = ""; listOrderanAktifDiv.innerHTML = "";
-        let adaOrderanBaru = false; let adaOrderanAktif = false; let orderanBaruMasuk = false; 
-        let hitungSelesai = 0; let hitungJalan = 0;
+        const listBaru = document.getElementById('listOrderan');
+        const listAktif = document.getElementById('listOrderanAktif');
+        if(!listBaru||!listAktif) return;
+        listBaru.innerHTML=''; listAktif.innerHTML='';
+        let adaBaru=false, adaAktif=false, newSound=false;
+        let hitungJalan=0, hitungSelesai=0;
 
-        latestOrdersData.forEach((data) => {
-            if (data.driver_nama === namaDriverAktif) {
-                if (data.status === "selesai") hitungSelesai++;
-                if (data.status === "diambil") hitungJalan++;
+        latestOrdersData.forEach(data => {
+            if(data.driver_nama===namaDriverAktif){
+                if(data.status==='selesai') hitungSelesai++;
+                if(data.status==='diambil') hitungJalan++;
             }
 
-            if (data.status === "diambil" && data.driver_nama === namaDriverAktif) {
-                adaOrderanAktif = true;
-                const cardAktif = document.createElement('div');
-                cardAktif.className = 'order-card aktif';
-                cardAktif.innerHTML = `
-                    <div class="order-header">
-                        <span class="badge-layanan" style="background-color: #3498db;">${data.layanan}</span>
-                        <span style="font-size: 12px; color: #3498db; font-weight: bold;">${t.badgeAktif}</span>
+            if(data.status==='diambil' && data.driver_nama===namaDriverAktif){
+                adaAktif=true;
+                const card = document.createElement('div');
+                card.className='order-card order-card-active';
+                card.innerHTML=`
+                    <div class="oc-header">
+                        <span class="oc-badge oc-badge-active">${t.badgeAktif}</span>
+                        <span class="oc-time">⏱️ ${data.waktu_order}</span>
                     </div>
-                    <div class="order-detail">${t.lblCust} ${data.customer_nama}</div>
-                    <div class="order-detail">${t.lblDet1} ${data.detail_1}</div>
-                    <div class="order-detail">${t.lblDet2} ${data.detail_2}</div>
-                    <div class="order-detail" style="color:#e67e22;">${t.lblNote} ${data.catatan ? data.catatan : '-'}</div>
-                    <p style="font-size:12px; color:#7f8c8d; text-align:center; margin-bottom:5px; margin-top:10px;">${t.noteAktif}</p>
-                    <button class="btn-wa-kembali" onclick="chatUlang('${data.customer_wa}')">💬 ${t.btnWa}</button>
-                    
-                    <div class="action-grid">
-                        <button class="btn-batal-driver" onclick="batalAmbilOrderan('${data.id}')">${t.btnCancelOrder}</button>
-                        <button class="btn-selesai-driver" onclick="selesaikanOrderanDriver('${data.id}')">${t.btnCompleteOrder}</button>
+                    <div class="oc-body">
+                        <div class="oc-customer">
+                            <div class="oc-cust-avatar">👤</div>
+                            <div>
+                                <div class="oc-cust-name">${data.customer_nama}</div>
+                                <div class="oc-cust-wa">${data.layanan}</div>
+                            </div>
+                        </div>
+                        <div class="oc-route">
+                            <div class="oc-route-row">
+                                <div class="oc-route-icon" style="background:#DBEAFE;">📍</div>
+                                <div><div class="oc-route-label">${t.lblDet1}</div><div class="oc-route-val">${data.detail_1}</div></div>
+                            </div>
+                            <div class="oc-route-row">
+                                <div class="oc-route-icon" style="background:#D1FAE5;">🏁</div>
+                                <div><div class="oc-route-label">${t.lblDet2}</div><div class="oc-route-val">${data.detail_2}</div></div>
+                            </div>
+                        </div>
+                        ${data.catatan ? `<div class="oc-note">📝 ${t.lblNote}: ${data.catatan}</div>` : ''}
+                        <div class="oc-note-bottom">${t.noteAktif}</div>
+                        <button class="btn-wa-chat" onclick="chatUlang('${data.customer_wa}')">${t.btnWa}</button>
+                        <div class="action-grid">
+                            <button class="btn-cancel-order" onclick="batalAmbilOrderan('${data.id}')">${t.btnCancelOrder}</button>
+                            <button class="btn-complete-order" onclick="selesaikanOrderanDriver('${data.id}')">${t.btnCompleteOrder}</button>
+                        </div>
                     </div>
                 `;
-                listOrderanAktifDiv.appendChild(cardAktif);
+                listAktif.appendChild(card);
             }
 
-            if (data.status === "terbuka") {
-                adaOrderanBaru = true;
-                if (!orderYangSudahBunyi.has(data.id)) { orderYangSudahBunyi.add(data.id); orderanBaruMasuk = true; }
-                const cardBaru = document.createElement('div');
-                cardBaru.className = 'order-card baru';
-                cardBaru.innerHTML = `
-                    <div class="order-header">
-                        <span class="badge-layanan">${data.layanan}</span>
-                        <span style="font-size: 12px; color: #7f8c8d;">⏱️ ${data.waktu_order}</span>
+            if(data.status==='terbuka'){
+                adaBaru=true;
+                if(!orderYangSudahBunyi.has(data.id)){ orderYangSudahBunyi.add(data.id); newSound=true; }
+                const card = document.createElement('div');
+                card.className='order-card order-card-new';
+                card.innerHTML=`
+                    <div class="oc-header">
+                        <span class="oc-badge oc-badge-new">${data.layanan}</span>
+                        <span class="oc-time">⏱️ ${data.waktu_order}</span>
                     </div>
-                    <div class="order-detail">${t.lblCust} ${data.customer_nama}</div>
-                    <div class="order-detail">${t.lblDet1} ${data.detail_1}</div>
-                    <div class="order-detail">${t.lblDet2} ${data.detail_2}</div>
-                    <div class="order-detail" style="color:#e67e22;">${t.lblNote} ${data.catatan ? data.catatan : '-'}</div>
-                    <button class="btn-ambil" onclick="ambilOrderan('${data.id}', '${data.customer_wa}', '${data.customer_nama}')">${t.btnAmbil}</button>
+                    <div class="oc-body">
+                        <div class="oc-customer">
+                            <div class="oc-cust-avatar">👤</div>
+                            <div>
+                                <div class="oc-cust-name">${data.customer_nama}</div>
+                                <div class="oc-cust-wa">${t.lblCust}</div>
+                            </div>
+                        </div>
+                        <div class="oc-route">
+                            <div class="oc-route-row">
+                                <div class="oc-route-icon" style="background:#FEF3C7;">📍</div>
+                                <div><div class="oc-route-label">${t.lblDet1}</div><div class="oc-route-val">${data.detail_1}</div></div>
+                            </div>
+                            <div class="oc-route-row">
+                                <div class="oc-route-icon" style="background:#D1FAE5;">🏁</div>
+                                <div><div class="oc-route-label">${t.lblDet2}</div><div class="oc-route-val">${data.detail_2}</div></div>
+                            </div>
+                        </div>
+                        ${data.catatan ? `<div class="oc-note">📝 ${t.lblNote}: ${data.catatan}</div>` : ''}
+                        <button class="btn-ambil" onclick="ambilOrderan('${data.id}','${data.customer_wa}','${data.customer_nama}')">${t.btnAmbil}</button>
+                    </div>
                 `;
-                listOrderanDiv.appendChild(cardBaru);
+                listBaru.appendChild(card);
             }
         });
 
-        document.getElementById('statJalan').innerText = hitungJalan;
-        document.getElementById('statSelesai').innerText = hitungSelesai;
-        if (orderanBaruMasuk) {
-            const audioPlayer = document.getElementById('suaraNotif');
-            audioPlayer.currentTime = 0; audioPlayer.play().catch(e => console.log("Gagal memutar:", e));
-        }
-        if (!adaOrderanBaru) listOrderanDiv.innerHTML = `<div class="empty-state">${t.emptyRadar}</div>`;
-        if (!adaOrderanAktif) listOrderanAktifDiv.innerHTML = `<div class="empty-state">${t.emptyAktif}</div>`;
+        setText('statJalan', hitungJalan); setText('statSelesai', hitungSelesai);
+        setText('statJalan2', hitungJalan); setText('statSelesai2', hitungSelesai);
+
+        if(newSound){ const a=document.getElementById('suaraNotif'); a.currentTime=0; a.play().catch(()=>{}); }
+        if(!adaBaru) listBaru.innerHTML=`<div class="empty-state"><span class="empty-icon">☕</span><div class="empty-title">${t.emptyRadar.replace('<br>',' ')}</div></div>`;
+        if(!adaAktif) listAktif.innerHTML=`<div class="empty-state"><span class="empty-icon">📭</span><div class="empty-title">${t.emptyAktif}</div></div>`;
     }
 
     function renderRiwayatDriver() {
+        const t = langDict[currentLang];
         const listDiv = document.getElementById('listHistoryDriver');
-        listDiv.innerHTML = "";
-        
-        let totalBintang = 0;
-        let jumlahRating = 0;
-        let adaRiwayat = false;
+        listDiv.innerHTML='';
+        let total=0, count=0, ada=false;
 
-        latestOrdersData.forEach((data) => {
-            if (data.driver_nama === namaDriverAktif && (data.status === 'selesai' || data.status === 'diambil')) {
-                adaRiwayat = true;
-                
-                let ratingTeks = "";
-                if(data.rating) {
-                    totalBintang += parseInt(data.rating);
-                    jumlahRating++;
-                    ratingTeks = `<div style="margin-top:10px; color:#f39c12; font-size:16px; font-weight:bold;">⭐ ${data.rating} Bintang</div>`;
-                } else if (data.status === 'selesai') {
-                    ratingTeks = `<div style="margin-top:10px; color:#7f8c8d; font-size:12px; font-style:italic;">Warga teu acan ngantunkeun ulasan</div>`;
-                }
-
-                let warnaStatus = data.status === 'selesai' ? '#27ae60' : '#3498db';
-                let teksStatus = data.status === 'selesai' ? 'Rengsé ✓' : 'Nuju Diprosés';
-
-                const card = document.createElement('div');
-                card.className = 'order-card';
-                card.style.borderLeft = `8px solid ${warnaStatus}`;
-                card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:8px;">
-                        <span style="font-weight:bold; font-size:15px; color:#2c3e50;">${data.layanan}</span>
-                        <span style="font-size:11px; color:#7f8c8d;">${data.waktu_order}</span>
-                    </div>
-                    <div style="font-size:13px; margin-bottom:5px;"><b>Status:</b> <span style="color:${warnaStatus}; font-weight:bold;">${teksStatus}</span></div>
-                    <div style="font-size:13px; color:#333;">👤 Warga: ${data.customer_nama}</div>
-                    <div style="font-size:13px; color:#555; line-height:1.4; background:#f9f9f9; padding:8px; border-radius:8px; margin-top:5px;">${data.detail_1} <br>➔<br> ${data.detail_2}</div>
-                    ${ratingTeks}
-                `;
-                listDiv.appendChild(card);
-            }
+        latestOrdersData.forEach(data => {
+            if(data.driver_nama!==namaDriverAktif) return;
+            if(data.status!=='selesai'&&data.status!=='diambil') return;
+            ada=true;
+            if(data.rating){ total+=parseInt(data.rating); count++; }
+            const pillClass = data.status==='selesai'?'hc-pill-done':'hc-pill-ongoing';
+            const pillTxt = data.status==='selesai' ? t.pillDone : t.pillOngoing;
+            let ratingHtml = data.rating
+                ? `<div class="hc-rating">⭐ ${data.rating} ${t.txtStar}${data.ulasan?` · "${data.ulasan}"`:''}</div>`
+                : (data.status==='selesai'?`<div class="hc-no-rating">${t.noRating}</div>`:'');
+            const card = document.createElement('div');
+            card.className='hist-card';
+            card.innerHTML=`
+                <div class="hc-top"><div class="hc-service">${data.layanan}</div><div class="hc-time">${data.waktu_order}</div></div>
+                <span class="hc-pill ${pillClass}">${pillTxt}</span>
+                <div class="hc-customer">👤 ${data.customer_nama}</div>
+                <div class="hc-route-box">${data.detail_1}<br>⬇<br>${data.detail_2}</div>
+                ${ratingHtml}
+            `;
+            listDiv.appendChild(card);
         });
 
-        let rataRata = "0.0";
-        if(jumlahRating > 0) { rataRata = (totalBintang / jumlahRating).toFixed(1); }
-        document.getElementById('avgRatingDisplay').innerText = rataRata;
-
-        if(!adaRiwayat) {
-            listDiv.innerHTML = `<div class="empty-state">Teu acan aya sajarah tarikan.</div>`;
-        }
+        const avg = count>0?(total/count).toFixed(1):'0.0';
+        setText('avgRatingDisplay', avg);
+        if(!ada) listDiv.innerHTML=`<div class="empty-state"><span class="empty-icon">📭</span><div class="empty-title">${t.emptyHistory}</div></div>`;
     }
 
-    window.chatUlang = function(noWA) { window.open(`https://wa.me/62${noWA}`, '_blank'); }
+    window.chatUlang = function(wa){ window.open(`https://wa.me/62${wa}`,'_blank'); }
 
     window.ambilOrderan = function(orderId, noWA, namaCust) {
         const t = langDict[currentLang];
-        if(saldoDriverAktif < BIAYA_PLATFORM) { alert(t.alertSaldoHabis); return; }
-
-        const orderSpesifikRef = ref(database, 'orders/' + orderId);
-        runTransaction(orderSpesifikRef, (pesanan) => {
-            if (pesanan && pesanan.status === "terbuka") {
-                pesanan.status = "diambil"; pesanan.driver_nama = namaDriverAktif; return pesanan; 
-            }
-            return; 
-        }).then((hasil) => {
-            if (hasil.committed) {
-                const saldoBaru = saldoDriverAktif - BIAYA_PLATFORM;
-                update(ref(database, `drivers/${waDriverAktif}`), { saldo: saldoBaru });
-
+        if(saldoDriverAktif < BIAYA_PLATFORM){alert(t.alertSaldoHabis);return;}
+        const orderRef = ref(database,'orders/'+orderId);
+        runTransaction(orderRef, pesanan => {
+            if(pesanan&&pesanan.status==='terbuka'){ pesanan.status='diambil'; pesanan.driver_nama=namaDriverAktif; return pesanan; }
+            return;
+        }).then(hasil => {
+            if(hasil.committed){
+                update(ref(database,`drivers/${waDriverAktif}`),{saldo:saldoDriverAktif-BIAYA_PLATFORM});
                 alert(t.alertSuccess);
                 const pesan = `${t.waTemplate1}${namaCust}${t.waTemplate2}${namaDriverAktif}${t.waTemplate3}`;
-                window.open(`https://wa.me/62${noWA}?text=${encodeURIComponent(pesan)}`, '_blank');
+                window.open(`https://wa.me/62${noWA}?text=${encodeURIComponent(pesan)}`,'_blank');
             } else { alert(t.alertLate); }
-        }).catch((error) => { alert("Error: " + error); });
+        }).catch(e=>alert('Error: '+e));
     }
 
     window.batalAmbilOrderan = function(orderId) {
         const t = langDict[currentLang];
-        if(confirm(t.alertCancelConf)) {
-            update(ref(database, 'orders/' + orderId), { status: "terbuka", driver_nama: "" }).then(() => {
-                const saldoBaru = saldoDriverAktif + BIAYA_PLATFORM;
-                update(ref(database, `drivers/${waDriverAktif}`), { saldo: saldoBaru });
+        if(confirm(t.alertCancelConf)){
+            update(ref(database,'orders/'+orderId),{status:'terbuka',driver_nama:''}).then(()=>{
+                update(ref(database,`drivers/${waDriverAktif}`),{saldo:saldoDriverAktif+BIAYA_PLATFORM});
                 alert(t.alertCancelSucc);
-            }).catch(e => alert("Error: " + e));
+            }).catch(e=>alert('Error: '+e));
         }
     }
 
     window.selesaikanOrderanDriver = function(orderId) {
         const t = langDict[currentLang];
-        if(confirm(t.alertCompleteConf)) {
-            update(ref(database, 'orders/' + orderId), { status: "selesai" }).catch(e => alert("Error: " + e));
+        if(confirm(t.alertCompleteConf)){
+            update(ref(database,'orders/'+orderId),{status:'selesai'}).catch(e=>alert('Error: '+e));
         }
     }
 
-    setLang('su');
+    // Set bahasa default ke Jawa
+    setLang('jw');
 </script>
 </body>
 </html>
