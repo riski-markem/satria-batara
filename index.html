@@ -2,38 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Satria Batara">
-    <meta name="theme-color" content="#1B8A4B">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Satria Batara</title>
-
-    <!-- PWA Manifest inline via JS -->
-    <script>
-    const manifestData = {
-        name: "Satria Batara",
-        short_name: "Satria Batara",
-        description: "Layanan transportasi & jasa harian warga Kota Batara",
-        start_url: "./",
-        display: "standalone",
-        background_color: "#1B8A4B",
-        theme_color: "#1B8A4B",
-        orientation: "portrait",
-        icons: [
-            { src: "https://via.placeholder.com/192x192/1B8A4B/FFFFFF?text=SB", sizes: "192x192", type: "image/png" },
-            { src: "https://via.placeholder.com/512x512/1B8A4B/FFFFFF?text=SB", sizes: "512x512", type: "image/png" }
-        ]
-    };
-    const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
-    const manifestURL = URL.createObjectURL(blob);
-    document.write('<link rel="manifest" href="' + manifestURL + '">');
-    </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --green: #1B8A4B;
@@ -54,58 +26,26 @@
             --radius-sm: 10px;
             --shadow: 0 2px 12px rgba(0,0,0,0.08);
             --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-            /* Safe area insets for iOS notch / Android dynamic island */
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --safe-left: env(safe-area-inset-left, 0px);
-            --safe-right: env(safe-area-inset-right, 0px);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); height: 100vh; height: 100dvh; overflow: hidden; display: flex; justify-content: center; }
         
-        html, body { 
-            height: 100%; 
-            height: -webkit-fill-available;
-            overscroll-behavior: none;
-            background: var(--green);
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); 
-            display: flex; 
-            justify-content: center;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .app { 
-            width: 100%; 
-            max-width: 480px; 
-            height: 100vh;
-            height: 100dvh;
-            display: flex; 
-            flex-direction: column; 
-            background: var(--bg); 
-            position: relative; 
-            overflow: hidden;
-            /* Shadow on desktop to look like phone */
-            box-shadow: 0 0 40px rgba(0,0,0,0.15);
+        /* ── PERBAIKAN LAYOUT FULL SCREEN ── */
+        .app { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; background: var(--bg); position: relative; overflow: hidden; }
+        @media screen and (max-width: 768px) {
+            .app { max-width: 100%; }
         }
 
         /* SCROLL AREA */
-        .page { flex: 1; overflow-y: auto; padding-bottom: calc(90px + var(--safe-bottom)); scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+        .page { flex: 1; overflow-y: auto; padding-bottom: 90px; scroll-behavior: smooth; }
         .page::-webkit-scrollbar { display: none; }
 
-        /* Decorative elements: no pointer events */
+        /* ── DECORATIVE ELEMENTS FIX ── */
         .login-hero::after, .hero-banner::after, .hero-banner::before { pointer-events: none; z-index: 0; }
 
         /* ── TOP BAR ── */
-        .topbar { 
-            background: var(--green); 
-            padding: calc(var(--safe-top) + 16px) 18px 20px; 
-            position: relative; 
-            flex-shrink: 0; 
-        }
+        .topbar { background: var(--green); padding: 16px 18px 20px; position: relative; flex-shrink: 0; }
         .topbar-row { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 10; }
         .topbar-logo { color: white; font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
         .topbar-logo span { color: var(--accent); }
@@ -114,6 +54,7 @@
         .lang-btn.active { background: white; color: var(--green); }
         .lang-pill.light-bg .lang-btn { color: var(--text2); }
         .lang-pill.light-bg .lang-btn.active { color: var(--green); background: white; }
+
         .topbar-greeting { color: rgba(255,255,255,0.85); font-size: 13px; margin-top: 10px; position: relative; z-index: 10; }
         .topbar-name { color: white; font-size: 18px; font-weight: 700; margin-top: 2px; position: relative; z-index: 10; }
 
@@ -142,7 +83,7 @@
         .service-label { font-size: 11px; font-weight: 600; color: var(--text2); line-height: 1.3; }
 
         /* ── PROMO BANNER ── */
-        .promo-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 2px 16px 4px; scrollbar-width: none; margin: 0 -16px; -webkit-overflow-scrolling: touch; }
+        .promo-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 2px 16px 4px; scrollbar-width: none; margin: 0 -16px; }
         .promo-scroll::-webkit-scrollbar { display: none; }
         .promo-card { flex-shrink: 0; width: 240px; border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; }
         .promo-card.green { background: linear-gradient(135deg, #1B8A4B, #22C55E); }
@@ -163,102 +104,8 @@
         .aoc-desc { font-size: 12px; color: var(--text3); }
         .aoc-btn { margin-top: 12px; background: var(--green-light); color: var(--green); border: none; border-radius: 10px; padding: 10px; width: 100%; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
 
-        /* ── INSTALL BANNER (floating card style) ── */
-        .install-banner-float {
-            display: none;
-            margin: 16px 16px 0;
-            background: linear-gradient(135deg, #0f5132, var(--green));
-            border-radius: var(--radius);
-            padding: 16px 18px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(27,138,75,0.4);
-            animation: slideDown 0.4s ease;
-        }
-        .install-banner-float.show { display: block; }
-        @keyframes slideDown { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:translateY(0); } }
-        .install-banner-float::after {
-            content: '';
-            position: absolute;
-            right: -20px; top: -20px;
-            width: 100px; height: 100px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 50%;
-        }
-        .install-banner-dismiss {
-            position: absolute;
-            top: 10px; right: 12px;
-            background: rgba(255,255,255,0.2);
-            border: none; color: white;
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            font-size: 12px;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-family: inherit;
-        }
-        .install-banner-row { display: flex; align-items: center; gap: 12px; }
-        .install-banner-icon { font-size: 36px; flex-shrink: 0; }
-        .install-banner-texts { flex: 1; }
-        .install-banner-title { color: white; font-size: 14px; font-weight: 800; margin-bottom: 2px; }
-        .install-banner-sub { color: rgba(255,255,255,0.75); font-size: 11px; font-weight: 500; }
-        .install-banner-btn {
-            margin-top: 12px;
-            background: white;
-            color: var(--green-dark);
-            border: none;
-            border-radius: 10px;
-            padding: 12px;
-            width: 100%;
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            transition: transform 0.15s;
-        }
-        .install-banner-btn:active { transform: scale(0.97); }
-        .install-banner-btn .install-icon { font-size: 18px; }
-
-        /* Install button on profile page */
-        .btn-install-profile {
-            margin: 0 16px 12px;
-            width: calc(100% - 32px);
-            background: linear-gradient(135deg, var(--green-dark), var(--green));
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            padding: 15px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(27,138,75,0.3);
-        }
-        .btn-install-profile:active { transform: scale(0.98); }
-
-        /* Legacy install bar in login (hidden by default, shown by PWA event) */
-        .install-bar { background: var(--green-light); border: 1.5px dashed var(--green); border-radius: var(--radius-sm); padding: 14px 16px; text-align: center; margin-bottom: 20px; display: none; }
-        .install-bar p { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
-
         /* ── BOTTOM NAV ── */
-        .bottom-nav { 
-            position: absolute; 
-            bottom: 0; left: 0; right: 0; 
-            background: white; 
-            display: none; 
-            border-top: 1px solid var(--border); 
-            padding: 8px 0 calc(10px + var(--safe-bottom)); 
-            z-index: 100; 
-        }
+        .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: white; display: none; border-top: 1px solid var(--border); padding: 8px 0 14px; z-index: 100; }
         .bottom-nav.visible { display: flex; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 0; }
         .nav-icon-wrap { width: 44px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 14px; transition: background 0.2s; font-size: 20px; }
@@ -267,93 +114,39 @@
         .nav-item.active .nav-label { color: var(--green); }
 
         /* ── LOGIN PAGE ── */
-        .login-page { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; -webkit-overflow-scrolling: touch; }
-        .login-hero { 
-            background: var(--green); 
-            padding: calc(var(--safe-top) + 40px) 24px 60px; 
-            text-align: center; 
-            position: relative; 
-            overflow: hidden; 
-        }
-        .login-hero::after { content:''; position:absolute; right:-40px; bottom:-40px; width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%; pointer-events:none; }
+        .login-page { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
+        .login-hero { background: var(--green); padding: 40px 24px 60px; text-align: center; position: relative; overflow: hidden; }
+        .login-hero::after { content:''; position:absolute; right:-40px; bottom:-40px; width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%; }
         .login-hero-icon { font-size: 56px; margin-bottom: 12px; display: block; position: relative; z-index: 1; }
         .login-hero-title { color: white; font-size: 26px; font-weight: 800; position: relative; z-index: 1; }
         .login-hero-title span { color: var(--accent); }
         .login-hero-sub { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 6px; position: relative; z-index: 1; }
-        .login-body { flex: 1; background: var(--card); border-radius: 28px 28px 0 0; margin-top: -24px; padding: 28px 24px calc(32px + var(--safe-bottom)); position: relative; z-index: 2; }
+        .login-body { flex: 1; background: var(--card); border-radius: 28px 28px 0 0; margin-top: -24px; padding: 28px 24px 32px; position: relative; z-index: 2; }
         .login-heading { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
         .login-sub { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
         .form-group { margin-bottom: 16px; }
         .form-label { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; display: block; }
-        .form-input { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: inherit; background: var(--bg); color: var(--text); transition: border-color 0.2s; -webkit-appearance: none; }
+        .form-input { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: inherit; background: var(--bg); color: var(--text); transition: border-color 0.2s; }
         .form-input:focus { outline: none; border-color: var(--green); background: white; }
         .form-hint { font-size: 11px; color: #D97706; margin-top: 5px; font-weight: 600; }
         .btn-primary { width: 100%; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); padding: 16px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.15s; box-shadow: 0 4px 12px rgba(27,138,75,0.3); }
         .btn-primary:active { transform: scale(0.98); }
         .btn-outline { width: 100%; background: none; color: var(--green); border: 1.5px solid var(--green); border-radius: var(--radius-sm); padding: 13px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 10px; }
-
-        /* ── LOGIN INSTALL BANNER ── */
-        .login-install-box {
-            display: none;
-            background: linear-gradient(135deg, var(--green-dark), var(--green));
-            border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            margin-bottom: 20px;
-            margin-top: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-        .login-install-box.show { display: block; }
-        .login-install-box::after { content:''; position:absolute; right:-20px; top:-20px; width:80px; height:80px; background:rgba(255,255,255,0.08); border-radius:50%; pointer-events:none; }
-        .login-install-box p { font-size: 13px; font-weight: 700; color: white; margin-bottom: 8px; }
-        .login-install-box p span { display: block; font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.75); margin-top: 2px; }
-        .login-install-box .btn-install-now { 
-            width: 100%; 
-            background: white; 
-            color: var(--green-dark); 
-            border: none; 
-            border-radius: 8px; 
-            padding: 11px; 
-            font-size: 14px; 
-            font-weight: 800; 
-            font-family: inherit; 
-            cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-
-        /* iOS install hint */
-        .ios-install-hint {
-            display: none;
-            background: #EFF6FF;
-            border: 1.5px solid #BFDBFE;
-            border-radius: var(--radius-sm);
-            padding: 12px 14px;
-            margin-bottom: 16px;
-            font-size: 12px;
-            color: #1E40AF;
-            line-height: 1.6;
-            text-align: center;
-        }
-        .ios-install-hint.show { display: block; }
-        .ios-install-hint strong { display: block; font-size: 13px; margin-bottom: 4px; }
+        
+        /* ── INSTALL PWA BAR ── */
+        .install-bar { background: var(--green-light); border: 1.5px dashed var(--green); border-radius: var(--radius-sm); padding: 14px 16px; text-align: center; margin-bottom: 20px; }
+        .install-bar p { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
 
         /* ── FORM PAGE ── */
-        .form-page { flex: 1; overflow-y: auto; padding-bottom: 40px; -webkit-overflow-scrolling: touch; }
-        .form-topbar { 
-            background: var(--green); 
-            padding: calc(var(--safe-top) + 16px) 18px 16px; 
-            display: flex; 
-            align-items: center; 
-            gap: 14px; 
-            flex-shrink: 0; 
-        }
+        .form-page { flex: 1; overflow-y: auto; padding-bottom: 40px; }
+        .form-topbar { background: var(--green); padding: 16px 18px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
         .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 38px; height: 38px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .form-topbar-title { color: white; font-size: 16px; font-weight: 700; }
         .form-body { padding: 20px 16px; }
         .tarif-box { background: var(--accent-light); border: 1.5px solid #FBBF24; border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 20px; font-size: 13px; color: #78350F; line-height: 1.6; }
         .tarif-box b { color: #92400E; }
         .form-section-label { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 8px; display: block; }
-        .form-textarea { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bg); resize: none; color: var(--text); transition: border-color 0.2s; -webkit-appearance: none; }
+        .form-textarea { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bg); resize: none; color: var(--text); transition: border-color 0.2s; }
         .form-textarea:focus { outline: none; border-color: var(--green); background: white; }
 
         /* ── TRACKING PAGE ── */
@@ -376,7 +169,7 @@
         .stars { display: flex; justify-content: center; gap: 12px; font-size: 38px; margin-bottom: 16px; }
         .star { cursor: pointer; color: #E5E7EB; transition: all 0.15s; }
         .star.selected { color: #FBBF24; transform: scale(1.1); }
-        .rating-textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; resize: none; margin-bottom: 12px; background: var(--bg); -webkit-appearance: none; }
+        .rating-textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; resize: none; margin-bottom: 12px; background: var(--bg); }
         .btn-rating { background: #FBBF24; color: #78350F; border: none; border-radius: var(--radius-sm); padding: 14px; width: 100%; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
 
         /* HISTORY */
@@ -394,7 +187,7 @@
         .hc-track-btn { margin-top: 10px; background: var(--bg); border: none; border-radius: 8px; padding: 10px; width: 100%; font-size: 13px; font-weight: 700; color: var(--text2); cursor: pointer; font-family: inherit; }
 
         /* PROFILE */
-        .profile-hero { background: var(--green); padding: calc(var(--safe-top) + 30px) 20px 30px; text-align: center; }
+        .profile-hero { background: var(--green); padding: 30px 20px; text-align: center; }
         .profile-avatar { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 12px; border: 3px solid rgba(255,255,255,0.4); }
         .profile-name { color: white; font-size: 20px; font-weight: 800; }
         .profile-wa { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 4px; }
@@ -416,23 +209,18 @@
         .hidden { display: none !important; }
         .mt8 { margin-top: 8px; }
         .mt16 { margin-top: 16px; }
-
-        /* Ripple on interactive elements */
-        .service-card, .btn-primary, .btn-outline, .nav-item { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
 <div class="app">
 
-    <!-- ═══ LOGIN PAGE ═══ -->
-    <div id="page-login" style="display:flex; flex-direction:column; flex:1; overflow-y:auto; height:100%; -webkit-overflow-scrolling:touch;">
+    <div id="page-login" style="display:flex; flex-direction:column; flex:1; overflow-y:auto; height:100%;">
         <div class="login-hero">
             <span class="login-hero-icon">🛵</span>
-            <div class="login-hero-title">Satria <span>Batara</span></div>
+            <div class="login-hero-title">Satria <span style="color:var(--accent);">Batara</span></div>
             <div class="login-hero-sub" id="ui-subtitle">Layanan Asli Wong Kene</div>
         </div>
         <div class="login-body">
-            <!-- Language selector -->
             <div style="position:absolute; top:16px; right:20px;">
                 <div class="lang-pill light-bg" style="background:#F0F2F5; position:relative; z-index:10;">
                     <button class="lang-btn" onclick="setLang('su')" id="btn-su">Sunda</button>
@@ -442,44 +230,32 @@
                 </div>
             </div>
 
-            <!-- Install Banner (shown when PWA installable) -->
-            <div id="login-install-box" class="login-install-box" style="margin-top:50px;">
-                <p id="ui-install-txt">Install Aplikasi Satria Batara!
-                    <span>Buka lebih cepat, seperti aplikasi asli 📱</span>
-                </p>
-                <button id="btn-install-pwa" class="btn-install-now">📲 INSTALL SEKARANG</button>
+            <div id="install-banner" class="install-bar" style="margin-top: 24px;">
+                <p id="ui-install-txt">Install Aplikasi Satria Batara!</p>
+                <button id="btn-install-pwa" class="btn-primary" style="padding:10px;">INSTALL 📲</button>
             </div>
-
-            <!-- iOS Safari install hint -->
-            <div id="ios-hint" class="ios-install-hint" style="margin-top:50px;">
-                <strong>📱 Tambahkan ke Layar Utama</strong>
-                Tap tombol <strong>Share</strong> (⬆) lalu pilih <strong>"Add to Home Screen"</strong> untuk install seperti aplikasi.
-            </div>
-
-            <div class="login-heading" style="margin-top: 16px;" id="ui-login-welcome">Wilujeng Sumping 👋</div>
+            <div class="login-heading" style="margin-top: 16px;" id="ui-login-title">Wilujeng Sumping 👋</div>
             <div class="login-sub" id="ui-login-desc">Lebokno datamu nggo mulai pesen</div>
 
             <div class="form-group">
                 <label class="form-label" id="ui-label-nama">Jeneng Panggilan</label>
-                <input class="form-input" type="text" id="inputNama" placeholder="Ketik neng kene..." autocomplete="name">
+                <input class="form-input" type="text" id="inputNama" placeholder="Ketik neng kene...">
             </div>
             <div class="form-group">
                 <label class="form-label" id="ui-label-wa">Nomer WA Sing Aktif</label>
-                <input class="form-input" type="tel" inputmode="numeric" id="inputWA" placeholder="Conto: 0813xxxx" autocomplete="tel">
+                <input class="form-input" type="tel" inputmode="numeric" id="inputWA" placeholder="Conto: 0813xxxx">
                 <div class="form-hint" id="ui-note-wa">⚠️ Pastikno nomer WA-ne aktif ben driver gampang ngubungi kowe!</div>
             </div>
             <button class="btn-primary" onclick="masukAplikasi()" id="ui-btn-login">Mulai Pesen 🚀</button>
             <button class="btn-outline" onclick="chatAdminLoginPage()" id="ui-btn-admin-login">📞 Butuh Bantuan Admin?</button>
         </div>
-        <div style="text-align:center; padding:12px 12px calc(12px + var(--safe-bottom)); background:white;">
+        <div style="text-align:center; padding:12px; background:var(--login-body,white);">
             <div style="font-size:11px; color:var(--text3);">Satria Batara · Layanan Warga Lokal</div>
         </div>
     </div>
 
-    <!-- ═══ MAIN APP ═══ -->
     <div id="app-main" class="hidden" style="display:flex; flex-direction:column; flex:1; overflow:hidden; position:relative; height:100%;">
 
-        <!-- ── HOME PAGE ── -->
         <div id="page-home" style="display:flex; flex-direction:column; overflow:hidden; height:100%;">
             <div class="topbar" style="flex-shrink:0;">
                 <div class="topbar-row">
@@ -495,24 +271,6 @@
                 <div class="topbar-name" id="displayNama">—</div>
             </div>
             <div class="page">
-
-                <!-- Install banner (floating, inside scroll area) -->
-                <div id="home-install-banner" class="install-banner-float">
-                    <button class="install-banner-dismiss" onclick="dismissInstallBanner()">✕</button>
-                    <div class="install-banner-row">
-                        <div class="install-banner-icon">📲</div>
-                        <div class="install-banner-texts">
-                            <div class="install-banner-title" id="ui-install-title-home">Install Satria Batara</div>
-                            <div class="install-banner-sub" id="ui-install-sub-home">Akses lebih cepat & offline!</div>
-                        </div>
-                    </div>
-                    <button class="install-banner-btn" id="btn-install-home" onclick="triggerInstall()">
-                        <span class="install-icon">⬇️</span>
-                        <span id="ui-install-btn-home">Install Aplikasi</span>
-                    </button>
-                </div>
-
-                <!-- Active order indicator -->
                 <div id="home-active-order" class="hidden" style="margin:16px 0 0;">
                     <div class="active-order-card">
                         <div class="aoc-header">
@@ -525,7 +283,6 @@
                     </div>
                 </div>
 
-                <!-- Hero Banner -->
                 <div class="section">
                     <div class="hero-banner">
                         <div class="hero-tag" id="ui-hero-tag">TARIF HEMAT</div>
@@ -541,7 +298,6 @@
                     </div>
                 </div>
 
-                <!-- Services -->
                 <div class="section">
                     <div class="section-title"><span id="ui-section-layanan">Pilih Layanan</span></div>
                     <div class="service-grid">
@@ -572,15 +328,14 @@
                     </div>
                 </div>
 
-                <!-- Promo -->
                 <div class="section" style="padding-right:0;">
                     <div class="section-title" style="padding-right:16px;"><span id="ui-section-promo">Info & Promo</span></div>
                     <div class="promo-scroll">
                         <div class="promo-card green">
-                            <div class="promo-card-tag" id="ui-promo1-tag">LAYANAN ANYAR</div>
-                            <div class="promo-card-title" id="ui-promo1-title">Gratis Ongkir Pesanan Pertama!</div>
-                            <div class="promo-card-sub" id="ui-promo1-sub">Biso nggo kabeh layanan</div>
-                            <div class="promo-card-emoji">🎉</div>
+                            <div class="promo-card-tag" id="ui-promo1-tag">KILAT & SIGAP</div>
+                            <div class="promo-card-title" id="ui-promo1-title">Pelayanan Ekstra Cepet!</div>
+                            <div class="promo-card-sub" id="ui-promo1-sub">Prioritas utama nggo warga Batara</div>
+                            <div class="promo-card-emoji">⚡</div>
                         </div>
                         <div class="promo-card amber">
                             <div class="promo-card-tag" id="ui-promo2-tag">INFO TARIF</div>
@@ -597,7 +352,6 @@
                     </div>
                 </div>
 
-                <!-- Admin CTA -->
                 <div class="section mt16" style="margin-bottom:0; padding-bottom:0;">
                     <div style="background:var(--card); border-radius:var(--radius); padding:16px 18px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-sm);">
                         <div style="font-size:36px;">💬</div>
@@ -611,7 +365,6 @@
             </div>
         </div>
 
-        <!-- ── FORM PAGE ── -->
         <div id="page-form" class="hidden" style="display:flex; flex-direction:column; height:100%;">
             <div class="form-topbar" style="flex-shrink:0;">
                 <button class="back-btn" onclick="kembaliKeMenu()">←</button>
@@ -637,7 +390,6 @@
             </div>
         </div>
 
-        <!-- ── TRACKING PAGE ── -->
         <div id="page-tracking" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
             <div class="topbar" style="flex-shrink:0;">
                 <div class="topbar-row">
@@ -694,7 +446,6 @@
             </div>
         </div>
 
-        <!-- ── HISTORY PAGE ── -->
         <div id="page-history" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
             <div class="topbar" style="flex-shrink:0;">
                 <div class="topbar-row">
@@ -708,7 +459,6 @@
             </div>
         </div>
 
-        <!-- ── PROFILE PAGE ── -->
         <div id="page-profile" class="hidden" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
             <div class="page">
                 <div class="profile-hero">
@@ -717,12 +467,6 @@
                     <div class="profile-wa" id="profileWA">—</div>
                 </div>
                 <div style="height:16px;"></div>
-
-                <!-- Install App Button on Profile -->
-                <button id="btn-install-profile" class="btn-install-profile hidden" onclick="triggerInstall()">
-                    📲 <span id="ui-profile-install">Install Aplikasi</span>
-                </button>
-
                 <div class="profile-card">
                     <div class="profile-row" onclick="navigasiKe('history')">
                         <div class="profile-row-icon" style="background:#E8F5EE;">🛵</div>
@@ -746,7 +490,6 @@
             </div>
         </div>
 
-        <!-- ── ABOUT PAGE ── -->
         <div id="page-about" class="hidden" style="display:flex; flex-direction:column; height:100%;">
             <div class="form-topbar" style="flex-shrink:0;">
                 <button class="back-btn" onclick="tutupTentang()">←</button>
@@ -759,14 +502,17 @@
                         <div style="font-size: 22px; font-weight: 800; color: var(--green);">Satria <span style="color: var(--accent);">Batara</span></div>
                         <div style="font-size: 13px; font-weight: 600; color: var(--text3); margin-top: 4px;" id="ui-about-tagline">Andalan Warga Kota Batara</div>
                     </div>
+
                     <div style="margin-bottom: 20px;">
                         <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h1">Tentang Kami</div>
-                        <div style="font-size: 13px; color: var(--text2); line-height: 1.6;" id="ui-about-p1">Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara.</div>
+                        <div style="font-size: 13px; color: var(--text2); line-height: 1.6;" id="ui-about-p1">Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara. Kami mengusung konsep "Layanan Lokal, Profesionalitas Maksimal".</div>
                     </div>
+
                     <div style="margin-bottom: 20px;">
                         <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h2">Visi</div>
                         <div style="font-size: 13px; color: var(--text2); line-height: 1.6;" id="ui-about-p2">Menjadi layanan andalan nomor satu bagi warga Kota Batara yang membawa kemudahan serta kesejahteraan lingkungan.</div>
                     </div>
+
                     <div style="margin-bottom: 20px;">
                         <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h3">Misi</div>
                         <ul style="font-size: 13px; color: var(--text2); line-height: 1.6; padding-left: 18px; margin: 0;" id="ui-about-p3">
@@ -776,20 +522,27 @@
                             <li style="margin-bottom:6px;"><b>Transparan:</b> Tarif dasar jelas, nego langsung via WA.</li>
                         </ul>
                     </div>
-                    <div>
+
+                    <div style="margin-bottom: 20px;">
                         <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h4">Nilai Inti (Core Values)</div>
                         <ul style="list-style-type: none; font-size: 13px; color: var(--text2); line-height: 1.6; padding-left: 0; margin: 0;" id="ui-about-p4">
                             <li style="margin-bottom:6px;">🛡️ <b>Amanah:</b> Menjaga kepercayaan warga.</li>
                             <li style="margin-bottom:6px;">💼 <b>Profesional:</b> Pelayanan prima dan sigap.</li>
                             <li style="margin-bottom:6px;">🤝 <b>Win-Win:</b> Menguntungkan pelanggan & mitra.</li>
-                            <li style="margin-bottom:6px;">🚀 <b>Cepat Tanggap:</b> Solusi secepat mungkin.</li>
+                            <li style="margin-bottom:6px;">🚀 <b>Tanggap:</b> Solusi secepat mungkin.</li>
                         </ul>
                     </div>
+
+                    <div>
+                        <div style="font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; border-bottom: 2px solid var(--border); padding-bottom: 4px;" id="ui-about-h5">Dampak Sosial</div>
+                        <div style="font-size: 13px; color: var(--text2); line-height: 1.6;" id="ui-about-p5">Wadah kegiatan positif untuk anak muda dan Karang Taruna agar terhindar dari game/judi online. Membuka peluang penghasilan tambahan lewat rupa-rupa jasa, sehingga seluruh warga Perumahan Batara kini tak perlu sungkan lagi jika butuh bantuan apapun.</div>
+                    </div>
                 </div>
+                
+                <div style="height: 60px;"></div>
             </div>
         </div>
 
-        <!-- ── BOTTOM NAV ── -->
         <div class="bottom-nav visible" id="bottom-nav">
             <div class="nav-item active" id="tab-home" onclick="navigasiKe('home')">
                 <div class="nav-icon-wrap">🏠</div>
@@ -829,113 +582,65 @@
 
     let userAktif = { nama: "", wa: "" };
     let layananAktif = "";
+    // Bahasa default diset ke Jawa (jw)
     let currentLang = "jw";
     let currentOrderId = "";
     let ratingSkor = 0;
-    let deferredPrompt = null;
-    let installBannerDismissed = false;
 
-    // ══ PWA INSTALL LOGIC ══
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-
-    // Show iOS hint if on Safari iOS and not already installed
-    if (isIOS && !isInStandaloneMode) {
-        document.getElementById('ios-hint').classList.add('show');
-    }
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        // Show install UI in login
-        document.getElementById('login-install-box').classList.add('show');
-        // Show install UI in home banner
-        if (!installBannerDismissed) {
-            document.getElementById('home-install-banner').classList.add('show');
-        }
-        // Show install button in profile
-        document.getElementById('btn-install-profile').classList.remove('hidden');
-    });
-
-    window.triggerInstall = async function() {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            if (outcome === 'accepted') {
-                document.getElementById('login-install-box').classList.remove('show');
-                document.getElementById('home-install-banner').classList.remove('show');
-                document.getElementById('btn-install-profile').classList.add('hidden');
-            }
-        }
-    }
-
-    // Legacy login install button
-    document.getElementById('btn-install-pwa').addEventListener('click', triggerInstall);
-
-    window.dismissInstallBanner = function() {
-        installBannerDismissed = true;
-        document.getElementById('home-install-banner').classList.remove('show');
-    }
-
-    window.addEventListener('appinstalled', () => {
-        document.getElementById('home-install-banner').classList.remove('show');
-        document.getElementById('login-install-box').classList.remove('show');
-        document.getElementById('btn-install-profile').classList.add('hidden');
-    });
-
-    // ══ LANGUAGE DICTIONARY ══
     const langDict = {
         su: {
             subtitle: "Layanan Asli Warga Lokal", loginDesc: "Mangga lebetkeun data anjeun kanggo ngawitan",
             lblNama: "Nami (Panggero)", lblWa: "Nomor WhatsApp Aktif", noteWa: "⚠️ Nomor WA kedah aktif supados gampil dihubungi ku driver!", btnLogin: "Ngawitan Pesen 🚀",
             ph_nama: "Ketik di dieu...", ph_wa: "Conto: 0813xxxx",
-            greetPrefix: "Wilujeng sumping,",
-            c1: "Antar Jemput", c2: "Kirim Barang", c3: "Titip Balanja", c4: "Rewang Nyapuan", c5: "Jasa Séjén", cat5sub: "Jasa séjén saluyu jeung kabutuhan",
+            loginTitle: "Wilujeng Sumping 👋",
+            greetPrefix: "Wilujeng sumping,", 
+            c1: "Pangjajap & Papag", c2: "Pangintun Barang", c3: "Pangagaleuhkeun", c4: "Beberesih", c5: "Rupi-rupi Jasa", cat5sub: "Jasa sanes dumasar kana kabutuhan",
             btnAdmin: "Chat",
-            adminCtaTitle: "Peryogi Bantuan Admin?", adminCtaSub: "Chat langsung via WA", btnAdminLogin: "📞 Peryogi Bantuan Admin?",
-            sectionLayanan: "Pilih Layanan", sectionPromo: "Info & Promo",
-            heroTag: "TARIF HEMAT", heroTitle: "Pesen Gampil,\nHarga Terjangkau!", heroSub: "Dibantos ku warga lokal anu amanah.", heroPriceSub: "/ kilometer",
-            promo1Tag: "LAYANAN ANYAR", promo1Title: "Gratis Ongkir Pesanan Pertama!", promo1Sub: "Berlaku kanggo sadaya layanan",
-            promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WA",
-            promo3Tag: "24 JAM", promo3Title: "Siap Ngabantuan Iraha Wae!", promo3Sub: "Hubungi admin upami peryogi bantuan",
-            btnBack1: "Balik", lblCatatan: "Catetan Tambahan", btnOrder: "Kirim Pesanan 🚀",
-            trackTitle: "Status Pesanan", histTitle: "Riwayat Pesanan",
-            navHome: "Beranda", navOrder: "Pesanan", navHistory: "Riwayat", navProfile: "Profil",
-            profTitle: "Profil Abdi", btnLogout: "🚪 Kaluar (Logout)", emptyOrder: "Teu aya pesanan aktif dinten ieu.",
-            emptySub: "Mangga pilih layanan di Beranda",
-            profileOrders: "Riwayat Pesanan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi",
-            aocLabel: "Pesanan Aktif", aocBtn: "📍 Lacak Pesanan Abdi",
-            tarif1: "🚗 <b>Tarif Dasar:</b> Rp 2.000 / Kilo.<br>Harga disepakati via WA sareng driver.",
-            tarif2: "📦 <b>Tarif Kurir:</b> Rp 2.000 / Kilo.<br>Harga disepakati via WA sareng driver.",
-            tarif3: "🛒 <b>Tarif Jasa:</b> Rp 2.000 / Kilo.<br>Harga disepakati via WA sareng driver.",
-            tarif4: "🧹 <b>Tarif Beberesih:</b> Fleksibel (Nego).<br>Nego via WA sareng petugas.",
-            tarif5: "✨ <b>Jasa Séjén:</b> Fleksibel (Nego).<br>Diskusi harga via WA.",
-            t_formTitle: "Detail Pesanan", t_jemput: "Titik Jemput", t_antar: "Titik Tujuan", t_ambil: "Candak Barang Di", t_kirim: "Kirim Barang Ka", t_daftar: "Daptar Balanjaan", t_alamat: "Alamat Pangiriman", t_resik: "Naon anu kedah dibereskeun?", t_lokasi: "Alamat Lokasi", t_unik: "Sebutkeun Pamundut", t_waktu: "Alamat / Waktu",
-            ph_jemput: "Conto: Gerbang Depan Batara...", ph_antar: "Conto: Indomaret Batara...", ph_ambil: "Conto: Bumi abdi, blok C no 5...", ph_kirim: "Conto: JNE, kirim paket...", ph_daftar: "Conto: Meuli sate 2 porsi...", ph_alamat: "Conto: Antar ka alun-alun...", ph_resik: "Conto: Nyapuan buruan...", ph_lokasi: "Conto: Bumi tukang balé désa...", ph_unik: "Conto: Tulung mindahkeun lemari...", ph_waktu: "Conto: Dinten ieu jam 2 siang...",
-            templateWA: "Halo Admin Satria Batara, abdi [NAMA]. Abdi badé naros ngeunaan pesanan: ",
-            installTxt: "Install Aplikasi Satria Batara!", btnInstall: "INSTALL 📲",
-            btnCancel: "❌ Batalkeun Pesanan", btnComplete: "✅ Konfirmasi Pesanan Réngsé",
-            ratingTitle: "Kumaha palayanan driver urang?", ph_ulasan: "Tulis ulasan (opsional)...", btnRating: "Kirim Rating ⭐",
-            status1: "Milarian Driver...", desc1: "Mangga ngantosan sakedap...", status2: "Driver Kapendak!", desc2: "Driver badé chat WA kanggo konfirmasi.", status3: "Pesanan Réngsé!", desc3: "Hatur nuhun parantos ngagunakeun layanan!", status4: "Dibatalkeun", desc4: "Pesanan ieu parantos dibatalkeun.", alertRating: "Hatur nuhun atas rating & ulasan anjeun!",
+            adminCtaTitle: "Peryogi Bantosan Admin?", adminCtaSub: "Chat langsung via WhatsApp", btnAdminLogin: "📞 Bantosan Admin?",
+            sectionLayanan: "Pilih Layanan", sectionPromo: "Informasi & Promo",
+            heroTag: "TARIF HEMAT", heroTitle: "Pesenan Gampil,\nHarga Murah!", heroSub: "Dibantu warga lokal nu profesional sareng ramah.", heroPriceSub: "/ kilometer",
+            promo1Tag: "KILAT & SIGAP", promo1Title: "Palayanan Ékstra Gancang!", promo1Sub: "Prioritas utami kanggo warga Batara",
+            promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WhatsApp",
+            promo3Tag: "24 JAM", promo3Title: "Siap Ngabantosan Iraha Waé!", promo3Sub: "Hubungi admin upami peryogi bantosan",
+            btnBack1: "Wangsul", lblCatatan: "Catetan Tambihan", btnOrder: "Kintun Pesenan 🚀",
+            trackTitle: "Status Pesenan", histTitle: "Sajarah Pesenan",
+            navHome: "Tepas", navOrder: "Pesenan", navHistory: "Sajarah", navProfile: "Propil",
+            profTitle: "Propil Abdi", btnLogout: "🚪 Kaluar (Logout)", emptyOrder: "Teu aya pesenan aktif dinten ieu.",
+            emptySub: "Mangga pilih layanan di Tepas",
+            profileOrders: "Sajarah Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Ngeunaan Aplikasi",
+            aocLabel: "Pesenan Aktif", aocBtn: "📍 Lacak Pesenan Kuring",
+            tarif1: "🚗 <b>Pangaos Dasar:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
+            tarif2: "📦 <b>Pangaos Kurir:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
+            tarif3: "🛒 <b>Pangaos Jasa:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
+            tarif4: "🧹 <b>Pangaos Beberesih:</b> Fleksibel (Nego).<br>Mangga nego via WA sareng petugas.",
+            tarif5: "✨ <b>Rupi-rupi Jasa:</b> Fleksibel (Nego).<br>Mangga diskusikeun via WA.",
+            t_formTitle: "Rincian Pesenan", t_jemput: "Titik Pangjemputan", t_antar: "Titik Tujuan", t_ambil: "Bantun Barang Ti", t_kirim: "Kintun Barang Ka", t_daftar: "Daptar Balanjaan", t_alamat: "Alamat Pangintunan", t_resik: "Naon anu badé dibersihkeun?", t_lokasi: "Alamat Lokasi", t_unik: "Sebatkeun Pamundut", t_waktu: "Alamat / Waktos",
+            ph_jemput: "Conto: Gerbang Payun Batara...", ph_antar: "Conto: Indomaret Batara...", ph_ambil: "Conto: Bumi abdi, blok C nomer 5...", ph_kirim: "Conto: Ekspedisi, ngintun paket...", ph_daftar: "Conto: Mésér sate 2 porsi...", ph_alamat: "Conto: Jajapkeun ka alun-alun...", ph_resik: "Conto: Sasapu buruan...", ph_lokasi: "Conto: Bumi pungkureun kalurahan...", ph_unik: "Conto: Pangmindahkeun lomari...", ph_waktu: "Conto: Dinten ieu tabuh 2 siang...",
+            templateWA: "Wilujeng enjing Admin Satria Batara, abdi [NAMA]. Abdi badé naroskeun perkawis pesenan: ",
+            installTxt: "Pasang Aplikasi Satria Batara!", btnInstall: "PASANG 📲",
+            btnCancel: "❌ Bolaykeun Pesenan", btnComplete: "✅ Konfirmasi Pesenan Rengse",
+            ratingTitle: "Kumaha palayanan driver dinten ieu?", ph_ulasan: "Serat ulasan (opsional)...", btnRating: "Kintun Rating ⭐",
+            status1: "Nuju Milari Driver...", desc1: "Mangga antosan sakedap...", status2: "Driver Parantos Kenging!", desc2: "Driver badé ngahubungi via WA.", status3: "Pesenan Rengse!", desc3: "Hatur nuhun parantos nganggo palayanan!", status4: "Dibolaykeun", desc4: "Pesenan ieu parantos dibolaykeun.", alertRating: "Hatur nuhun kana rating & ulasanana!",
+            
             aboutTagline: "Andalan Warga Kota Batara",
-            aboutH1: "Tentang Kami", aboutP1: "Satria Batara mangrupikeun platform layanan transportasi sareng jasa harian on-demand khusus warga Perumahan Kota Batara. Ngausung konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
-            aboutH2: "Visi", aboutP2: "Janten layanan andalan nomor hiji pikeun warga Kota Batara anu mawa kamudahan sareng kasajahteraan.",
-            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kabutuhan Warga:</b> Layanan praktis & gancang.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan, 100% kanggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayanan ku warga lokal terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
-            aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Ngajaga kapercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Palayanan prima.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Nguntungkeun sadayana.</li><li style='margin-bottom:6px;'>🚀 <b>Responsif:</b> Solusi gancang.</li>",
-            installTitleHome: "Install Satria Batara", installSubHome: "Akses lebih gancang & offline!", installBtnHome: "Install Aplikasi", profileInstall: "Install Aplikasi"
+            aboutH1: "Ngeunaan Kami", aboutP1: "Satria Batara mangrupikeun platform panyadia layanan transportasi sareng jasa harian on-demand husus warga Perumahan Kota Batara. Mawa konsép 'Layanan Lokal, Profesionalitas Maksimal'.",
+            aboutH2: "Visi", aboutP2: "Janten layanan andalan nomer hiji pikeun warga Kota Batara anu mawa kamudahan sareng karaharjaan lingkungan.",
+            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kabutuhan Warga:</b> Layanan praktis & gancang.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% kanggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayanan ku warga lokal nu terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
+            aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Ngajaga kapercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Palayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Saling nguntungkeun.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super gancang.</li>",
+            aboutH5: "Dampak Sosial", aboutP5: "Wadah kagiatan positif kanggo nonoman sareng Karang Taruna supados tebih tina game atanapi judi online. Muka jalan rejeki tambihan tina rupa-rupa jasa, janten sakumna warga Perumahan Batara ayeuna teu kedah isin deui pami peryogi bantosan naon waé."
         },
         jw: {
             subtitle: "Layanan Asli Wong Kene", loginDesc: "Lebokno datamu nggo mulai pesen",
             lblNama: "Jeneng Panggilan", lblWa: "Nomer WA Sing Aktif", noteWa: "⚠️ Pastikno nomer WA-ne aktif ben driver gampang ngubungi kowe!", btnLogin: "Mulai Pesen 🚀",
             ph_nama: "Ketik neng kene...", ph_wa: "Conto: 0813xxxx",
+            loginTitle: "Sugeng Rawuh 👋",
             greetPrefix: "Sugeng rawuh,",
             c1: "Ngeterke & Methuk", c2: "Kirim Barang", c3: "Titip Belonjo", c4: "Rewang Resik-resik", c5: "Jasa Liyane", cat5sub: "Jasa liyane manut kebutuhanmu",
             btnAdmin: "Chat",
             adminCtaTitle: "Butuh Bantuan Admin?", adminCtaSub: "Chat langsung via WA", btnAdminLogin: "📞 Butuh Bantuan Admin?",
             sectionLayanan: "Pilih Layanan", sectionPromo: "Info & Promo",
             heroTag: "TARIF HEMAT", heroTitle: "Pesen Gampang,\nRego Pas neng Kantong!", heroSub: "Direwangi tonggo dewe sing profesional lan grapyak.", heroPriceSub: "/ kilometer",
-            promo1Tag: "LAYANAN ANYAR", promo1Title: "Gratis Ongkir Pesanan Pertama!", promo1Sub: "Biso nggo kabeh layanan",
+            promo1Tag: "KILAT & SIGAP", promo1Title: "Pelayanan Ekstra Cepet!", promo1Sub: "Prioritas utama nggo warga Batara",
             promo2Tag: "INFO TARIF", promo2Title: "Tarif Jelas, Nego Langsung!", promo2Sub: "Chat driver via WA",
             promo3Tag: "24 JAM", promo3Title: "Siap Rewang Kapan Wae!", promo3Sub: "Hubungi admin nek butuh bantuan",
             btnBack1: "Mbalik", lblCatatan: "Catetan Tambahan", btnOrder: "Kirim Pesenan 🚀",
@@ -957,24 +662,26 @@
             btnCancel: "❌ Batalno Pesenan", btnComplete: "✅ Konfirmasi Pesenan Rampung",
             ratingTitle: "Piye pelayanane driver dino iki?", ph_ulasan: "Tulis ulasan (opsional)...", btnRating: "Kirim Rating ⭐",
             status1: "Golek Driver...", desc1: "Tunggu sedilut yo...", status2: "Driver Ketemu!", desc2: "Driver arep chat WA nggo konfirmasi.", status3: "Pesenan Rampung!", desc3: "Suwun wes nggunakne layanan iki!", status4: "Dibatalke", desc4: "Pesenan iki wes dibatalke.", alertRating: "Suwun nggo rating & ulasane!",
+
             aboutTagline: "Andalan Warga Kota Batara",
-            aboutH1: "Tentang Awakdewe", aboutP1: "Satria Batara iku aplikasi layanan transportasi lan jasa harian on-demand khusus nggo warga Perumahan Kota Batara.",
+            aboutH1: "Tentang Awakdewe", aboutP1: "Satria Batara iku aplikasi layanan transportasi lan jasa harian on-demand khusus nggo warga Perumahan Kota Batara. Nggowo konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
             aboutH2: "Visi", aboutP2: "Dadi layanan andalan nomer siji nggo warga Kota Batara sing nggowo kemudahan lan kesejahteraan bareng.",
             aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepet.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpo potongan persen, 100% nggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani tonggo dewe sing terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif ceto, nego langsung via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Njogo kepercayaane warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan apik lan tanggap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Podo-podo nguntungke.</li><li style='margin-bottom:6px;'>🚀 <b>Cepet:</b> Solusi sat-set das-des.</li>",
-            installTitleHome: "Install Satria Batara", installSubHome: "Akses luwih cepet & offline!", installBtnHome: "Install Aplikasi", profileInstall: "Install Aplikasi"
+            aboutH5: "Dampak Sosial", aboutP5: "Wadah kegiatan positif nggo cah enom lan Karang Taruna ben adoh seko game online utawa judi online. Mbukak dalan rejeki tambahan seko jasa opo wae, dadi sakabehe warga Perumahan Batara saiki ra perlu sungkan meneh nek butuh bantuan opo wae."
         },
         id: {
             subtitle: "Layanan Asli Warga Lokal", loginDesc: "Masukkan data kamu untuk mulai pesan",
             lblNama: "Nama Panggilan", lblWa: "Nomor WhatsApp Aktif", noteWa: "⚠️ Pastikan nomor WA aktif agar driver bisa menghubungi kamu!", btnLogin: "Mulai Pesan 🚀",
             ph_nama: "Ketik di sini...", ph_wa: "Contoh: 0813xxxx",
-            greetPrefix: "Selamat datang,",
+            loginTitle: "Selamat Datang 👋",
+            greetPrefix: "Selamat datang,", 
             c1: "Antar Jemput", c2: "Kirim Barang", c3: "Titip Belanja", c4: "Bantu Bersih", c5: "Jasa Lainnya", cat5sub: "Jasa lainnya sesuai kebutuhanmu",
             btnAdmin: "Chat",
             adminCtaTitle: "Butuh Bantuan Admin?", adminCtaSub: "Chat langsung via WhatsApp", btnAdminLogin: "📞 Butuh Bantuan Admin?",
             sectionLayanan: "Pilih Layanan", sectionPromo: "Informasi & Promo",
             heroTag: "TARIF HEMAT", heroTitle: "Pesan Mudah,\nHarga Terjangkau!", heroSub: "Dibantu warga lokal yang amanah dan profesional.", heroPriceSub: "/ kilometer",
-            promo1Tag: "LAYANAN BARU", promo1Title: "Gratis Ongkir Pesanan Pertama!", promo1Sub: "Berlaku untuk semua layanan",
+            promo1Tag: "KILAT & SIGAP", promo1Title: "Pelayanan Ekstra Cepat!", promo1Sub: "Prioritas utama untuk warga Batara",
             promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WhatsApp",
             promo3Tag: "24 JAM", promo3Title: "Siap Membantu Kapan Saja!", promo3Sub: "Hubungi admin jika butuh bantuan",
             btnBack1: "Kembali", lblCatatan: "Catatan Tambahan", btnOrder: "Kirim Pesanan 🚀",
@@ -996,24 +703,26 @@
             btnCancel: "❌ Batalkan Pesanan", btnComplete: "✅ Konfirmasi Pesanan Selesai",
             ratingTitle: "Bagaimana pelayanan driver kami?", ph_ulasan: "Tulis ulasan (opsional)...", btnRating: "Kirim Rating ⭐",
             status1: "Mencari Driver...", desc1: "Mohon tunggu sebentar...", status2: "Driver Ditemukan!", desc2: "Driver akan chat WA untuk konfirmasi.", status3: "Pesanan Selesai!", desc3: "Terima kasih sudah menggunakan layanan!", status4: "Dibatalkan", desc4: "Pesanan ini telah dibatalkan.", alertRating: "Terima kasih atas rating & ulasan Anda!",
+
             aboutTagline: "Andalan Warga Kota Batara",
             aboutH1: "Tentang Kami", aboutP1: "Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara. Mengusung konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
             aboutH2: "Visi", aboutP2: "Menjadi layanan andalan nomor satu bagi warga Kota Batara yang membawa kemudahan serta kesejahteraan lingkungan.",
             aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepat.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% untuk mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani oleh warga lokal terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Menjaga kepercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Menguntungkan pelanggan & mitra.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super cepat.</li>",
-            installTitleHome: "Install Satria Batara", installSubHome: "Akses lebih cepat & bisa offline!", installBtnHome: "Install Aplikasi", profileInstall: "Install Aplikasi"
+            aboutH5: "Dampak Sosial", aboutP5: "Menjadi wadah kegiatan positif bagi anak muda dan Karang Taruna agar terhindar dari game online maupun judi online. Membuka peluang penghasilan tambahan lewat rupa-rupa jasa, sehingga seluruh warga Perumahan Batara kini tidak perlu merasa sungkan lagi jika membutuhkan bantuan apa pun."
         },
         en: {
             subtitle: "Authentic Local Services", loginDesc: "Enter your details to get started",
             lblNama: "Nickname", lblWa: "Active WhatsApp Number", noteWa: "⚠️ Ensure your WA number is active so the driver can contact you!", btnLogin: "Start Ordering 🚀",
             ph_nama: "Type here...", ph_wa: "Example: 0813xxxx",
-            greetPrefix: "Welcome back,",
+            loginTitle: "Welcome 👋",
+            greetPrefix: "Welcome back,", 
             c1: "Pick-up / Drop-off", c2: "Delivery", c3: "Grocery Shopping", c4: "Cleaning", c5: "Custom Service", cat5sub: "Any other service you need",
             btnAdmin: "Chat",
             adminCtaTitle: "Need Admin Support?", adminCtaSub: "Chat directly via WhatsApp", btnAdminLogin: "📞 Admin Help?",
             sectionLayanan: "Choose a Service", sectionPromo: "Promos & Info",
             heroTag: "AFFORDABLE", heroTitle: "Easy Orders,\nGreat Prices!", heroSub: "Helped by trusted, professional locals.", heroPriceSub: "/ kilometer",
-            promo1Tag: "NEW SERVICE", promo1Title: "Free Delivery on First Order!", promo1Sub: "Valid for all services",
+            promo1Tag: "FAST & READY", promo1Title: "Extra Fast Service!", promo1Sub: "Top priority for Batara residents",
             promo2Tag: "FARE INFO", promo2Title: "Transparent Fares, Negotiate Direct!", promo2Sub: "Chat the driver via WhatsApp",
             promo3Tag: "24 HOURS", promo3Title: "Ready to Help Anytime!", promo3Sub: "Contact admin if you need help",
             btnBack1: "Back", lblCatatan: "Additional Notes", btnOrder: "Submit Order 🚀",
@@ -1035,25 +744,27 @@
             btnCancel: "❌ Cancel Order", btnComplete: "✅ Confirm Order Completed",
             ratingTitle: "How was the driver's service?", ph_ulasan: "Write feedback (optional)...", btnRating: "Submit Rating ⭐",
             status1: "Finding Driver...", desc1: "Please wait a moment...", status2: "Driver Found!", desc2: "Driver will chat you via WA.", status3: "Order Completed!", desc3: "Thank you for using our service!", status4: "Cancelled", desc4: "This order has been cancelled.", alertRating: "Thank you for your rating & feedback!",
+
             aboutTagline: "Kota Batara's Trusted Service",
-            aboutH1: "About Us", aboutP1: "Satria Batara is an on-demand transport and daily service platform exclusively for Kota Batara residents. Bringing 'Local Service, Maximum Professionalism'.",
+            aboutH1: "About Us", aboutP1: "Satria Batara is an on-demand transport and daily service platform exclusively for Kota Batara residents. Bringing the concept of 'Local Service, Maximum Professionalism'.",
             aboutH2: "Vision", aboutP2: "To be the number one reliable service for Kota Batara residents, bringing convenience and community welfare.",
-            aboutH3: "Mission", aboutP3: "<li style='margin-bottom:6px;'><b>Resident Needs:</b> Practical & fast service.</li><li style='margin-bottom:6px;'><b>Fair:</b> Zero commission, 100% to partners.</li><li style='margin-bottom:6px;'><b>Safe:</b> Served by verified local residents.</li><li style='margin-bottom:6px;'><b>Transparent:</b> Clear fares, negotiate via WA.</li>",
-            aboutH4: "Core Values", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Trustworthy:</b> Keeping community trust.</li><li style='margin-bottom:6px;'>💼 <b>Professional:</b> Excellent & responsive service.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Benefiting both sides.</li><li style='margin-bottom:6px;'>🚀 <b>Responsive:</b> Quickest solutions possible.</li>",
-            installTitleHome: "Install Satria Batara", installSubHome: "Faster access & works offline!", installBtnHome: "Install App", profileInstall: "Install App"
+            aboutH3: "Mission", aboutP3: "<li style='margin-bottom:6px;'><b>Resident Needs:</b> Practical & fast service.</li><li style='margin-bottom:6px;'><b>Fair:</b> Zero percent commission, 100% to partners.</li><li style='margin-bottom:6px;'><b>Safe:</b> Served by verified local residents.</li><li style='margin-bottom:6px;'><b>Transparent:</b> Clear fares, negotiate via WA.</li>",
+            aboutH4: "Core Values", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Trustworthy:</b> Keeping community trust.</li><li style='margin-bottom:6px;'>💼 <b>Professional:</b> Excellent & responsive service.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Benefiting both customers & partners.</li><li style='margin-bottom:6px;'>🚀 <b>Responsive:</b> Quickest solutions possible.</li>",
+            aboutH5: "Social Impact", aboutP5: "A positive platform for youth and local youth organizations (Karang Taruna) to avoid online games or gambling. Opening additional income opportunities from any kind of service, ensuring residents of Batara never have to hesitate when asking for help."
         }
     };
 
-    // ══ LANGUAGE SETTER ══
     window.setLang = function(langKey) {
         currentLang = langKey;
+        // Update all language buttons inside lang-pill
         ['btn-su','btn-jw','btn-id','btn-en','btn-su2','btn-jw2','btn-id2','btn-en2'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.classList.toggle('active', id.replace('2','').endsWith(langKey));
         });
         const t = langDict[langKey];
 
-        // Login
+        // Login page
+        document.getElementById('ui-login-title').innerText = t.loginTitle;
         document.getElementById('ui-subtitle').innerText = t.subtitle;
         document.getElementById('ui-login-desc').innerText = t.loginDesc;
         document.getElementById('ui-label-nama').innerText = t.lblNama;
@@ -1063,8 +774,6 @@
         document.getElementById('inputNama').placeholder = t.ph_nama;
         document.getElementById('inputWA').placeholder = t.ph_wa;
         document.getElementById('ui-btn-admin-login').innerText = t.btnAdminLogin;
-        document.getElementById('ui-install-txt').innerText = t.installTxt;
-        document.getElementById('btn-install-pwa').innerText = t.btnInstall;
 
         // Home
         document.getElementById('ui-greet-prefix').innerText = t.greetPrefix;
@@ -1093,12 +802,6 @@
         document.getElementById('ui-promo3-title').innerText = t.promo3Title;
         document.getElementById('ui-promo3-sub').innerText = t.promo3Sub;
 
-        // Install home banner
-        if(t.installTitleHome) document.getElementById('ui-install-title-home').innerText = t.installTitleHome;
-        if(t.installSubHome) document.getElementById('ui-install-sub-home').innerText = t.installSubHome;
-        if(t.installBtnHome) document.getElementById('ui-install-btn-home').innerText = t.installBtnHome;
-        if(t.profileInstall) document.getElementById('ui-profile-install').innerText = t.profileInstall;
-
         // Form
         document.getElementById('ui-label-catatan').innerText = t.lblCatatan;
         document.getElementById('btnKirim').innerText = t.btnOrder;
@@ -1126,11 +829,13 @@
         document.getElementById('nav-history').innerText = t.navHistory;
         document.getElementById('nav-profile').innerText = t.navProfile;
 
-        // AOC
+        // Misc
+        document.getElementById('ui-install-txt').innerText = t.installTxt;
+        document.getElementById('btn-install-pwa').innerText = t.btnInstall;
         document.getElementById('ui-aoc-label').innerText = t.aocLabel;
         document.getElementById('ui-aoc-btn').innerText = t.aocBtn;
 
-        // About
+        // About Page
         document.getElementById('ui-about-topbar').innerText = t.profileAbout;
         document.getElementById('ui-about-tagline').innerText = t.aboutTagline;
         document.getElementById('ui-about-h1').innerText = t.aboutH1;
@@ -1141,12 +846,13 @@
         document.getElementById('ui-about-p3').innerHTML = t.aboutP3;
         document.getElementById('ui-about-h4').innerText = t.aboutH4;
         document.getElementById('ui-about-p4').innerHTML = t.aboutP4;
+        document.getElementById('ui-about-h5').innerText = t.aboutH5;
+        document.getElementById('ui-about-p5').innerText = t.aboutP5;
 
         if(!document.getElementById('page-form').classList.contains('hidden')) bukaForm(layananAktif);
         if(currentOrderId !== "") pantauStatusPesanan(currentOrderId);
     }
 
-    // ══ NAVIGATION ══
     window.navigasiKe = function(tab) {
         ['page-home','page-form','page-tracking','page-history','page-profile','page-about'].forEach(p => {
             const el = document.getElementById(p);
@@ -1182,7 +888,28 @@
         document.getElementById('page-profile').classList.remove('hidden');
     }
 
-    // ══ ADMIN CHAT ══
+    // PWA Install Logic - Dibuka secara default untuk panduan manual jika di web biasa
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); 
+        deferredPrompt = e;
+    });
+
+    document.getElementById('btn-install-pwa').addEventListener('click', async () => {
+        if(deferredPrompt) { 
+            deferredPrompt.prompt(); 
+            deferredPrompt = null; 
+            document.getElementById('install-banner').style.display = 'none'; 
+        } else {
+            // Petunjuk manual jika website belum support PWA resmi (Misal belum ada manifest.json di Vercel)
+            const msg = currentLang === 'jw' ? "Nggo masang aplikasi, klik menu browser (titik telu neng pojok dhuwur) terus pilih 'Tambahkan ke Layar Utama' (Add to Home screen)." :
+                        currentLang === 'id' ? "Untuk menginstal, klik menu browser (titik tiga di pojok kanan atas) lalu pilih 'Tambahkan ke Layar Utama' (Add to Home screen)." :
+                        currentLang === 'su' ? "Kanggo masang aplikasi, klik menu browser (titik tilu di pojok luhur) teras pilih 'Tambahkan ke Layar Utama'." :
+                        "To install, click the browser menu (three dots) and select 'Add to Home screen'.";
+            alert(msg);
+        }
+    });
+
     window.chatAdminTemplate = function() {
         const nama = userAktif.nama || "Pelanggan";
         const pesan = langDict[currentLang].templateWA.replace("[NAMA]", nama);
@@ -1192,7 +919,6 @@
         window.open(`https://wa.me/6281383179209?text=${encodeURIComponent("Halo Admin Satria Batara, saya ingin bertanya tentang layanan.")}`, '_blank');
     }
 
-    // ══ AUTH ══
     window.masukAplikasi = function() {
         const nama = document.getElementById('inputNama').value.trim();
         const wa = document.getElementById('inputWA').value.trim();
@@ -1203,8 +929,6 @@
         document.getElementById('profileWA').innerText = wa;
         document.getElementById('page-login').classList.add('hidden');
         document.getElementById('app-main').classList.remove('hidden');
-        // Show install button on profile if available
-        if(deferredPrompt) document.getElementById('btn-install-profile').classList.remove('hidden');
         navigasiKe('home');
     }
 
@@ -1218,11 +942,11 @@
         }
     }
 
-    // ══ FORM ══
     window.bukaForm = function(kat) {
         layananAktif = kat;
         const t = langDict[currentLang];
         let label1, label2, tarifHTML, ph1, ph2;
+
         if(kat==='Antar Jemput'){label1=t.t_jemput;label2=t.t_antar;tarifHTML=t.tarif1;ph1=t.ph_jemput;ph2=t.ph_antar;}
         else if(kat==='Kirim Barang'){label1=t.t_ambil;label2=t.t_kirim;tarifHTML=t.tarif2;ph1=t.ph_ambil;ph2=t.ph_kirim;}
         else if(kat==='Titip Belanja'){label1=t.t_daftar;label2=t.t_alamat;tarifHTML=t.tarif3;ph1=t.ph_daftar;ph2=t.ph_alamat;}
@@ -1248,11 +972,10 @@
         navigasiKe('home');
     }
 
-    // ══ HISTORY ══
     window.muatRiwayat = function() {
         const t = langDict[currentLang];
         const listEl = document.getElementById('listHistory');
-        listEl.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text3); font-size:13px;">⏳ Loading...</div>';
+        listEl.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text3); font-size:13px;">...</div>';
         onValue(ref(database, 'orders'), (snap) => {
             listEl.innerHTML = "";
             let ada = false;
@@ -1277,7 +1000,7 @@
                     <span class="hc-status-pill ${pillClass}">${statusTxt}</span>
                     <div class="hc-route">${data.detail_1}<br>⬇<br>${data.detail_2}</div>
                     ${data.driver_nama ? `<div class="hc-driver">🛵 Driver: ${data.driver_nama}${data.rating?' · ⭐'+data.rating:''}</div>` : ''}
-                    ${(data.status==='terbuka'||data.status==='diambil') ? `<button class="hc-track-btn" onclick="lanjutPantau('${data.id}')">📍 ${currentLang==='en'?'Track Order':'Lacak Pesenan'}</button>` : ''}
+                    ${(data.status==='terbuka'||data.status==='diambil') ? `<button class="hc-track-btn" onclick="lanjutPantau('${data.id}')">📍 ${currentLang==='en'?'Track Order':(currentLang==='jw'?'Lacak Pesenan':'Lacak Pesenan')}</button>` : ''}
                 `;
                 listEl.appendChild(card);
             });
@@ -1287,7 +1010,6 @@
 
     window.lanjutPantau = function(id) { currentOrderId = id; navigasiKe('order'); }
 
-    // ══ ORDER ══
     window.kirimPesananFirebase = function() {
         const d1 = document.getElementById('inputDetail1').value.trim();
         const d2 = document.getElementById('inputDetail2').value.trim();
@@ -1309,6 +1031,7 @@
             document.getElementById('inputUlasan').value = "";
             document.getElementById('page-form').classList.add('hidden');
             navigasiKe('order');
+            // Show active order on home
             document.getElementById('home-active-order').classList.remove('hidden');
         }).catch(e=>{alert("Error: "+e);btn.disabled=false;});
     }
@@ -1327,6 +1050,7 @@
             const completeArea = document.getElementById('complete-area');
             const ratingArea = document.getElementById('rating-area');
 
+            // Update home active card too
             if(document.getElementById('aoc-status-text')) {
                 document.getElementById('aoc-status-text').innerText = data.status==='terbuka'?t.status1:data.status==='diambil'?t.status2:data.status==='selesai'?t.status3:t.status4;
             }
@@ -1374,8 +1098,10 @@
         });
     }
 
-    // Boot with Javanese as default
+    // Default ke bahasa Jawa
     setLang('jw');
 </script>
 </body>
 </html>
+
+}
