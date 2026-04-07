@@ -7,7 +7,7 @@
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1B8A4B">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/732/732223.png">
+    <link rel="icon" href="logo-satria.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -237,7 +237,7 @@
 
             <div id="install-banner" class="install-bar" style="margin-top: 24px;">
                 <p id="ui-install-txt">Install Aplikasi Satria Batara!</p>
-                <button id="btn-install-pwa" class="btn-primary" style="padding:10px;">INSTALL 📲</button>
+                <button id="btn-install-pwa" class="btn-primary" style="padding:10px;" onclick="installAplikasi()">INSTALL 📲</button>
             </div>
             
             <div class="login-heading" style="margin-top: 16px;" id="ui-login-title">Sugeng Rawuh 👋</div>
@@ -256,7 +256,7 @@
             <button class="btn-outline" onclick="chatAdminLoginPage()" id="ui-btn-admin-login">📞 Butuh Bantuan Admin?</button>
         </div>
         <div style="text-align:center; padding:12px; background:var(--login-body,white);">
-            <div style="font-size:11px; color:var(--text3);">Satria Batara · Layanan Warga Perumahan Kota Batara</div>
+            <div style="font-size:11px; color:var(--text3);">Satria Batara · Layanan Warga Lokal</div>
         </div>
     </div>
 
@@ -473,7 +473,18 @@
                     <div class="profile-wa" id="profileWA">—</div>
                 </div>
                 <div style="height:16px;"></div>
+                
                 <div class="profile-card">
+                    <div class="profile-row" id="row-install-app" onclick="installAplikasi()" style="display:none;">
+                        <div class="profile-row-icon" style="background:#FCE7F3;">📲</div>
+                        <div class="profile-row-label" id="ui-profile-install">Install Aplikasi</div>
+                        <div class="profile-row-arrow">›</div>
+                    </div>
+                    <div class="profile-row" onclick="bagikanAplikasi()">
+                        <div class="profile-row-icon" style="background:#E0E7FF;">📤</div>
+                        <div class="profile-row-label" id="ui-profile-share">Bagikan Aplikasi</div>
+                        <div class="profile-row-arrow">›</div>
+                    </div>
                     <div class="profile-row" onclick="navigasiKe('history')">
                         <div class="profile-row-icon" style="background:#E8F5EE;">🛵</div>
                         <div class="profile-row-label" id="ui-profile-orders">Riwayat Pesenan</div>
@@ -490,6 +501,7 @@
                         <div class="profile-row-arrow">›</div>
                     </div>
                 </div>
+                
                 <div style="height:16px;"></div>
                 <button class="btn-logout" onclick="kaluarAplikasi()" id="ui-btn-logout">🚪 Metu (Logout)</button>
                 <div style="text-align:center; padding:16px; font-size:11px; color:var(--text3);">Satria Batara v2.0 · © 2025</div>
@@ -599,6 +611,7 @@
 
     let userAktif = { nama: "", wa: "" };
     let layananAktif = "";
+    // Bahasa default diset ke Jawa (jw)
     let currentLang = "jw";
     let currentOrderId = "";
     let ratingSkor = 0;
@@ -614,7 +627,7 @@
             btnAdmin: "Chat",
             adminCtaTitle: "Peryogi Bantosan Admin?", adminCtaSub: "Chat langsung via WhatsApp", btnAdminLogin: "📞 Bantosan Admin?",
             sectionLayanan: "Pilih Layanan", sectionPromo: "Informasi & Promo",
-            heroTag: "TARIF HEMAT", heroTitle: "Pesenan Gampil,\nHarga Murah!", heroSub: "Dibantu warga Perumahan Kota Batara nu profesional sareng ramah.", heroPriceSub: "/ kilometer",
+            heroTag: "TARIF HEMAT", heroTitle: "Pesenan Gampil,\nHarga Murah!", heroSub: "Dibantu warga lokal nu profesional sareng ramah.", heroPriceSub: "/ kilometer",
             promo1Tag: "KILAT & SIGAP", promo1Title: "Palayanan Ékstra Gancang!", promo1Sub: "Prioritas utami kanggo warga Batara",
             promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WhatsApp",
             promo3Tag: "24 JAM", promo3Title: "Siap Ngabantosan Iraha Waé!", promo3Sub: "Hubungi admin upami peryogi bantosan",
@@ -623,7 +636,7 @@
             navHome: "Tepas", navOrder: "Pesenan", navHistory: "Sajarah", navProfile: "Propil",
             profTitle: "Propil Abdi", btnLogout: "🚪 Kaluar (Logout)", emptyOrder: "Teu aya pesenan aktif dinten ieu.",
             emptySub: "Mangga pilih layanan di Tepas",
-            profileOrders: "Sajarah Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Ngeunaan Aplikasi",
+            profileOrders: "Sajarah Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Ngeunaan Aplikasi", profileShare: "Bagikeun Aplikasi", profileInstall: "Pasang Aplikasi",
             aocLabel: "Pesenan Aktif", aocBtn: "📍 Lacak Pesenan Kuring",
             tarif1: "🚗 <b>Pangaos Dasar:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
             tarif2: "📦 <b>Pangaos Kurir:</b> Rp 2.000 / Kilo.<br>Pangaos salajengna tiasa dirundingkeun via WA.",
@@ -641,7 +654,7 @@
             aboutTagline: "Andalan Warga Kota Batara",
             aboutH1: "Ngeunaan Kami", aboutP1: "Satria Batara mangrupikeun platform panyadia layanan transportasi sareng jasa harian on-demand husus warga Perumahan Kota Batara. Mawa konsép 'Layanan Lokal, Profesionalitas Maksimal'.",
             aboutH2: "Visi", aboutP2: "Janten layanan andalan nomer hiji pikeun warga Kota Batara anu mawa kamudahan sareng karaharjaan lingkungan.",
-            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kabutuhan Warga:</b> Layanan praktis & gancang.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% kanggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayanan ku warga Perumahan Kota Batara nu terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
+            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kabutuhan Warga:</b> Layanan praktis & gancang.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% kanggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayanan ku warga lokal nu terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Ngajaga kapercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Palayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Saling nguntungkeun.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super gancang.</li>",
             aboutH5: "Dampak Sosial", aboutP5: "Wadah kagiatan positif kanggo nonoman sareng Karang Taruna supados tebih tina game atanapi judi online. Muka jalan rejeki tambihan tina rupa-rupa jasa, janten sakumna warga Perumahan Batara ayeuna teu kedah isin deui pami peryogi bantosan naon waé."
         },
@@ -664,7 +677,7 @@
             navHome: "Beranda", navOrder: "Pesenan", navHistory: "Riwayat", navProfile: "Profil",
             profTitle: "Profilku", btnLogout: "🚪 Metu (Logout)", emptyOrder: "Urung ono pesenan aktif dino iki.",
             emptySub: "Monggo pilih layanan neng Beranda",
-            profileOrders: "Riwayat Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi",
+            profileOrders: "Riwayat Pesenan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi", profileShare: "Bagikno Aplikasi", profileInstall: "Install Aplikasi",
             aocLabel: "Pesenan Aktif", aocBtn: "📍 Lacak Pesenanku",
             tarif1: "🚗 <b>Tarif Dasar:</b> Rp 2.000 / Kilo.<br>Rego disepakati via WA karo driver.",
             tarif2: "📦 <b>Tarif Kurir:</b> Rp 2.000 / Kilo.<br>Rego disepakati via WA karo driver.",
@@ -687,7 +700,7 @@
             aboutH5: "Dampak Sosial", aboutP5: "Wadah kegiatan positif nggo cah enom lan Karang Taruna ben adoh seko game online utawa judi online. Mbukak dalan rejeki tambahan seko jasa opo wae, dadi sakabehe warga Perumahan Batara saiki ra perlu sungkan meneh nek butuh bantuan opo wae."
         },
         id: {
-            subtitle: "Layanan Asli Warga Perumahan Kota Batara", loginDesc: "Masukkan data kamu untuk mulai pesan",
+            subtitle: "Layanan Asli Warga Lokal", loginDesc: "Masukkan data kamu untuk mulai pesan",
             lblNama: "Nama Panggilan", lblWa: "Nomor WhatsApp Aktif", noteWa: "⚠️ Pastikan nomor WA aktif agar driver bisa menghubungi kamu!", btnLogin: "Mulai Pesan 🚀",
             ph_nama: "Ketik di sini...", ph_wa: "Contoh: 0813xxxx",
             loginTitle: "Selamat Datang 👋",
@@ -696,7 +709,7 @@
             btnAdmin: "Chat",
             adminCtaTitle: "Butuh Bantuan Admin?", adminCtaSub: "Chat langsung via WhatsApp", btnAdminLogin: "📞 Butuh Bantuan Admin?",
             sectionLayanan: "Pilih Layanan", sectionPromo: "Informasi & Promo",
-            heroTag: "TARIF HEMAT", heroTitle: "Pesan Mudah,\nHarga Terjangkau!", heroSub: "Dibantu warga Perumahan Kota Batara yang amanah dan profesional.", heroPriceSub: "/ kilometer",
+            heroTag: "TARIF HEMAT", heroTitle: "Pesan Mudah,\nHarga Terjangkau!", heroSub: "Dibantu warga lokal yang amanah dan profesional.", heroPriceSub: "/ kilometer",
             promo1Tag: "KILAT & SIGAP", promo1Title: "Pelayanan Ekstra Cepat!", promo1Sub: "Prioritas utama untuk warga Batara",
             promo2Tag: "INFO TARIF", promo2Title: "Tarif Transparan, Nego Langsung!", promo2Sub: "Chat driver via WhatsApp",
             promo3Tag: "24 JAM", promo3Title: "Siap Membantu Kapan Saja!", promo3Sub: "Hubungi admin jika butuh bantuan",
@@ -705,7 +718,7 @@
             navHome: "Beranda", navOrder: "Pesanan", navHistory: "Riwayat", navProfile: "Profil",
             profTitle: "Profil Saya", btnLogout: "🚪 Keluar (Logout)", emptyOrder: "Belum ada pesanan aktif hari ini.",
             emptySub: "Silakan pilih layanan di Beranda",
-            profileOrders: "Riwayat Pesanan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi",
+            profileOrders: "Riwayat Pesanan", profileAdmin: "Hubungi Admin", profileAbout: "Tentang Aplikasi", profileShare: "Bagikan Aplikasi", profileInstall: "Install Aplikasi",
             aocLabel: "Pesanan Aktif", aocBtn: "📍 Lacak Pesanan Saya",
             tarif1: "🚗 <b>Tarif Dasar:</b> Rp 2.000 / Kilometer.<br>Harga disepakati via WA dengan driver.",
             tarif2: "📦 <b>Tarif Kurir:</b> Rp 2.000 / Kilometer.<br>Harga disepakati via WA dengan driver.",
@@ -723,7 +736,7 @@
             aboutTagline: "Andalan Warga Kota Batara",
             aboutH1: "Tentang Kami", aboutP1: "Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara. Mengusung konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
             aboutH2: "Visi", aboutP2: "Menjadi layanan andalan nomor satu bagi warga Kota Batara yang membawa kemudahan serta kesejahteraan lingkungan.",
-            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepat.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% untuk mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani oleh warga Perumahan Kota Batara terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
+            aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepat.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% untuk mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani oleh warga lokal terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Menjaga kepercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Menguntungkan pelanggan & mitra.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super cepat.</li>",
             aboutH5: "Dampak Sosial", aboutP5: "Menjadi wadah kegiatan positif bagi anak muda dan Karang Taruna agar terhindar dari game online maupun judi online. Membuka peluang penghasilan tambahan lewat rupa-rupa jasa, sehingga seluruh warga Perumahan Batara kini tidak perlu merasa sungkan lagi jika membutuhkan bantuan apa pun."
         },
@@ -746,7 +759,7 @@
             navHome: "Home", navOrder: "Orders", navHistory: "History", navProfile: "Profile",
             profTitle: "My Profile", btnLogout: "🚪 Logout", emptyOrder: "No active orders today.",
             emptySub: "Please choose a service from Home",
-            profileOrders: "Order History", profileAdmin: "Contact Admin", profileAbout: "About App",
+            profileOrders: "Order History", profileAdmin: "Contact Admin", profileAbout: "About App", profileShare: "Share App", profileInstall: "Install App",
             aocLabel: "Active Order", aocBtn: "📍 Track My Order",
             tarif1: "🚗 <b>Base Fare:</b> Rp 2,000 / Kilometer.<br>Final price via WA.",
             tarif2: "📦 <b>Delivery Fare:</b> Rp 2,000 / Kilometer.<br>Final price via WA.",
@@ -772,6 +785,7 @@
 
     window.setLang = function(langKey) {
         currentLang = langKey;
+        // Update all language buttons inside lang-pill
         ['btn-su','btn-jw','btn-id','btn-en','btn-su2','btn-jw2','btn-id2','btn-en2'].forEach(id => {
             const el = document.getElementById(id);
             if(el) el.classList.toggle('active', id.replace('2','').endsWith(langKey));
@@ -837,6 +851,8 @@
         document.getElementById('ui-profile-orders').innerText = t.profileOrders;
         document.getElementById('ui-profile-admin').innerText = t.profileAdmin;
         document.getElementById('ui-profile-about').innerText = t.profileAbout;
+        document.getElementById('ui-profile-share').innerText = t.profileShare;
+        document.getElementById('ui-profile-install').innerText = t.profileInstall;
 
         // Nav
         document.getElementById('nav-home').innerText = t.navHome;
@@ -903,29 +919,59 @@
         document.getElementById('page-profile').classList.remove('hidden');
     }
 
-    // PWA LOGIC CANGGIH
+    // ── FITUR BAGIKAN APLIKASI ──
+    window.bagikanAplikasi = function() {
+        const textShare = currentLang === 'jw' ? 'Ayo jajal aplikasi Satria Batara! Solusi layanan harian asli warga Kota Batara.' :
+                          currentLang === 'id' ? 'Ayo cobain aplikasi Satria Batara! Solusi layanan harian asli warga Kota Batara.' :
+                          currentLang === 'su' ? 'Hayu cobian aplikasi Satria Batara! Solusi jasa harian warga Kota Batara.' :
+                          'Let\'s try the Satria Batara app! The local daily service solution for Kota Batara.';
+                          
+        const shareData = {
+            title: 'Satria Batara',
+            text: textShare,
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            navigator.share(shareData).catch((err) => console.log('Gagal membagikan:', err));
+        } else {
+            // Fallback kalau browser belum support Web Share API (Copy URL)
+            navigator.clipboard.writeText(window.location.href);
+            alert(currentLang === 'en' ? 'Link copied to clipboard!' : 'Link berhasil disalin, silakan bagikan ke WhatsApp teman!');
+        }
+    }
+
+    // ── PWA LOGIC CANGGIH ──
     const installBanner = document.getElementById('install-banner');
+    const rowInstallApp = document.getElementById('row-install-app');
     let deferredPrompt = null;
 
-    // Sembunyikan tombol kalau aplikasinya sudah dibuka dalam mode "Stand-alone" (sudah diinstal)
+    function sembunyikanTombolInstall() {
+        if(installBanner) installBanner.style.display = 'none';
+        if(rowInstallApp) rowInstallApp.style.display = 'none';
+    }
+
+    // Cek apakah sudah berjalan di mode "Stand-alone" (sudah diinstal)
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        installBanner.style.display = 'none';
+        sembunyikanTombolInstall();
     } else {
-        installBanner.style.display = 'block'; // Munculin kalau dibuka di browser biasa
+        // Jangan di-hide dulu, tunggu event beforeinstallprompt
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault(); 
         deferredPrompt = e;
-        installBanner.style.display = 'block';
+        // Tampilkan tombol kalau memang mendukung dan belum terinstal
+        if(installBanner) installBanner.style.display = 'block';
+        if(rowInstallApp) rowInstallApp.style.display = 'flex';
     });
 
-    document.getElementById('btn-install-pwa').addEventListener('click', async () => {
+    window.installAplikasi = async function() {
         if(deferredPrompt) { 
             deferredPrompt.prompt(); 
             const { outcome } = await deferredPrompt.userChoice;
             if (outcome === 'accepted') {
-                installBanner.style.display = 'none'; // Sembunyikan otomatis kalau user ngeklik Yes
+                sembunyikanTombolInstall(); // Sembunyikan otomatis kalau user ngeklik Yes
             }
             deferredPrompt = null; 
         } else {
@@ -936,11 +982,11 @@
                         "To install, click the browser menu (three dots) and select 'Add to Home screen'.";
             alert(msg);
         }
-    });
+    }
 
     // Event bawaan browser ketika aplikasi sukses terinstal
     window.addEventListener('appinstalled', () => {
-        installBanner.style.display = 'none';
+        sembunyikanTombolInstall();
         deferredPrompt = null;
     });
 
