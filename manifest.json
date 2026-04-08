@@ -2,22 +2,25 @@
   "id": "/app-warga",
   "name": "Satria Batara",
   "short_name": "Satria Batara",
-  "description": "Layanan warga Kota Batara",
+  "description": "Layanan transportasi dan jasa harian warga",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#F0F2F5",
-  "theme_color": "#1B8A4B",
+  "theme_color": "#0D9953",
   "orientation": "portrait-primary",
   "icons": [
     {
       "src": "logo-satria.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "logo-satria.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
