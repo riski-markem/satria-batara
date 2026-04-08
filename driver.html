@@ -87,6 +87,7 @@
         .sec-title-dot.amber { background:var(--yellow); }
         .sec-title-dot.blue { background:var(--blue); }
         .sec-title-dot.green { background:var(--green); }
+        
         .order-card { background:var(--card); border-radius:var(--radius); margin-bottom:12px; box-shadow:var(--shadow); overflow:hidden; }
         .order-card-new { border-top:3px solid var(--yellow); }
         .order-card-active { border-top:3px solid var(--blue); }
@@ -115,10 +116,12 @@
         .btn-cancel-order { background:var(--red-light); color:var(--red); border:none; border-radius:var(--radius-sm); padding:13px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
         .btn-complete-order { background:var(--blue-light); color:var(--blue); border:none; border-radius:var(--radius-sm); padding:13px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
         .oc-note-bottom { font-size:11px; color:var(--text3); text-align:center; padding:4px 0 8px; font-style:italic; }
+        
         .empty-state { text-align:center; padding:30px 20px; }
         .empty-icon { font-size:48px; display:block; margin-bottom:10px; }
         .empty-title { font-size:14px; font-weight:700; color:var(--text2); }
         .empty-sub { font-size:12px; color:var(--text3); margin-top:4px; }
+        
         .wallet-hero { margin:16px; background:linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 50%, var(--green) 100%); border-radius:var(--radius); padding:24px; position:relative; overflow:hidden; box-shadow:var(--shadow-lg); }
         .wallet-hero::after { content:''; position:absolute; right:-30px; bottom:-30px; width:150px; height:150px; background:rgba(255,255,255,0.06); border-radius:50%; z-index:0; }
         .wh-label { font-size:11px; font-weight:700; color:rgba(255,255,255,0.65); text-transform:uppercase; letter-spacing:0.5px; position:relative; z-index:1; }
@@ -132,21 +135,35 @@
         .ws-val.blue { color:var(--blue); }
         .ws-val.green { color:var(--green); }
         .ws-label { font-size:11px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.4px; margin-top:3px; }
+        
+        .mutasi-card { background: var(--card); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); border-left: 4px solid var(--red); }
+        .mutasi-info { display: flex; flex-direction: column; gap: 4px; }
+        .mutasi-title { font-size: 13px; font-weight: 700; color: var(--text); }
+        .mutasi-date { font-size: 11px; color: var(--text3); }
+        .mutasi-amount { font-size: 14px; font-weight: 800; color: var(--red); }
+
         .rating-hero { background:var(--card); margin:16px; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:16px; }
         .rh-stars { font-size:44px; font-weight:800; color:var(--green); }
         .rh-star-icon { font-size:20px; color:var(--yellow); }
         .rh-label { font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.4px; margin-top:3px; }
-        .hist-card { background:var(--card); border-radius:var(--radius-sm); margin:0 16px 10px; padding:16px; box-shadow:var(--shadow-sm); }
-        .hc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
-        .hc-service { font-size:14px; font-weight:700; color:var(--text); }
-        .hc-time { font-size:11px; color:var(--text3); }
-        .hc-pill { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:8px; }
+        
+        /* ── DROPDOWN HISTORY YANG LEBIH RAPI ── */
+        .hist-card { background:var(--card); border-radius:var(--radius-sm); margin:0 16px 10px; padding:14px; box-shadow:var(--shadow-sm); border: 1px solid var(--border); }
+        .hc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+        .hc-service { font-size:14px; font-weight:800; color:var(--text); }
+        .hc-time { font-size:11px; color:var(--text3); font-weight: 600; }
+        .hc-pill { font-size:10px; font-weight:800; padding:4px 10px; border-radius:20px; display:inline-block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.3px; }
         .hc-pill-done { background:var(--green-light); color:var(--green-dark); }
         .hc-pill-ongoing { background:var(--blue-light); color:#1E3A8A; }
+        .hc-customer { font-size:13px; color:var(--text); font-weight:600; display:flex; align-items:center; gap:6px; }
+        .hc-toggle-btn { background: var(--bg); border: none; width: 100%; text-align: center; color: var(--text2); font-size: 11px; font-weight: 700; cursor: pointer; padding: 8px; margin-top: 10px; border-radius: 8px; transition: 0.2s; font-family: inherit; }
+        .hc-toggle-btn:active { background: var(--border); }
+        .hc-details { display: none; margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px; }
+        .hc-details.show { display: block; }
         .hc-route-box { background:var(--bg); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--text2); line-height:1.6; }
         .hc-rating { margin-top:10px; font-size:13px; color:var(--yellow); font-weight:700; }
         .hc-no-rating { font-size:11px; color:var(--text3); font-style:italic; margin-top:8px; }
-        .hc-customer { font-size:12px; color:var(--text2); margin-bottom:6px; font-weight:600; }
+
         .profile-hero { background:linear-gradient(160deg, var(--green-deep), var(--green)); padding:36px 20px 28px; text-align:center; flex-shrink:0; }
         .prof-avatar { width:80px; height:80px; background:rgba(255,255,255,0.15); border-radius:50%; border:3px solid rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 12px; }
         .prof-name { color:white; font-size:20px; font-weight:800; }
@@ -170,15 +187,23 @@
         .nav-item.active .nav-icon-wrap { background:var(--green-light); }
         .nav-label { font-size:10px; font-weight:600; color:var(--text3); }
         .nav-item.active .nav-label { color:var(--green); }
+        
         .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; display:flex; align-items:flex-end; justify-content:center; padding:0; }
         .modal-box { background:white; border-radius:24px 24px 0 0; padding:28px 24px 40px; width:100%; max-width:480px; }
         .modal-handle { width:40px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
         .modal-title { font-size:18px; font-weight:800; color:var(--text); margin-bottom:6px; }
         .modal-sub { font-size:13px; color:var(--text3); margin-bottom:20px; }
+        
         .modal-dana-box { background:var(--green-light); border:2px dashed var(--green); border-radius:var(--radius-sm); padding:20px; text-align:center; margin-bottom:16px; }
-        .modal-dana-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px; }
-        .modal-dana-num { font-size:28px; font-weight:800; color:var(--green-dark); letter-spacing:2px; }
-        .modal-dana-name { font-size:13px; color:var(--green); font-weight:600; margin-top:4px; }
+        .modal-dana-label { font-size:11px; font-weight:800; color:var(--green-dark); text-transform:uppercase; letter-spacing:0.4px; margin-top:12px; margin-bottom:2px; }
+        .modal-dana-label:first-child { margin-top:0; }
+        .modal-dana-num { font-size:22px; font-weight:800; color:var(--green); letter-spacing:1.5px; }
+        .modal-dana-name { font-size:12px; color:var(--text2); font-weight:700; margin-top:12px; border-top:1px solid #A7D9B7; padding-top:8px; }
+
+        /* TOMBOL SALIN REKENING */
+        .btn-copy { background: var(--green-light); border: 1px solid var(--green); color: var(--green-dark); border-radius: 6px; padding: 4px 10px; font-size: 14px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-copy:active { background: var(--green); color: white; transform: scale(0.9); }
+
         .modal-note { font-size:12px; color:var(--accent); font-weight:700; text-align:center; margin-bottom:20px; }
         .btn-whatsapp { width:100%; background:#25D366; color:white; border:none; border-radius:var(--radius-sm); padding:15px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
         .btn-modal-close { width:100%; background:none; color:var(--red); border:1.5px solid var(--red); border-radius:var(--radius-sm); padding:13px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-top:10px; }
@@ -198,16 +223,32 @@
 <div id="modal-topup" class="modal-overlay hidden">
     <div class="modal-box">
         <div class="modal-handle"></div>
-        <div class="modal-title" id="ui-modal-title">Parentah Top-Up</div>
-        <div class="modal-sub" id="ui-modal-desc">Transfer nominal anu badé diisi kana rekening / DANA ieu:</div>
+        <div class="modal-title" id="ui-modal-title">Panduan Top-Up</div>
+        <div class="modal-sub" id="ui-modal-desc">Transfer nominal bebas ke salah satu rekening berikut:</div>
         <div class="modal-dana-box">
-            <div class="modal-dana-label" id="ui-modal-dana-lbl">Nomer DANA Admin</div>
-            <div class="modal-dana-num">0813-8317-9209</div>
-            <div class="modal-dana-name">a.n Riski Hariyanto</div>
+            <div class="modal-dana-label">📱 DANA</div>
+            <div style="display:flex; justify-content:center; align-items:center; gap:8px;">
+                <div class="modal-dana-num">081383179209</div>
+                <button class="btn-copy" onclick="salinTeks('081383179209')">📋</button>
+            </div>
+            
+            <div class="modal-dana-label">🏦 SEABANK</div>
+            <div style="display:flex; justify-content:center; align-items:center; gap:8px;">
+                <div class="modal-dana-num">901553506031</div>
+                <button class="btn-copy" onclick="salinTeks('901553506031')">📋</button>
+            </div>
+            
+            <div class="modal-dana-label">🏦 HIBANK</div>
+            <div style="display:flex; justify-content:center; align-items:center; gap:8px;">
+                <div class="modal-dana-num">5300008471</div>
+                <button class="btn-copy" onclick="salinTeks('5300008471')">📋</button>
+            </div>
+            
+            <div class="modal-dana-name">Atas Nama: <b>Riski Hariyanto</b></div>
         </div>
-        <div class="modal-note" id="ui-modal-note">⚠️ Ulah hilap di-screenshot bukti transferna!</div>
-        <button class="btn-whatsapp" onclick="konfirmasiTopUpWA()" id="ui-btn-confirm-wa">💬 Kintun Bukti via WA</button>
-        <button class="btn-modal-close" onclick="tutupModalTopUp()" id="ui-btn-close-modal">Bolaykeun</button>
+        <div class="modal-note" id="ui-modal-note">⚠️ Jangan lupa screenshot bukti transfer!</div>
+        <button class="btn-whatsapp" onclick="konfirmasiTopUpWA()" id="ui-btn-confirm-wa">💬 Kirim Bukti via WA</button>
+        <button class="btn-modal-close" onclick="tutupModalTopUp()" id="ui-btn-close-modal">Tutup</button>
     </div>
 </div>
 
@@ -360,15 +401,10 @@
                     <div class="wh-sub" id="ui-saldo-sub">Dipotong Rp 1.000 satiap pesenan</div>
                     <button class="wh-topup-btn" onclick="bukaModalTopUp()" id="ui-btn-topup">➕ Isi Saldo (Top-Up)</button>
                 </div>
-                <div class="wallet-stats mt16">
-                    <div class="ws-card">
-                        <div class="ws-val blue" id="statJalan2">0</div>
-                        <div class="ws-label" id="ui-stat-jalan2">Nuju Diprosés</div>
-                    </div>
-                    <div class="ws-card">
-                        <div class="ws-val green" id="statSelesai2">0</div>
-                        <div class="ws-label" id="ui-stat-beres2">Total Rengsé</div>
-                    </div>
+                
+                <div class="section mt16">
+                    <div class="sec-title"><span class="sec-title-dot amber"></span><span id="ui-title-riwayat-saldo">Riwayat Potongan Saldo</span></div>
+                    <div id="listMutasiSaldo"></div>
                 </div>
             </div>
         </div>
@@ -528,11 +564,120 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, onValue, runTransaction, get, child, set, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCpuh2KBc_eBMY9uvpLF3NM4q4NjLXpLWQ", authDomain: "satria-batara.firebaseapp.com", databaseURL: "https://satria-batara-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "satria-batara", storageBucket: "satria-batara.firebasestorage.app", messagingSenderId: "907483766943", appId: "1:907483766943:web:eec4cc45323300d87e42aa"
     };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
+    const messaging = getMessaging(app);
+
+    // ── VAPID KEY: Ganti dengan VAPID Public Key dari Firebase Console → Project Settings → Cloud Messaging ──
+    const VAPID_KEY = "BG4BD2okMFyMKqOYpsjFDF2ie9MWKdr9oSfOLzjrqdPDG-PXW1xHWalGcNQY68M992Xvy73p0jfgGesLbIqjgf8";
+
+    // ── SETUP PUSH NOTIFICATION (FCM) ──
+    async function setupPushNotification() {
+        if (!('serviceWorker' in navigator) || !('Notification' in window)) return;
+        let swReg;
+        try {
+            swReg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        } catch(e) { console.error('SW gagal:', e); return; }
+
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') return;
+
+        try {
+            const fcmToken = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg });
+            if (fcmToken && waDriverAktif) {
+                const tokenKey = waDriverAktif.replace(/\D/g, '');
+                await set(ref(database, 'fcm_tokens_driver/' + tokenKey), {
+                    token: fcmToken, nama: namaDriverAktif, wa: waDriverAktif, updated: Date.now()
+                });
+            }
+        } catch(e) { console.error('FCM token gagal:', e); }
+
+        // Notifikasi saat app sedang terbuka (foreground)
+        onMessage(messaging, (payload) => {
+            showFloatingNotif(
+                payload.notification?.title || '🛵 Orderan Masuk!',
+                payload.notification?.body || 'Ada orderan baru!'
+            );
+        });
+    }
+
+    // ── FLOATING TOAST NOTIFICATION ──
+    function showFloatingNotif(title, body) {
+        const old = document.getElementById('sb-drv-notif');
+        if (old) old.remove();
+        const notif = document.createElement('div');
+        notif.id = 'sb-drv-notif';
+        notif.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:28px;animation:notifRing 0.5s ease infinite alternate;">🛵</span>
+                <div style="flex:1;">
+                    <div style="font-weight:800;font-size:14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;">${title}</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,0.88);margin-top:3px;">${body}</div>
+                </div>
+                <button onclick="document.getElementById('sb-drv-notif').remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit;">✕</button>
+            </div>
+        `;
+        Object.assign(notif.style, {
+            position:'fixed', top:'14px', left:'50%', transform:'translateX(-50%)',
+            width:'calc(100% - 28px)', maxWidth:'450px',
+            background:'linear-gradient(135deg, #0F5C32, #27AE60)',
+            borderRadius:'14px', padding:'15px 16px',
+            boxShadow:'0 8px 32px rgba(15,92,50,0.5)',
+            zIndex:'9999', animation:'drvNotifIn 0.4s cubic-bezier(0.34,1.56,0.64,1)',
+            cursor:'pointer'
+        });
+        notif.onclick = function(e) {
+            if(e.target.tagName !== 'BUTTON') { navigasiKe('radar'); notif.remove(); }
+        };
+        document.body.appendChild(notif);
+        setTimeout(() => { if(notif.parentNode) notif.remove(); }, 7000);
+    }
+
+    // Inject animasi
+    const _ns = document.createElement('style');
+    _ns.textContent = `
+        @keyframes drvNotifIn { from{opacity:0;transform:translateX(-50%) translateY(-18px) scale(0.92)} to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)} }
+        @keyframes notifRing { from{transform:rotate(-15deg)} to{transform:rotate(15deg)} }
+    `;
+    document.head.appendChild(_ns);
+
+    // ── AUTO-LOGIN: simpan & restore sesi driver dari localStorage ──
+    function simpanSesiDriver(wa, nama) {
+        localStorage.setItem('sb_driver', JSON.stringify({ wa, nama }));
+    }
+    function hapusSesiDriver() {
+        localStorage.removeItem('sb_driver');
+    }
+    async function periksaSesiDriver() {
+        const simpanan = localStorage.getItem('sb_driver');
+        if (!simpanan) return;
+        let sesi;
+        try { sesi = JSON.parse(simpanan); } catch(e) { hapusSesiDriver(); return; }
+        if (!sesi.wa || !sesi.nama) { hapusSesiDriver(); return; }
+
+        // Verifikasi ulang status akun dari Firebase (pastikan tidak suspend/pending)
+        try {
+            const snap = await get(child(ref(database), `drivers/${sesi.wa}`));
+            if (!snap.exists()) { hapusSesiDriver(); return; }
+            const d = snap.val();
+            if (d.status === 'pending' || d.status === 'suspend') { hapusSesiDriver(); return; }
+
+            // Semua aman → langsung masuk
+            namaDriverAktif = d.nama; waDriverAktif = sesi.wa;
+            document.getElementById('displayNamaDriver').innerText = d.nama;
+            document.getElementById('profDisplayNama').innerText = d.nama;
+            document.getElementById('profDisplayWA').innerText = sesi.wa;
+            if(installBanner) installBanner.style.display = 'none';
+            document.getElementById('page-login').classList.add('hidden');
+            document.getElementById('app-main').classList.remove('hidden');
+            navigasiKe('radar'); muatPengaturanSuara(); pantauSaldoDriver(); pantauOrderanMasuk();
+            setupPushNotification();
+        } catch(e) { console.error('Auto-login gagal:', e); }
+    }
 
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch((err) => console.log('SW gagal.', err)); }); }
 
@@ -560,6 +705,15 @@
         reader.onload = e => { localStorage.setItem('customSoundSatria', e.target.result); localStorage.setItem('suaraDriverSatria', 'custom'); document.getElementById('suaraNotif').src = e.target.result; document.getElementById('suaraNotif').play(); alert(currentLang==='en'?'Custom sound saved!':'Sora sukses disimpen!'); };
         reader.readAsDataURL(file);
     }
+    
+    // FUNGSI COPY/SALIN REKENING
+    window.salinTeks = function(teks) {
+        navigator.clipboard.writeText(teks).then(() => {
+            alert(currentLang==='en'?'Number copied!':'Nomor berhasil disalin!');
+        }).catch(err => {
+            alert('Gagal menyalin: ', err);
+        });
+    }
 
     const langDict = {
         su: {
@@ -577,14 +731,14 @@
             lblSound:"🔊 Sora Notif", optCustom:"🎵 Sora Nyalira",
             btnLogout:"🚪 Kaluar (Logout)", histTitle:"Sajarah & Ulasan Warga", lblAvg:"Rating Rata-rata",
             navRadar:"Radar", navWallet:"Dompet", navHistory:"Sajarah", navProfile:"Propil",
-            profHist:"Sajarah Tarikan", profWallet:"Dompet Saldo",
+            profHist:"Sajarah Tarikan", profWallet:"Dompet Saldo", titleRiwayatSaldo:"Sajarah Potongan Saldo",
             txtHelp:"Peryogi bantosan?", linkHelp:"Hubungi Admin", profHelp:"Pusat Bantosan", profileShare: "Bagikeun Aplikasi", profileInstall: "Pasang Aplikasi",
-            modalTitle:"Parentah Top-Up", modalDesc:"Transfer nominal anu badé diisi kana rekening / DANA ieu:", modalDanaLbl:"Nomer DANA Admin", modalNote:"⚠️ Ulah hilap di-screenshot bukti transferna!", btnConfirmWA:"💬 Kintun Bukti via WA", btnCloseModal:"Bolaykeun",
-            btnCancelOrder:"❌ Bolaykeun (Saldo Diuihkeun)", btnCompleteOrder:"✅ Pesenan Rengsé",
+            modalTitle:"Panduan Top-Up", modalDesc:"Transfer nominal bebas kana rekening / DANA ieu:", modalDanaLbl:"Nomer DANA Admin", modalNote:"⚠️ Ulah hilap di-screenshot bukti transferna!", btnConfirmWA:"💬 Kintun Bukti via WA", btnCloseModal:"Bolaykeun",
+            btnCancelOrder:"❌ Bolaykeun (Saldo Diuihkeun)", btnCompleteOrder:"✅ Pesenan Rengsé", btnDetail:"Tingal Detail ▼", btnTutupDetail:"Tutup Detail ▲",
             alertTnc:"Kedah dicolok heula kotak persetujuanana!", alertIsi:"Mangga lebetkeun sadaya data!", alertPass:"Password minimal 6 karakter!", alertRegWait:"Pendaftaran suksés! Mangga antosan, Admin nuju marios akun anjeun.", alertRegExist:"Nomer WA ieu parantos kadaptar!", alertWrong:"Nomer WA atanapi Password lepat!", alertPending:"Akun anjeun masih PENDING. Mangga antosan verifikasi Admin.", alertSuspend:"⛔ AKUN DITANGGUHKEUN ⛔\nHubungi admin supados tiasa login deui.", alertSaldoHabis:"Saldo anjeun seep! Mangga Top-Up heula ka Admin.", alertSuccess:"Suksés ditampi! Saldo anjeun kapotong Rp 1.000.", alertLate:"Hapunten! Pesenan parantos kenging ku driver sanes.",
             alertCancelConf:"Yakin badé ngabolaykeun? Saldo Rp 1.000 badé diuihkeun.", alertCancelSucc:"Suksés dibolaykeun! Saldo parantos diuihkeun.", alertCompleteConf:"Yakin pesenan ieu parantos rengsé sareng artos parantos katampi?",
             waTemplate1:"Wilujeng enjing ", waTemplate2:", abdi ", waTemplate3:" ti Satria Batara. Pesenan anjeun parantos ditampi, abdi nuju ka lokasi ayeuna!",
-            waTopUpMsg:"Wilujeng enjing Kang Riski (Admin Satria Batara), abdi mitra [NAMA] (WA: [WA]). Abdi nembé transfer DANA kanggo Top-Up saldo aplikasi. Ieu bukti transferna: ",
+            waTopUpMsg:"Wilujeng enjing Admin, abdi mitra [NAMA] (WA: [WA]). Abdi nembé transfer kanggo Top-Up saldo aplikasi. Ieu bukti transferna: ",
             noRating:"Warga teu acan ngantunkeun ulasan", installTxt: "Pasang Aplikasi Driver!", btnInstall: "PASANG 📲",
             aboutTagline: "Andalan Warga Kota Batara", profileAbout: "Ngeunaan Aplikasi",
             aboutH1: "Ngeunaan Kami", aboutP1: "Satria Batara mangrupikeun platform panyadia layanan transportasi sareng jasa harian on-demand husus warga Perumahan Kota Batara. Mawa konsép 'Layanan Lokal, Profesionalitas Maksimal'.",
@@ -592,7 +746,8 @@
             aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kabutuhan Warga:</b> Layanan praktis & gancang.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% kanggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayanan ku warga lokal nu terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Ngajaga kapercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Palayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Saling nguntungkeun.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super gancang.</li>",
             aboutH5: "Dampak Sosial", aboutP5: "Wadah kagiatan positif kanggo nonoman sareng Karang Taruna supados tebih tina game atanapi judi online. Muka jalan rejeki tambihan tina rupa-rupa jasa, janten sakumna warga Perumahan Batara ayeuna teu kedah isin deui pami peryogi bantosan naon waé.",
-            aboutH6: "Sarat & Katangtuan", aboutP6: "Satria Batara mangrupikeun platform panyambung. Kanggo pangintunan barang anu hargana awis disarankeun pisan ngagunakeun asuransi. Sagala rupi karusakan atanapi kaleungitan barang sapinuhna janten tanggung jawab antara mitra driver sareng palanggan."
+            aboutH6: "Sarat & Katangtuan", aboutP6: "Satria Batara mangrupikeun platform panyambung. Kanggo pangintunan barang anu hargana awis disarankeun pisan ngagunakeun asuransi. Sagala rupi karusakan atanapi kaleungitan barang sapinuhna janten tanggung jawab antara mitra driver sareng palanggan.",
+            pillDone: "Rengsé ✓", pillOngoing: "Nuju Diprosés", emptyHistory: "Teu acan aya sajarah tarikan."
         },
         jw: {
             titleLogin:"Mlebu Akun Mitra", loginSub:"Lebokno datamu sing bener", lblWaLog:"Nomer WA Sing Kedaftar", lblPassLog:"Kata Sandi", btnLogin:"Gass Narik 🟢", txtNoReg:"Durung duwe akun to?", linkDaftar:"Daftar dadi Mitra",
@@ -604,10 +759,12 @@
             noteAktif:"Orderan ilang nek wes dikonfirmasi 'Rampung' karo Warga.", btnWa:"💬 Chat WA Warga", btnAmbil:"Sikat Orderan Iki ⚡",
             lblSaldo:"Sisa Saldo Aplikasi", saldoSub:"Kepotong Rp 1.000 saben orderan", btnTopup:"➕ Isi Saldo", lblSound:"🔊 Suara Notif", optCustom:"🎵 Suarane Dewe",
             btnLogout:"🚪 Metu (Logout)", histTitle:"Riwayat & Ulasan", lblAvg:"Rating Rata-rata", navRadar:"Radar", navWallet:"Dompet", navHistory:"Riwayat", navProfile:"Profil",
-            profHist:"Riwayat Tarikan", profWallet:"Dompet Saldo", txtHelp:"Butuh bantuan?", linkHelp:"Chat Admin", profHelp:"Pusat Bantuan", profileShare: "Bagikno Aplikasi", profileInstall: "Install Aplikasi",
-            modalTitle:"Instruksi Top-Up", modalDesc:"Transfer nominale neng nomer DANA iki:", modalDanaLbl:"Nomer DANA Admin", modalNote:"⚠️ Ojo lali di-screenshot bukti transfere!", btnConfirmWA:"💬 Kirim Bukti via WA", btnCloseModal:"Batal",
-            btnCancelOrder:"❌ Batalno", btnCompleteOrder:"✅ Orderan Rampung", alertTnc:"Kudu dicentang disik kothak persetujuane!", alertIsi:"Tolong diisi kabeh datane!", alertPass:"Password minimal 6 karakter yo!", alertRegWait:"Daftare sukses! Enteni di-ACC Admin.", alertRegExist:"Nomer WA iki wes kedaftar!", alertWrong:"Nomer WA utawa Password salah lur!", alertPending:"Akunmu isih PENDING.", alertSuspend:"⛔ AKUNMU DITANGGUHKE ⛔", alertSaldoHabis:"Saldomu entek lur! Ayo Top-Up disik.", alertSuccess:"Sukses dijupuk! Saldomu kepotong Rp 1.000.", alertLate:"Waduh telat! Orderane wes disrobot driver liyo.", alertCancelConf:"Tenane arep dibatalno? Saldo Rp 1.000 bakal mbalik.", alertCancelSucc:"Sukses dibatalno!", alertCompleteConf:"Tenane orderan iki wes rampung?",
-            waTemplate1:"Halo ", waTemplate2:", aku ", waTemplate3:" seko Satria Batara. Orderanmu wes tak jupuk, aku otw saiki!", waTopUpMsg:"Halo Admin, aku mitra [NAMA] (WA: [WA]). Aku bar transfer DANA nggo Top-Up. Iki buktine: ",
+            profHist:"Riwayat Tarikan", profWallet:"Dompet Saldo", titleRiwayatSaldo:"Riwayat Potongan Saldo",
+            txtHelp:"Butuh bantuan?", linkHelp:"Chat Admin", profHelp:"Pusat Bantuan", profileShare: "Bagikno Aplikasi", profileInstall: "Install Aplikasi",
+            modalTitle:"Instruksi Top-Up", modalDesc:"Transfer nominale bebas neng salah siji rekening iki:", modalDanaLbl:"Nomer DANA Admin", modalNote:"⚠️ Ojo lali di-screenshot bukti transfere!", btnConfirmWA:"💬 Kirim Bukti via WA", btnCloseModal:"Tutup",
+            btnCancelOrder:"❌ Batalno", btnCompleteOrder:"✅ Orderan Rampung", btnDetail:"Ndelok Detail ▼", btnTutupDetail:"Tutup Detail ▲",
+            alertTnc:"Kudu dicentang disik kothak persetujuane!", alertIsi:"Tolong diisi kabeh datane!", alertPass:"Password minimal 6 karakter yo!", alertRegWait:"Daftare sukses! Enteni di-ACC Admin.", alertRegExist:"Nomer WA iki wes kedaftar!", alertWrong:"Nomer WA utawa Password salah lur!", alertPending:"Akunmu isih PENDING.", alertSuspend:"⛔ AKUNMU DITANGGUHKE ⛔", alertSaldoHabis:"Saldomu entek lur! Ayo Top-Up disik.", alertSuccess:"Sukses dijupuk! Saldomu kepotong Rp 1.000.", alertLate:"Waduh telat! Orderane wes disrobot driver liyo.", alertCancelConf:"Tenane arep dibatalno? Saldo Rp 1.000 bakal mbalik.", alertCancelSucc:"Sukses dibatalno!", alertCompleteConf:"Tenane orderan iki wes rampung?",
+            waTemplate1:"Halo ", waTemplate2:", aku ", waTemplate3:" seko Satria Batara. Orderanmu wes tak jupuk, aku otw saiki!", waTopUpMsg:"Halo Admin, aku mitra [NAMA] (WA: [WA]). Aku bar transfer nggo Top-Up. Iki buktine: ",
             noRating:"Warga urung ngekeki ulasan", installTxt: "Install Aplikasi Driver!", btnInstall: "INSTALL 📲",
             aboutTagline: "Andalan Warga Kota Batara", profileAbout: "Tentang Aplikasi",
             aboutH1: "Tentang Awakdewe", aboutP1: "Satria Batara iku aplikasi layanan transportasi lan jasa harian on-demand khusus nggo warga Perumahan Kota Batara. Nggowo konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
@@ -615,7 +772,8 @@
             aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepet.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpo potongan persen, 100% nggo mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani tonggo dewe sing terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif ceto, nego langsung via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Njogo kepercayaane warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan apik lan tanggap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Podo-podo nguntungke.</li><li style='margin-bottom:6px;'>🚀 <b>Cepet:</b> Solusi sat-set das-des.</li>",
             aboutH5: "Dampak Sosial", aboutP5: "Wadah kegiatan positif nggo cah enom lan Karang Taruna ben adoh seko game online utawa judi online. Mbukak dalan rejeki tambahan seko rupa-rupa jasa, dadi sakabehe warga Perumahan Batara saiki ra perlu sungkan meneh nek butuh bantuan opo wae.",
-            aboutH6: "Syarat & Ketentuan (Disclaimer)", aboutP6: "Satria Batara iku platform penghubung. Nggo kiriman barang sing regane larang disaranake nganggo proteksi asuransi pribadi utawa jasa ekspedisi resmi. Kabeh bentuk kerusakan utawa keilangan barang dadi tanggung jawabe mitra driver lan pelanggan."
+            aboutH6: "Syarat & Ketentuan (Disclaimer)", aboutP6: "Satria Batara iku platform penghubung. Nggo kiriman barang sing regane larang disaranake nganggo proteksi asuransi pribadi utawa jasa ekspedisi resmi. Kabeh bentuk kerusakan utawa keilangan barang dadi tanggung jawabe mitra driver lan pelanggan.",
+            pillDone: "Rampung ✓", pillOngoing: "Lagi Mlaku", emptyHistory: "Urung ono riwayat tarikan babar blas."
         },
         id: {
             titleLogin:"Login Akun Mitra", loginSub:"Masukkan data akun Anda", lblWaLog:"Nomor WA Terdaftar", lblPassLog:"Kata Sandi", btnLogin:"Mulai Narik 🟢", txtNoReg:"Belum punya akun?", linkDaftar:"Daftar jadi Mitra",
@@ -627,10 +785,12 @@
             noteAktif:"Orderan hilang saat pelanggan konfirmasi Selesai.", btnWa:"💬 Chat Pelanggan", btnAmbil:"Ambil Pesanan Ini ⚡",
             lblSaldo:"Sisa Saldo Aplikasi", saldoSub:"Dipotong Rp 1.000 tiap orderan", btnTopup:"➕ Isi Saldo", lblSound:"🔊 Suara Notif", optCustom:"🎵 Suara Sendiri",
             btnLogout:"🚪 Keluar (Logout)", histTitle:"Riwayat & Ulasan", lblAvg:"Rating Rata-rata", navRadar:"Radar", navWallet:"Dompet", navHistory:"Riwayat", navProfile:"Profil",
-            profHist:"Riwayat Orderan", profWallet:"Dompet Saldo", txtHelp:"Butuh bantuan?", linkHelp:"Hubungi Admin", profHelp:"Pusat Bantuan", profileShare: "Bagikan Aplikasi", profileInstall: "Install Aplikasi",
-            modalTitle:"Instruksi Top-Up", modalDesc:"Transfer nominal ke DANA berikut:", modalDanaLbl:"Nomor DANA Admin", modalNote:"⚠️ Jangan lupa screenshot bukti transfer!", btnConfirmWA:"💬 Kirim Bukti via WA", btnCloseModal:"Batal",
-            btnCancelOrder:"❌ Batalkan (Refund Saldo)", btnCompleteOrder:"✅ Pesanan Selesai", alertTnc:"Harap centang persetujuan!", alertIsi:"Harap isi semua data!", alertPass:"Password minimal 6 karakter!", alertRegWait:"Pendaftaran sukses! Tunggu verifikasi Admin.", alertRegExist:"Nomor WA sudah terdaftar!", alertWrong:"WA atau Password salah!", alertPending:"Akun PENDING.", alertSuspend:"⛔ AKUN DITANGGUHKAN ⛔", alertSaldoHabis:"Saldo habis! Silakan Top-Up.", alertSuccess:"Berhasil diambil! Saldo terpotong Rp 1.000.", alertLate:"Yah telat! Orderan diambil driver lain.", alertCancelConf:"Yakin batalkan? Saldo Rp 1.000 akan dikembalikan.", alertCancelSucc:"Berhasil dibatalkan!", alertCompleteConf:"Yakin orderan selesai?",
-            waTemplate1:"Halo ", waTemplate2:", saya ", waTemplate3:" dari Satria Batara. Pesanan sudah saya ambil, meluncur sekarang!", waTopUpMsg:"Halo Admin, saya mitra [NAMA] (WA: [WA]). Saya baru transfer Top-Up. Ini buktinya: ",
+            profHist:"Riwayat Orderan", profWallet:"Dompet Saldo", titleRiwayatSaldo:"Riwayat Potongan Saldo",
+            txtHelp:"Butuh bantuan?", linkHelp:"Hubungi Admin", profHelp:"Pusat Bantuan", profileShare: "Bagikan Aplikasi", profileInstall: "Install Aplikasi",
+            modalTitle:"Instruksi Top-Up", modalDesc:"Transfer nominal bebas ke salah satu rekening berikut:", modalDanaLbl:"Nomor DANA Admin", modalNote:"⚠️ Jangan lupa screenshot bukti transfer!", btnConfirmWA:"💬 Kirim Bukti via WA", btnCloseModal:"Tutup",
+            btnCancelOrder:"❌ Batalkan (Refund Saldo)", btnCompleteOrder:"✅ Pesanan Selesai", btnDetail:"Lihat Detail ▼", btnTutupDetail:"Tutup Detail ▲",
+            alertTnc:"Harap centang persetujuan!", alertIsi:"Harap isi semua data!", alertPass:"Password minimal 6 karakter!", alertRegWait:"Pendaftaran sukses! Tunggu verifikasi Admin.", alertRegExist:"Nomor WA sudah terdaftar!", alertWrong:"WA atau Password salah!", alertPending:"Akun PENDING. Tunggu verifikasi Admin.", alertSuspend:"⛔ AKUN DITANGGUHKAN ⛔", alertSaldoHabis:"Saldo habis! Silakan Top-Up.", alertSuccess:"Berhasil diambil! Saldo terpotong Rp 1.000.", alertLate:"Yah telat! Orderan diambil driver lain.", alertCancelConf:"Yakin batalkan? Saldo Rp 1.000 akan dikembalikan.", alertCancelSucc:"Berhasil dibatalkan!", alertCompleteConf:"Yakin orderan selesai?",
+            waTemplate1:"Halo ", waTemplate2:", saya ", waTemplate3:" dari Satria Batara. Pesanan sudah saya ambil, meluncur sekarang!", waTopUpMsg:"Halo Admin, saya mitra [NAMA] (WA: [WA]). Saya baru transfer untuk Top-Up. Ini buktinya: ",
             noRating:"Pelanggan belum memberikan ulasan", installTxt: "Install Aplikasi Driver!", btnInstall: "INSTALL 📲",
             aboutTagline: "Andalan Warga Kota Batara", profileAbout: "Tentang Aplikasi",
             aboutH1: "Tentang Kami", aboutP1: "Satria Batara adalah platform penyedia layanan transportasi dan jasa harian on-demand khusus warga Perumahan Kota Batara. Mengusung konsep 'Layanan Lokal, Profesionalitas Maksimal'.",
@@ -638,7 +798,8 @@
             aboutH3: "Misi", aboutP3: "<li style='margin-bottom:6px;'><b>Kebutuhan Warga:</b> Layanan praktis & cepat.</li><li style='margin-bottom:6px;'><b>Adil:</b> Tanpa potongan persentase, 100% untuk mitra.</li><li style='margin-bottom:6px;'><b>Aman:</b> Dilayani oleh warga lokal terverifikasi.</li><li style='margin-bottom:6px;'><b>Transparan:</b> Tarif jelas, nego via WA.</li>",
             aboutH4: "Nilai Inti", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Amanah:</b> Menjaga kepercayaan warga.</li><li style='margin-bottom:6px;'>💼 <b>Profesional:</b> Pelayanan prima & sigap.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Menguntungkan pelanggan & mitra.</li><li style='margin-bottom:6px;'>🚀 <b>Tanggap:</b> Solusi super cepat.</li>",
             aboutH5: "Dampak Sosial", aboutP5: "Menjadi wadah kegiatan positif bagi anak muda dan Karang Taruna agar terhindar dari game online maupun judi online. Membuka peluang penghasilan tambahan lewat rupa-rupa jasa, sehingga seluruh warga Perumahan Batara kini tidak perlu merasa sungkan lagi jika membutuhkan bantuan apa pun.",
-            aboutH6: "Syarat & Ketentuan (Disclaimer)", aboutP6: "Satria Batara adalah platform penghubung. Kami telah melakukan verifikasi mitra semaksimal mungkin. Namun, untuk pengiriman barang bernilai tinggi (di atas Rp 1.000.000) seperti laptop, HP, atau perhiasan, sangat disarankan untuk menggunakan proteksi asuransi pribadi atau jasa ekspedisi resmi. Segala bentuk kerusakan atau kehilangan barang sepenuhnya menjadi tanggung jawab antara mitra driver dan pelanggan."
+            aboutH6: "Syarat & Ketentuan (Disclaimer)", aboutP6: "Satria Batara adalah platform penghubung. Kami telah melakukan verifikasi mitra semaksimal mungkin. Namun, untuk pengiriman barang bernilai tinggi (di atas Rp 1.000.000) seperti laptop, HP, atau perhiasan, sangat disarankan untuk menggunakan proteksi asuransi pribadi atau jasa ekspedisi resmi. Segala bentuk kerusakan atau kehilangan barang sepenuhnya menjadi tanggung jawab antara mitra driver dan pelanggan.",
+            pillDone: "Selesai ✓", pillOngoing: "Sedang Berjalan", emptyHistory: "Belum ada riwayat tarikan."
         },
         en: {
             titleLogin:"Partner Login", loginSub:"Enter credentials", lblWaLog:"Registered WA Number", lblPassLog:"Password", btnLogin:"Start Driving 🟢", txtNoReg:"No account?", linkDaftar:"Register here",
@@ -650,9 +811,11 @@
             noteAktif:"Order disappears when customer confirms.", btnWa:"💬 Chat Customer", btnAmbil:"Take Order ⚡",
             lblSaldo:"App Balance", saldoSub:"Rp 1,000 deducted per order", btnTopup:"➕ Top-Up", lblSound:"🔊 Alert Sound", optCustom:"🎵 Custom Sound",
             btnLogout:"🚪 Logout", histTitle:"History & Reviews", lblAvg:"Average Rating", navRadar:"Radar", navWallet:"Wallet", navHistory:"History", navProfile:"Profile",
-            profHist:"Order History", profWallet:"Wallet", txtHelp:"Need help?", linkHelp:"Contact Admin", profHelp:"Help Center", profileShare: "Share App", profileInstall: "Install App",
-            modalTitle:"Top-Up Instructions", modalDesc:"Transfer to this DANA number:", modalDanaLbl:"Admin DANA", modalNote:"⚠️ Send screenshot receipt!", btnConfirmWA:"💬 Send via WA", btnCloseModal:"Cancel",
-            btnCancelOrder:"❌ Cancel (Refund)", btnCompleteOrder:"✅ Mark Completed", alertTnc:"Please agree to terms!", alertIsi:"Fill all fields!", alertPass:"Password 6+ chars!", alertRegWait:"Success! Wait for Admin verification.", alertRegExist:"WA already registered!", alertWrong:"Wrong WA or Password!", alertPending:"Account PENDING.", alertSuspend:"⛔ ACCOUNT SUSPENDED ⛔", alertSaldoHabis:"Insufficient balance! Please Top-Up.", alertSuccess:"Successfully taken! Deducted Rp 1,000.", alertLate:"Too late! Taken by another driver.", alertCancelConf:"Sure to cancel? Rp 1,000 will be refunded.", alertCancelSucc:"Cancelled!", alertCompleteConf:"Confirm completed?",
+            profHist:"Order History", profWallet:"Wallet", titleRiwayatSaldo:"Balance Deduction History",
+            txtHelp:"Need help?", linkHelp:"Contact Admin", profHelp:"Help Center", profileShare: "Share App", profileInstall: "Install App",
+            modalTitle:"Top-Up Guide", modalDesc:"Transfer any amount to these accounts:", modalDanaLbl:"Admin DANA", modalNote:"⚠️ Send screenshot receipt!", btnConfirmWA:"💬 Send via WA", btnCloseModal:"Close",
+            btnCancelOrder:"❌ Cancel (Refund)", btnCompleteOrder:"✅ Mark Completed", btnDetail:"View Details ▼", btnTutupDetail:"Hide Details ▲",
+            alertTnc:"Please agree to terms!", alertIsi:"Fill all fields!", alertPass:"Password 6+ chars!", alertRegWait:"Success! Wait for Admin verification.", alertRegExist:"WA already registered!", alertWrong:"Wrong WA or Password!", alertPending:"Account PENDING. Wait for Admin.", alertSuspend:"⛔ ACCOUNT SUSPENDED ⛔\nContact Admin.", alertSaldoHabis:"Insufficient balance! Please Top-Up.", alertSuccess:"Successfully taken! Deducted Rp 1,000.", alertLate:"Too late! Taken by another driver.", alertCancelConf:"Sure to cancel? Rp 1,000 will be refunded.", alertCancelSucc:"Cancelled!", alertCompleteConf:"Confirm completed?",
             waTemplate1:"Hi ", waTemplate2:", I'm ", waTemplate3:" from Satria Batara. I took your order, on my way!", waTopUpMsg:"Hello Admin, I'm partner [NAMA] (WA: [WA]). I transferred for Top-Up. Receipt: ",
             noRating:"No review yet", installTxt: "Install App!", btnInstall: "INSTALL 📲",
             aboutTagline: "Kota Batara's Trusted Service", profileAbout: "About App",
@@ -661,7 +824,8 @@
             aboutH3: "Mission", aboutP3: "<li style='margin-bottom:6px;'><b>Resident Needs:</b> Practical & fast service.</li><li style='margin-bottom:6px;'><b>Fair:</b> Zero percent commission, 100% to partners.</li><li style='margin-bottom:6px;'><b>Safe:</b> Served by verified local residents.</li><li style='margin-bottom:6px;'><b>Transparent:</b> Clear fares, negotiate via WA.</li>",
             aboutH4: "Core Values", aboutP4: "<li style='margin-bottom:6px;'>🛡️ <b>Trustworthy:</b> Keeping community trust.</li><li style='margin-bottom:6px;'>💼 <b>Professional:</b> Excellent & responsive service.</li><li style='margin-bottom:6px;'>🤝 <b>Win-Win:</b> Benefiting both customers & partners.</li><li style='margin-bottom:6px;'>🚀 <b>Responsive:</b> Quickest solutions possible.</li>",
             aboutH5: "Social Impact", aboutP5: "A positive platform for youth and local youth organizations (Karang Taruna) to avoid online games or gambling. Opening additional income opportunities from any kind of service, ensuring residents of Batara never have to hesitate when asking for help.",
-            aboutH6: "Terms & Conditions (Disclaimer)", aboutP6: "Satria Batara is a connecting platform. We have verified our partners to the best of our ability. However, for delivering high-value items (above Rp 1,000,000) such as laptops, phones, or jewelry, it is highly recommended to use personal insurance or official expedition services. Any damage or loss of goods is entirely the responsibility between the driver partner and the customer."
+            aboutH6: "Terms & Conditions (Disclaimer)", aboutP6: "Satria Batara is a connecting platform. We have verified our partners to the best of our ability. However, for delivering high-value items (above Rp 1,000,000) such as laptops, phones, or jewelry, it is highly recommended to use personal insurance or official expedition services. Any damage or loss of goods is entirely the responsibility between the driver partner and the customer.",
+            pillDone: "Completed ✓", pillOngoing: "In Progress", emptyHistory: "No order history yet."
         }
     };
 
@@ -682,6 +846,7 @@
         setText('ui-modal-title', t.modalTitle); setText('ui-modal-desc', t.modalDesc); setText('ui-modal-dana-lbl', t.modalDanaLbl); setText('ui-modal-note', t.modalNote); setText('ui-btn-confirm-wa', t.btnConfirmWA); setText('ui-btn-close-modal', t.btnCloseModal);
         setText('nav-radar', t.navRadar); setText('nav-wallet', t.navWallet); setText('nav-history', t.navHistory); setText('nav-profile', t.navProfile);
         setText('ui-install-txt', t.installTxt); setText('btn-install-pwa', t.btnInstall);
+        setText('ui-title-riwayat-saldo', t.titleRiwayatSaldo);
 
         setText('ui-about-topbar', t.profileAbout); setText('ui-about-tagline', t.aboutTagline);
         setText('ui-about-h1', t.aboutH1); setText('ui-about-p1', t.aboutP1);
@@ -691,7 +856,7 @@
         setText('ui-about-h5', t.aboutH5); setText('ui-about-p5', t.aboutP5);
         setText('ui-about-h6', t.aboutH6); setText('ui-about-p6', t.aboutP6);
 
-        try { renderOrdersUI(); if(!document.getElementById('page-history').classList.contains('hidden')) renderRiwayatDriver(); } catch(e){}
+        try { renderOrdersUI(); renderRiwayatSaldo(); if(!document.getElementById('page-history').classList.contains('hidden')) renderRiwayatDriver(); } catch(e){}
     }
 
     function setText(id, val) { const el = document.getElementById(id); if(el) el.innerText = val; }
@@ -700,14 +865,42 @@
     const installBanner = document.getElementById('install-banner');
     const rowInstallApp = document.getElementById('row-install-app');
     let deferredPrompt = null;
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+    
+    // Tampilkan PWA banner jika tidak di mode standalone
+    if (!window.matchMedia('(display-mode: standalone)').matches && window.navigator.standalone !== true) {
+        if(installBanner) installBanner.style.display = 'block';
+        if(rowInstallApp) rowInstallApp.style.display = 'flex';
+    } else {
         if(installBanner) installBanner.style.display = 'none';
         if(rowInstallApp) rowInstallApp.style.display = 'none';
     }
-    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+
+    window.addEventListener('beforeinstallprompt', (e) => { 
+        e.preventDefault(); 
+        deferredPrompt = e; 
+        if(installBanner) installBanner.style.display = 'block';
+        if(rowInstallApp) rowInstallApp.style.display = 'flex';
+    });
+    
     window.installAplikasi = async function() {
-        if(deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') { if(installBanner) installBanner.style.display = 'none'; if(rowInstallApp) rowInstallApp.style.display = 'none'; } deferredPrompt = null; } else { alert(currentLang === 'jw' ? "Nggo masang aplikasi, klik menu browser terus pilih 'Tambahkan ke Layar Utama'." : "Untuk menginstal, klik menu browser lalu pilih 'Tambahkan ke Layar Utama'."); }
+        if(deferredPrompt) { 
+            deferredPrompt.prompt(); 
+            const { outcome } = await deferredPrompt.userChoice; 
+            if (outcome === 'accepted') { 
+                if(installBanner) installBanner.style.display = 'none'; 
+                if(rowInstallApp) rowInstallApp.style.display = 'none'; 
+            } 
+            deferredPrompt = null; 
+        } else { 
+            alert(currentLang === 'jw' ? "Nggo masang aplikasi, klik menu browser (titik telu neng pojok dhuwur) terus pilih 'Tambahkan ke Layar Utama' (Add to Home screen)." : "Untuk menginstal, klik menu browser (titik tiga di pojok kanan atas) lalu pilih 'Tambahkan ke Layar Utama' (Add to Home screen)."); 
+        }
     }
+
+    window.addEventListener('appinstalled', () => { 
+        if(installBanner) installBanner.style.display = 'none'; 
+        if(rowInstallApp) rowInstallApp.style.display = 'none'; 
+        deferredPrompt = null; 
+    });
 
     window.navigasiKe = function(tab) {
         ['page-radar','page-wallet','page-history','page-profile','page-about'].forEach(p => { const el = document.getElementById(p); if(el) el.classList.add('hidden'); });
@@ -721,21 +914,27 @@
 
     window.bukaTentang = function() { document.getElementById('page-profile').classList.add('hidden'); document.getElementById('page-about').classList.remove('hidden'); }
     window.tutupTentang = function() { document.getElementById('page-about').classList.add('hidden'); document.getElementById('page-profile').classList.remove('hidden'); }
-    window.bagikanAplikasi = function() { const textShare = currentLang === 'jw' ? 'Ayo gabung dadi mitra driver Satria Batara! Solusi layanan harian asli warga Kota Batara.' : 'Ayo gabung jadi mitra driver Satria Batara! Solusi layanan harian asli warga Kota Batara.'; const shareData = { title: 'Satria Batara Driver', text: textShare, url: window.location.href }; if (navigator.share) { navigator.share(shareData).catch(err => console.log('Gagal:', err)); } else { navigator.clipboard.writeText(window.location.href); alert('Link disalin!'); } }
+    
+    window.bagikanAplikasi = function() { 
+        const textShare = currentLang === 'jw' ? 'Ayo gabung dadi mitra driver Satria Batara! Solusi layanan harian asli warga Kota Batara.' : 'Ayo gabung jadi mitra driver Satria Batara! Solusi layanan harian asli warga Kota Batara.'; 
+        const shareData = { title: 'Satria Batara Driver', text: textShare, url: window.location.href }; 
+        if (navigator.share) { navigator.share(shareData).catch(err => console.log('Gagal:', err)); } else { navigator.clipboard.writeText(window.location.href); alert(currentLang==='en'?'Link copied!':'Link berhasil disalin!'); } 
+    }
+    
     window.bukaModalTopUp = function() { document.getElementById('modal-topup').classList.remove('hidden'); }
     window.tutupModalTopUp = function() { document.getElementById('modal-topup').classList.add('hidden'); }
-    window.konfirmasiTopUpWA = function() { const msg = langDict[currentLang].waTopUpMsg.replace('[NAMA]', namaDriverAktif).replace('[WA]', waDriverAktif); window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}?text=${encodeURIComponent(msg)}`, '_blank'); tutupModalTopUp(); }
+    
+    window.konfirmasiTopUpWA = function() { 
+        const msg = langDict[currentLang].waTopUpMsg.replace('[NAMA]', namaDriverAktif).replace('[WA]', waDriverAktif); 
+        window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}?text=${encodeURIComponent(msg)}`, '_blank'); 
+        tutupModalTopUp(); 
+    }
+    
     window.hubungiAdmin = function() { window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}`, '_blank'); }
     window.tampilDaftar = function() { document.getElementById('page-login').classList.add('hidden'); document.getElementById('page-register').classList.remove('hidden'); }
     window.tampilLogin = function() { document.getElementById('page-register').classList.add('hidden'); document.getElementById('page-login').classList.remove('hidden'); }
     
-    window.keluarAplikasi = function() {
-        if(confirm(currentLang==='en'?'Logout?':(currentLang==='jw'?'Metu (logout)?':'Kaluar?'))) {
-            namaDriverAktif = ''; waDriverAktif = ''; document.getElementById('loginPass').value = '';
-            document.getElementById('app-main').classList.add('hidden'); document.getElementById('page-login').classList.remove('hidden');
-        }
-    }
-
+    // ── FITUR WA OTOMATIS SAAT DAFTAR ──
     window.prosesDaftar = function() {
         const t = langDict[currentLang]; const nama = document.getElementById('regNama').value.trim(); const wa = document.getElementById('regWA').value.trim(); const pass = document.getElementById('regPass').value; const setuju = document.getElementById('chkSetuju').checked;
         if(!nama||!wa||!pass) return alert(t.alertIsi); if(pass.length<6) return alert(t.alertPass); if(!setuju) return alert(t.alertTnc);
@@ -743,7 +942,10 @@
         get(child(ref(database),`drivers/${wa}`)).then(snap => {
             if(snap.exists()){ btn.disabled=false; btn.innerText=t.btnReg; return alert(t.alertRegExist); }
             set(ref(database,'drivers/'+wa),{nama,password:pass,status:'pending',saldo:0,tanggal_daftar:new Date().toLocaleDateString('id-ID')}).then(()=>{
-                alert(t.alertRegWait); tampilLogin(); document.getElementById('loginWA').value=wa; btn.disabled=false; btn.innerText=t.btnReg;
+                alert(t.alertRegWait); 
+                tampilLogin(); document.getElementById('loginWA').value=wa; btn.disabled=false; btn.innerText=t.btnReg;
+                let pesanWaDaftar = `Halo Admin Satria Batara, saya ${nama} (WA: ${wa}) baru saja mendaftar sebagai Mitra Driver melalui aplikasi. Mohon untuk segera diverifikasi/di-ACC ya. Terima kasih!`;
+                window.open(`https://wa.me/${NOMOR_ADMIN_DRIVER}?text=${encodeURIComponent(pesanWaDaftar)}`, '_blank');
             });
         }).catch(e=>{alert('Error: '+e);btn.disabled=false;});
     }
@@ -759,12 +961,22 @@
             if(d.status==='suspend') { btn.disabled=false; btn.innerText=t.btnLogin; return alert(t.alertSuspend); }
             
             namaDriverAktif=d.nama; waDriverAktif=wa;
+            simpanSesiDriver(wa, d.nama);
             document.getElementById('displayNamaDriver').innerText=d.nama; document.getElementById('profDisplayNama').innerText=d.nama; document.getElementById('profDisplayWA').innerText=wa;
-            document.getElementById('install-banner').style.display='none'; 
+            if(installBanner) installBanner.style.display='none'; 
             document.getElementById('page-login').classList.add('hidden'); document.getElementById('app-main').classList.remove('hidden');
-            navigasiKe('radar'); muatPengaturanSuara(); document.getElementById('suaraNotif').play().catch(()=>{}); pantauSaldoDriver(); pantauOrderanMasuk();
+            navigasiKe('radar'); muatPengaturanSuara(); document.getElementById('suaraNotif').play().catch(()=>{}); pantauSaldoDriver(); pantauOrderanMasuk(); setupPushNotification();
             btn.disabled=false; btn.innerText=t.btnLogin;
         }).catch(e=>{alert('Error: '+e);btn.disabled=false;});
+    }
+
+    window.keluarAplikasi = function() {
+        const t = langDict[currentLang];
+        if(confirm(currentLang==='en'?'Logout?':(currentLang==='jw'?'Metu (logout)?':'Yakin badé kaluar?'))) {
+            namaDriverAktif = ''; waDriverAktif = ''; document.getElementById('loginPass').value = '';
+            hapusSesiDriver();
+            document.getElementById('app-main').classList.add('hidden'); document.getElementById('page-login').classList.remove('hidden');
+        }
     }
 
     function updateSaldoUI(saldo) {
@@ -773,15 +985,53 @@
         if(dtbEl){ dtbEl.innerText=fmt; dtbEl.className='dtb-saldo-val'+(low?' low':''); }
         if(statEl){ statEl.innerText=fmt; statEl.className='wh-amount'+(low?' low':''); }
     }
-    function pantauSaldoDriver() { onValue(ref(database,`drivers/${waDriverAktif}`), snap => { const d = snap.val(); if(d) { saldoDriverAktif = d.saldo||0; updateSaldoUI(saldoDriverAktif); } }); }
+    
+    function pantauSaldoDriver() { 
+        onValue(ref(database,`drivers/${waDriverAktif}`), snap => { 
+            const d = snap.val(); if(d) { saldoDriverAktif = d.saldo||0; updateSaldoUI(saldoDriverAktif); } 
+        }); 
+    }
 
     function pantauOrderanMasuk() {
         onValue(ref(database,'orders'), snap => {
             const arr = [];
             snap.forEach(c => { let obj = c.val(); obj.id = c.key; arr.push(obj); });
             arr.reverse(); latestOrdersData = arr;
-            try { renderOrdersUI(); if(!document.getElementById('page-history').classList.contains('hidden')) renderRiwayatDriver(); } catch(e){}
+            try { 
+                renderOrdersUI(); 
+                renderRiwayatSaldo(); 
+                if(!document.getElementById('page-history').classList.contains('hidden')) renderRiwayatDriver(); 
+            } catch(e){}
         });
+    }
+
+    function renderRiwayatSaldo() {
+        if(namaDriverAktif==='') return;
+        const listDiv = document.getElementById('listMutasiSaldo');
+        if(!listDiv) return;
+        listDiv.innerHTML = '';
+        let count = 0;
+        
+        latestOrdersData.forEach(data => {
+            if(data.driver_nama === namaDriverAktif && (data.status === 'diambil' || data.status === 'selesai')) {
+                count++;
+                const card = document.createElement('div');
+                card.className = 'mutasi-card';
+                card.innerHTML = `
+                    <div class="mutasi-info">
+                        <div class="mutasi-title">Order: ${data.customer_nama} (${data.layanan})</div>
+                        <div class="mutasi-date">${data.waktu_order || ''}</div>
+                    </div>
+                    <div class="mutasi-amount">- Rp 1.000</div>
+                `;
+                listDiv.appendChild(card);
+            }
+        });
+        
+        if(count === 0) {
+            let emptyTxt = currentLang === 'en' ? 'No balance deductions yet.' : 'Belum ada potongan saldo.';
+            listDiv.innerHTML = `<div class="empty-state" style="padding: 20px;"><span class="empty-icon" style="font-size:36px;">💸</span><div class="empty-title">${emptyTxt}</div></div>`;
+        }
     }
 
     function renderOrdersUI() {
@@ -820,11 +1070,37 @@
         });
 
         setText('statJalan', hitungJalan); setText('statSelesai', hitungSelesai); setText('statJalan2', hitungJalan); setText('statSelesai2', hitungSelesai);
-        if(newSound){ const a=document.getElementById('suaraNotif'); a.currentTime=0; a.play().catch(()=>{}); }
+        if(newSound){
+            const a=document.getElementById('suaraNotif'); a.currentTime=0; a.play().catch(()=>{});
+            // Floating toast di dalam app
+            showFloatingNotif('⚡ Orderan Baru Masuk!', `Ada ${latestOrdersData.filter(o=>o.status==='terbuka').length} pesenan nunggu. Buruan ambil!`);
+            // Native browser notification jika app tidak fokus
+            if(document.hidden && Notification.permission === 'granted') {
+                new Notification('⚡ Orderan Masuk! — Satria Batara', {
+                    body: 'Ada pesenan anyar nunggu. Buruan dibuka!',
+                    icon: '/logo-satria.png', badge: '/logo-satria.png',
+                    tag: 'new-order-driver', vibrate: [200,100,300]
+                });
+            }
+        }
         let emptyRdr = t.emptyRadar || "Urung ono orderan mlebu.<br>Ambi ngudud disik wae Kang ☕";
         if(!adaBaru) listBaru.innerHTML=`<div class="empty-state"><span class="empty-icon">☕</span><div class="empty-title">${emptyRdr.replace('<br>',' ')}</div></div>`;
         let emptyAct = t.emptyAktif || "Kowe urung nyekel orderan babar blas.";
         if(!adaAktif) listAktif.innerHTML=`<div class="empty-state"><span class="empty-icon">📭</span><div class="empty-title">${emptyAct}</div></div>`;
+    }
+
+    // ── FITUR 4: DROPDOWN PADA RIWAYAT ORDER ──
+    window.toggleHistory = function(id) {
+        const el = document.getElementById('hist-det-'+id);
+        const btn = document.getElementById('hist-btn-'+id);
+        const t = langDict[currentLang];
+        if(el.classList.contains('show')) {
+            el.classList.remove('show');
+            btn.innerHTML = t.btnDetail;
+        } else {
+            el.classList.add('show');
+            btn.innerHTML = t.btnTutupDetail;
+        }
     }
 
     function renderRiwayatDriver() {
@@ -833,10 +1109,25 @@
         latestOrdersData.forEach(data => {
             if(data.driver_nama!==namaDriverAktif || (data.status!=='selesai'&&data.status!=='diambil')) return;
             ada=true; if(data.rating){ total+=parseInt(data.rating); count++; }
-            const pillClass = data.status==='selesai'?'hc-pill-done':'hc-pill-ongoing'; const pillTxt = data.status==='selesai'?(currentLang==='en'?'Completed ✓':'Rengsé ✓'):(currentLang==='en'?'In Progress':'Nuju Diprosés');
+            
+            const pillClass = data.status==='selesai'?'hc-pill-done':'hc-pill-ongoing'; 
+            const pillTxt = data.status==='selesai' ? t.pillDone : t.pillOngoing;
+            
             let ratingHtml = data.rating ? `<div class="hc-rating">⭐ ${data.rating} ${currentLang==='en'?'Stars':'Bintang'}${data.ulasan?` · "${data.ulasan}"`:''}</div>` : (data.status==='selesai'?`<div class="hc-no-rating">${t.noRating||''}</div>`:'');
             const card = document.createElement('div'); card.className='hist-card';
-            card.innerHTML=`<div class="hc-top"><div class="hc-service">${data.layanan||''}</div><div class="hc-time">${data.waktu_order||''}</div></div><span class="hc-pill ${pillClass}">${pillTxt}</span><div class="hc-customer">👤 ${data.customer_nama||''}</div><div class="hc-route-box">${data.detail_1||''}<br>⬇<br>${data.detail_2||''}</div>${ratingHtml}`;
+            
+            card.innerHTML=`
+                <div class="hc-top"><div class="hc-service">${data.layanan||''}</div><div class="hc-time">${data.waktu_order||''}</div></div>
+                <span class="hc-pill ${pillClass}">${pillTxt}</span>
+                <div class="hc-customer">👤 ${data.customer_nama||''}</div>
+                
+                <button class="hc-toggle-btn" id="hist-btn-${data.id}" onclick="toggleHistory('${data.id}')">${t.btnDetail}</button>
+                
+                <div class="hc-details" id="hist-det-${data.id}">
+                    <div class="hc-route-box">${data.detail_1||''}<br>⬇<br>${data.detail_2||''}</div>
+                    ${ratingHtml}
+                </div>
+            `;
             listDiv.appendChild(card);
         });
         setText('avgRatingDisplay', count>0?(total/count).toFixed(1):'0.0');
@@ -873,6 +1164,7 @@
         if(confirm(t.alertCompleteConf)){ update(ref(database,'orders/'+orderId),{status:'selesai'}); }
     }
 
+    periksaSesiDriver();
     setLang('jw');
 </script>
 </body>
