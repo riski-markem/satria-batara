@@ -1,14 +1,21 @@
 {
-  "name": "Satria Batara - Aplikasi Warga",
+  "id": "/app-warga",
+  "name": "Satria Batara",
   "short_name": "Satria Batara",
-  "start_url": "./index.html",
+  "description": "Layanan warga Kota Batara",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2E7D32",
-  "description": "Layanan Gotong Royong Warga Satria Batara",
+  "background_color": "#F0F2F5",
+  "theme_color": "#1B8A4B",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+      "src": "logo-satria.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo-satria.png",
       "sizes": "512x512",
       "type": "image/png"
     }
