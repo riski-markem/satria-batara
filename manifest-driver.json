@@ -2,7 +2,7 @@
   "name": "Satria Batara Driver",
   "short_name": "SB Driver",
   "description": "Portal khusus Mitra Driver Satria Batara",
-  "start_url": "./Driver.html",
+  "start_url": "./driver.html",
   "display": "standalone",
   "background_color": "#F0F2F5",
   "theme_color": "#0A3D22",
